@@ -1,25 +1,27 @@
 <template>
-<aside class="main-sidebar sidebar-dark-primary">
-  <a href="home" class="brand-link " style ="border-style:none; height:70px; " >
-      <img src="https://tripidkard.com/wp-content/uploads/2023/10/cropped-tripid-card-ver.-2-1.png" alt=" Logo" class=" img-circle " style=" height:50px;  ">
-          
-      <span class="brand-text font-weight-light text-center" >Tripidkard </span>
+  <aside class="main-sidebar sidebar-dark-primary">
+    <a href="home" class="brand-link " style="border-style:none; height:70px; ">
+      <img src="https://tripidkard.com/wp-content/uploads/2023/10/cropped-tripid-card-ver.-2-1.png" alt=" Logo"
+        class=" img-circle " style=" height:50px;  ">
+
+      <span class="brand-text font-weight-light text-center">Tripidkard </span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
 
       <div class="user-panel d-flex">
-        <div class="image"  style="position:relative; right:10px;">
-        <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035157.jpg" class="img-circle elevation-2" alt="User Image" style="height:55px; width:55px; margin-top:10px">
+        <div class="image" style="position:relative; right:10px;">
+          <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035157.jpg"
+            class="img-circle elevation-2" alt="User Image" style="height:55px; width:55px; margin-top:10px">
 
         </div>
-      
+
         <div class="info">
           <a href="#" class="d-block mt-1 mb-0 text-white text-center font-size:16px;">TRIPIDKARD</a>
           <a href="#" class="d-block  text-white ml-2 font-size:16px; text-center mb-2">Administrator</a>
         </div>
-      
+
       </div>
 
       <!-- Sidebar Menu -->
@@ -28,172 +30,172 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-        <li class="header text-center brand-text  text-white">PERSONAL</li>
+          <li class="header text-center brand-text  text-white">PERSONAL</li>
 
 
           <li class="nav-item">
-            <a href="/admin/dashboard" class="nav-link">
+            <router-link to="/admin/dashboard" class="nav-link" active-class="active">
               <i class="nav-icon fa fa-tachometer"></i>
               <p>Dashboard</p>
+            </router-link>
+          </li>
+
+          <li class="nav-item has-treeview ">
+            <router-link to="#"class="nav-link" active-class="active">
+              <i class="nav-icon fas fa-users-card"></i>
+              <p>
+                Enterprise Account
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </router-link>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/admin/enterprise" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Enterprise List</p>
+                </router-link>
+              </li>
+
+              <li class="nav-item">
+                <router-link to="/admin/enterprise/archive" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Enterprise Archive</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/admin/enterprise/register" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Enterprise Register </p>
+                </router-link>
+              </li>
+
+            </ul>
+          </li>
+
+
+
+
+          <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Merchant Account
+                <i class="right fas fa-angle-left"></i>
+              </p>
             </a>
-          </li>
-
-          <li class="nav-item has-treeview ">
-           <a href="#" class="nav-link">
-             <i class="nav-icon fas fa-users-card"></i>
-             <p>
-           Enterprise Listing
-               <i class="right fas fa-angle-left"></i>
-             </p>
-           </a>
-           <ul class="nav nav-treeview">
-             <li class="nav-item">
-               <a href="/admin/enterprise" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p>Enterprise List</p>
-               </a>
-             </li>
-
-             <li class="nav-item">
-               <a href="enterprise-archive" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p>Enterprise Archive</p>
-               </a>
-             </li>
-             <li class="nav-item">
-               <a href="enterprise-register?action=register" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p>Enterprise Register </p>
-               </a>
-             </li>
-             
-           </ul>
-          </li>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/admin/merchant" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Merchant List</p>
+                </router-link>
+              </li>
 
 
+              <li class="nav-item">
+                <router-link to="/admin/merchant/archive" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Merchant Archive</p>
+                </router-link>
+              </li>
 
-             
-          <li class="nav-item has-treeview ">
-           <a href="#" class="nav-link">
-             <i class="nav-icon fas fa-users"></i>
-             <p>
-           Merchant Account
-               <i class="right fas fa-angle-left"></i>
-             </p>
-           </a>
-           <ul class="nav nav-treeview">
-             <li class="nav-item">
-               <a href="merchant-list" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p>Merchant List</p>
-               </a>
-             </li>
+              <li class="nav-item">
+                <router-link to="/admin/merchant/register" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Merchant Register</p>
+                </router-link>
+              </li>
 
-             
-             <li class="nav-item">
-               <a href="merchant-archive" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p>Merchant Archive</p>
-               </a>
-             </li>
-
-             <li class="nav-item">
-               <a href="merchant-register?action=register" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p>Merchant Register</p>
-               </a>
-             </li>
-
-           </ul>
-          </li>
-          
-
-          <li class="nav-item has-treeview ">
-           <a href="#" class="nav-link">
-             <i class="nav-icon fas fa-credit-card"></i>
-             <p>
-           TripidKard Code
-               <i class="right fas fa-angle-left"></i>
-             </p>
-           </a>
-           <ul class="nav nav-treeview">
-             <li class="nav-item">
-               <a href="tripidkard" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p>TripidKard List</p>
-               </a>
-             </li>
-             <li class="nav-item">
-               <a href="tripidkard-register" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p> Register Tripidkard</p>
-               </a>
-             </li>
-           </ul>
-          </li>
-
-
-
-          
-
-       
-
-
-          <li class="nav-item has-treeview ">
-           <a href="#" class="nav-link">
-             <i class="nav-icon fas fa-users"></i>
-             <p>
-           Customer Account
-               <i class="right fas fa-angle-left"></i>
-             </p>
-           </a>
-           <ul class="nav nav-treeview">
-             <li class="nav-item">
-               <a href="customer-list" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p>Customer List</p>
-               </a>
-             </li>
-             <li class="nav-item">
-               <a href="customer-register" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p>Customer Register</p>
-               </a>
-             </li>
-           </ul>
+            </ul>
           </li>
 
 
           <li class="nav-item has-treeview ">
-           <a href="#" class="nav-link">
-             <i class="nav-icon fas fa-coins"></i>
-             <p>
-              Loyalty Points
-               <i class="right fas fa-angle-left"></i>
-             </p>
-           </a>
-           <ul class="nav nav-treeview">
-             <li class="nav-item">
-               <a href="loyalty-points" class="nav-link ">
-                <i class="far fa-circle nav-icon"></i>
-                 <p> Loyalty Points List</p>
-               </a>
-             </li>
-             <li class="nav-item">
-               <a href="loyalty-points-register" class="nav-link">
-                   <i class="far fa-circle nav-icon"></i>
-                 <p>Register Loyalty Points</p>
-               </a>
-             </li>
-           </ul>
+            <router-link to="#"  class="nav-link">
+              <i class="nav-icon fas fa-credit-card"></i>
+              <p>
+                TripidKard Code
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </router-link>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/admin/tripidkard" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TripidKard List</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="tripidkard-register" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Register Tripidkard</p>
+                </router-link>
+              </li>
+            </ul>
           </li>
 
-          
+
+
+
+
+
+
+
+          <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Customer Account
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/admin/customer" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Customer List</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/admin/customer/register" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Customer Register</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
+
+          <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-coins"></i>
+              <p>
+                Loyalty Points
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/admin/loyalty-points" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Loyalty Points List</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/admin/loyalty-points/register" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Register Loyalty Points</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
+
           <li class="nav-item">
-            <a href="activity-log" class="nav-link">
+            <router-link to="/admin/activity-log" active-class="active" class="nav-link">
               <i class="nav-icon fa fa-coins"></i>
               <p>Activity Logs</p>
-            </a>
+            </router-link>
           </li>
 
 
@@ -215,28 +217,32 @@
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-</aside>
+  </aside>
 
 </template>
 
 
 <style>
-
-.main-sidebar{
+.main-sidebar {
   background-color: #367fa9;
-  height:100vh !important;
-  margin-bottom:100px;
+  height: 100vh !important;
+  margin-bottom: 100px;
 
 }
-.main-sidebar, .main-sidebar::before {
-    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-    width: 290px;
-    position:fixed  !important;;
+
+.main-sidebar,
+.main-sidebar::before {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  width: 290px;
+  position: fixed !important;
+  ;
 }
 
-.sidebar-mini .main-sidebar .nav-link, .sidebar-mini-md .main-sidebar .nav-link, .sidebar-mini-xs .main-sidebar .nav-link {
-    width: calc(290px - 0.5rem* 2);
-    transition: width ease-in-out 0.3s;
+.sidebar-mini .main-sidebar .nav-link,
+.sidebar-mini-md .main-sidebar .nav-link,
+.sidebar-mini-xs .main-sidebar .nav-link {
+  width: calc(290px - 0.5rem* 2);
+  transition: width ease-in-out 0.3s;
 }
 
 
@@ -252,7 +258,7 @@
 }
 
 
-.main-header  {
+.main-header {
   -webkit-transition: width 0.3s ease-in-out;
   -o-transition: width 0.3s ease-in-out;
   transition: width 0.3s ease-in-out;
@@ -263,22 +269,23 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
-  
+
 }
 
 .sidebar {
-    height: calc(100% - (3.5rem + 1px));
-    overflow-y: auto;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0;
-    background-color: #367fa9;
-    height:100vh;
-  margin-bottom:100px;
-    font-size: large;
+  height: calc(100% - (3.5rem + 1px));
+  overflow-y: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0;
+  background-color: #367fa9;
+  height: 100vh;
+  margin-bottom: 100px;
+  font-size: large;
 }
 
 @media (min-width: 768px) {
+
   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
   body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
@@ -289,17 +296,17 @@
 
 
 .user-panel {
-    background-image: url('https://tripidkard.com/wp-content/uploads/2023/11/bg.jpg');
+  background-image: url('https://tripidkard.com/wp-content/uploads/2023/11/bg.jpg');
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
   /* background: url(../images/background.png) center no-repeat; */
-width:100%;
-  padding-top:20px;
-  padding-bottom:20px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
   overflow: hidden;
-  color:black;
-  margin-top:22px;
+  color: black;
+  margin-top: 22px;
 
 }
 
@@ -313,21 +320,24 @@ width:100%;
   padding-top: 70px;
   padding-left: 0;
   padding-right: 0;
-  padding-bottom:10px;
+  padding-bottom: 10px;
   background-color: #F5F5F5;
-  
+
 }
-.content-header > h1 {
+
+.content-header>h1 {
   margin: 0;
   font-size: 15px;
 }
-.content-header > h1 > small {
+
+.content-header>h1>small {
   display: inline-block;
   font-weight: 300;
   padding-left: 110px;
 
 }
-.content-header > .breadcrumb {
+
+.content-header>.breadcrumb {
   padding-left: 10px;
   background: transparent;
   margin-top: 0;
@@ -339,44 +349,51 @@ width:100%;
   right: 10px;
   border-radius: 2px;
 }
+
 .breadcrumb {
-    list-style: none;
-    border-radius: 4px;
-    background-color:white;
-    padding-top:0;
-  }
+  list-style: none;
+  border-radius: 4px;
+  background-color: white;
+  padding-top: 0;
+}
 
 
-  .add{
-    position:absolute;
-    top:20px;
-    right: 20px;
-  }
-  .dashboard{
-    padding-left: 20px;
-    font-size:24px;
-  }
-.content-header > .breadcrumb > li > a {
+.add {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.dashboard {
+  padding-left: 20px;
+  font-size: 24px;
+}
+
+.content-header>.breadcrumb>li>a {
   text-decoration: none;
   display: inline-block;
 }
-.content-header > .breadcrumb > li > a > .fa,
-.content-header > .breadcrumb > li > a > .glyphicon,
-.content-header > .breadcrumb > li > a > .ion {
+
+.content-header>.breadcrumb>li>a>.fa,
+.content-header>.breadcrumb>li>a>.glyphicon,
+.content-header>.breadcrumb>li>a>.ion {
   margin-right: 5px;
 }
-.content-header > .breadcrumb > li + li:before {
+
+.content-header>.breadcrumb>li+li:before {
   content: '>\00a0';
 }
+
 @media (max-width: 991px) {
   .content-header {
-  position: relative;
-  padding-top: 110px;
-  padding-left: 0;
-  padding-right: 0;
-  
-}
-  .content-header > .breadcrumb {
+    position: relative;
+    padding-top: 110px;
+    padding-left: 0;
+    padding-right: 0;
+
+  }
+
+  .content-header>.breadcrumb {
     position: relative;
     margin-top: 5px;
     top: 0;
@@ -385,14 +402,26 @@ width:100%;
     background: #d2d6de;
     padding-left: 10px;
   }
-  .content-header > .breadcrumb li:before {
+
+  .content-header>.breadcrumb li:before {
     color: #97a0b3;
   }
 }
 
 
+/* sidebar Active */
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+  background-color: #222D32;
+  color: #fff;
+}
 
-
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active,
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus,
+[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+  background-color: #222D32;
+  color: #fff;
+}
 </style>
 
 <!-- <style>
@@ -410,15 +439,7 @@ width:100%;
 
 
 
-.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
-    background-color: #222D32;
-    color: #fff;
-}
 
-[class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
-  background-color: #222D32;
-    color: #fff;
-}
 
 
 

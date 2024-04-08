@@ -31,10 +31,15 @@ library.add(fas);
 const app = createApp({});
 // const pinia = createPinia();
 // app.use(pinia);
+
+// Convert routes object to array
+
+
 app.component('font-awesome-icon', FontAwesomeIcon)
 
 const router = createRouter({
     routes: Routes,
+    // routes: Object.values(routes.admin).reduce((acc, val) => acc.concat(Object.values(val)), []),
     history: createWebHistory(),
 });
 
