@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('mname')->nullable();
             $table->string('lname');
             $table->string('contact');
-            $table->dateTime('bdate');
+            $table->date('bdate')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('zip');
-            $table->string('street');
-            $table->string('province');
+            $table->string('zip')->nullable();
+            $table->string('street')->nullable();
+            $table->string('province')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

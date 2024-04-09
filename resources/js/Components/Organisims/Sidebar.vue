@@ -11,10 +11,10 @@
       <!-- Sidebar user panel (optional) -->
 
       <div class="user-panel d-flex">
+
         <div class="image" style="position:relative; right:10px;">
           <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035157.jpg"
             class="img-circle elevation-2" alt="User Image" style="height:55px; width:55px; margin-top:10px">
-
         </div>
 
         <div class="info">
@@ -41,8 +41,8 @@
           </li>
 
           <li class="nav-item has-treeview ">
-            <router-link to="#"class="nav-link" active-class="active">
-              <i class="nav-icon fas fa-users-card"></i>
+            <router-link to="#"class="nav-link" >
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Enterprise Account
                 <i class="right fas fa-angle-left"></i>
@@ -62,6 +62,7 @@
                   <p>Enterprise Archive</p>
                 </router-link>
               </li>
+              
               <li class="nav-item">
                 <router-link to="/admin/enterprise/register" active-class="active" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
@@ -126,9 +127,9 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="tripidkard-register" active-class="active" class="nav-link">
+                <router-link to="/admin/tripidkard/register" active-class="active" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> Register Tripidkard</p>
+                  <p> Tripidkard Register </p>
                 </router-link>
               </li>
             </ul>

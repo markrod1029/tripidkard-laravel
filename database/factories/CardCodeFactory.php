@@ -17,7 +17,11 @@ class CardCodeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory()->create()->id,
+            'store_code' => $this->faker->name(),
+            'card_number' => $this->faker->name(),
+            'status' => rand(1, 3),
+
         ];
     }
 }

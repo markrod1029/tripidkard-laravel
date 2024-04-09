@@ -17,8 +17,7 @@
 
                     <div class="box-body">
                         <div class="card-body">
-                            <form class="form-horizontal" method="POST" enctype="multipart/form-data"
-                                action="class/customer_crud.php">
+                            <form class="form-horizontal" @submmit="createCustomer" method="POST" enctype="multipart/form-data">
 
                                 <!-- Customer Information -->
                                 <h4 class="card-title text-dark mb-3">Customer Information</h4><br>
@@ -34,7 +33,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-credit-card"></i></span></div>
-                                            <input type="text" class="form-control" id="fname" name="customer_code"
+                                            <input type="text" v-model="form.customer_code" class="form-control" id="fname" name="customer_code"
                                                 value="" required="">
                                         </div>
                                     </div>
@@ -48,7 +47,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" class="form-control" id="fname" name="fname" value=""
+                                            <input type="text" v-model="form.fname" class="form-control" id="fname" name="fname" value=""
                                                 required="">
                                         </div>
                                     </div>
@@ -61,7 +60,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" class="form-control" id="mname" name="mname" value=""
+                                            <input type="text" v-model="form.mname" class="form-control" id="mname" name="mname" value=""
                                                 placeholder="Optional">
                                         </div>
                                     </div>
@@ -77,7 +76,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" class="form-control" id="lname" name="lname" value=""
+                                            <input type="text" v-model="form.lname" class="form-control" id="lname" name="lname" value=""
                                                 required="">
                                         </div>
                                     </div>
@@ -92,22 +91,21 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text"><i
                                                         class="fa fa-phone"></i></span></div>
-                                            <input type="text" class="form-control" id="contact" name="contact" value=""
+                                            <input type="text" v-model="form.contact" class="form-control" id="contact" name="contact" value=""
                                                 required="">
                                         </div>
                                     </div>
 
                                     <div class="input-group mb-3">
                                         <label for="email"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Email
-                                            Address
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Email Address
                                             <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-envelope"></i></span></div>
-                                            <input type="email" class="form-control" id="email" name="email" value=""
+                                            <input type="email" v-model="form.email" class="form-control" id="email" name="email" value=""
                                                 required="">
                                         </div>
                                         <span class="text-danger">*</span>
@@ -116,51 +114,23 @@
 
                                 <div v-show="currentStep === 2" style="display: none;">
                                     <!-- Step 2: Business Information -->
+
                                     <div class="input-group mb-3">
-                                        <label for="bdate"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Birth
-                                            Date
+                                        <label for="zip"
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Birth Date
                                             <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-birthday-cake"></i></span></div>
-                                            <!-- Dropdown for Year -->
-                                            <select class="form-control" id="year" name="year" required="">
-                                                <option value="" disabled selected>Select Year</option>
-                                                <!-- Populate with relevant years, e.g., from current year to a certain range -->
-                                            </select>
-
-                                            <!-- Dropdown for Month -->
-                                            <select class="form-control" id="month" name="month" required="">
-                                                <option value="" disabled selected>Select Month</option>
-
-                                                <option value="1">January</option>
-                                                <option value="2">February</option>
-                                                <option value="3">March</option>
-                                                <option value="4">April</option>
-                                                <option value="5">May</option>
-                                                <option value="6">June</option>
-                                                <option value="7">July</option>
-                                                <option value="8">August</option>
-                                                <option value="9">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-
-
-                                            <!-- Dropdown for Day -->
-                                            <select class="form-control" id="day" name="day" required="">
-                                                <option value="" disabled selected>Select Day</option>
-                                                <!-- Populate with 1-31 or adjust based on month -->
-                                            </select>
-
-
+                                            <input type="date" v-model="form.bdate"  class="form-control" id="bdate" name="bdate"
+                                                placeholder="ZIP Code" value="" required="">
                                         </div>
-
                                     </div>
+
+
+
 
 
                                     <div class="input-group mb-3">
@@ -172,7 +142,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" class="form-control" id="zip" name="zip"
+                                            <input type="text" v-model="form.zip"  class="form-control" id="zip" name="zip"
                                                 placeholder="ZIP Code" value="" required="">
                                         </div>
                                     </div>
@@ -186,7 +156,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" class="form-control" id="street" name="street"
+                                            <input type="text" v-model="form.street"  class="form-control" id="street" name="street"
                                                 placeholder="Street" value="" required>
                                         </div>
                                     </div>
@@ -200,7 +170,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" class="form-control" id="city" name="city"
+                                            <input type="text" v-model="form.city"  class="form-control" id="city" name="city"
                                                 placeholder="City" value="" required>
                                         </div>
                                     </div>
@@ -214,7 +184,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" class="form-control" id="province" name="province"
+                                            <input type="text" v-model="form.province" class="form-control" id="province" name="province"
                                                 placeholder="Province" value="" required>
                                         </div>
                                     </div>
@@ -224,8 +194,8 @@
                                 <!-- Navigation buttons -->
                                 <div class="box-footer text-right">
                                     <button v-if="currentStep !== 1" @click="backStep" class="btn btn-dark waves-effect waves-light ml-5 ">Back</button>
-                                    <button v-if="currentStep !== totalSteps" @click="nextStep" class="btn btn-primary">Next</button>
-                                    <button v-else type="submit" class="btn btn-primary" name="">Save</button>
+                                    <button v-if="currentStep !== totalSteps" @click="nextStep" class="btn btn-primary  ml-1">Next</button>
+                                    <button v-else type="submit" class="btn btn-primary ml-1" name="">Save</button>
                                 </div>
 
                             </form>
@@ -240,7 +210,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
 import Sidebar from '@/Components/Organisims/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
@@ -248,6 +218,20 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 const currentStep = ref(1);
 const totalSteps = 2;
+const customers = ref([]);
+const form = reactive({
+    customer_code: '',
+    fname: '',
+    mname: '',
+    lname: '',
+    contact: '',
+    bdate: '',
+    email: '',
+    zip: '',
+    street: '',
+    province: '',
+
+});
 
 function nextStep() {
     if (currentStep.value < totalSteps) {
@@ -259,5 +243,22 @@ function backStep() {
     if (currentStep.value > 1) {
         currentStep.value--;
     }
+}
+
+const createCustomer = (values, actions) => {
+
+    axios.post('/api/customers/create', form)
+    .then((ressponse) => {
+        console.log(ressponse)
+    })
+    .catch(err => {
+        console.error(ressponse); 
+    })
+
+}
+
+
+const handleSubmit = () => {
+
 }
 </script>

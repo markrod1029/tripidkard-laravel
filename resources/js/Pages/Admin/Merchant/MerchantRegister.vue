@@ -11,7 +11,7 @@
                     <!-- title -->
                     <div class="box-header with-border" style="background-color:#367FA9;">
                         <div class="card-header">
-                            <h4 class="card-title text-white title">Add New Customer</h4>
+                            <h4 class="card-title text-white title">Add New Merchant</h4>
                         </div>
                     </div>
 
@@ -21,15 +21,16 @@
                                 action="class/customer_crud.php">
 
                                 <!-- Customer Information -->
-                                <h4 class="card-title text-dark mb-3">Customer Information</h4><br>
+                                <h4 class="card-title text-dark mb-3">Merchant Information</h4><br>
 
                                 <div v-show="currentStep === 1">
                                     <!-- Step 1: Personal Information -->
                                     <div class="input-group mb-3">
                                         <label for="fname"
-                                            class="col-sm-2 col-xs-2 text-right col-form-label text-muted">Customer Number
+                                            class="col-sm-2 col-xs-2 text-right col-form-label text-muted">Customer
+                                            Number
                                             <span class="text-danger">*</span>
-                                            </label>
+                                        </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
@@ -114,54 +115,82 @@
                                     </div>
                                 </div>
 
-                                <div v-show="currentStep === 2" style="display: none;">
-                                    <!-- Step 2: Business Information -->
+
+                                <div v-show="currentStep === 2">
+                                    <!-- Step 2 : Business Information -->
+
                                     <div class="input-group mb-3">
-                                        <label for="bdate"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Birth
-                                            Date
-                                            <span class="text-danger">*</span>
-                                        </label>
+                                        <label for="business_name"
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Business
+                                            Name</label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
-                                            <div class="input-group-prepend"><span class="input-group-text">
-                                                    <i class="fa fa-birthday-cake"></i></span></div>
-                                            <!-- Dropdown for Year -->
-                                            <select class="form-control" id="year" name="year" required="">
-                                                <option value="" disabled selected>Select Year</option>
-                                                <!-- Populate with relevant years, e.g., from current year to a certain range -->
-                                            </select>
-
-                                            <!-- Dropdown for Month -->
-                                            <select class="form-control" id="month" name="month" required="">
-                                                <option value="" disabled selected>Select Month</option>
-
-                                                <option value="1">January</option>
-                                                <option value="2">February</option>
-                                                <option value="3">March</option>
-                                                <option value="4">April</option>
-                                                <option value="5">May</option>
-                                                <option value="6">June</option>
-                                                <option value="7">July</option>
-                                                <option value="8">August</option>
-                                                <option value="9">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-
-
-                                            <!-- Dropdown for Day -->
-                                            <select class="form-control" id="day" name="day" required="">
-                                                <option value="" disabled selected>Select Day</option>
-                                                <!-- Populate with 1-31 or adjust based on month -->
-                                            </select>
-
-
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="fa fa-store"></i></span></div>
+                                            <input type="text" class="form-control" id="business_name"
+                                                name="business_name"
+                                                value=""
+                                                required="">
                                         </div>
+                                        <span class="text-danger">*</span>
+                                    </div>
+
+
+                                    <div class="input-group mb-3">
+                                        <label for="business_category"
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Business
+                                            Category</label>
+
+                                        <div class="input-group col-sm-8 col-xs-11">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="fa fa-store"></i></span></div>
+                                            <input type="text" class="form-control" id="business_category"
+                                                name="business_category"
+                                                value=""
+                                                required="">
+                                        </div>
+                                        <span class="text-danger">*</span>
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <label for="business_sub_category"
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Business
+                                            Sub Category</label>
+
+                                        <div class="input-group col-sm-8 col-xs-11">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="fa fa-store"></i></span></div>
+                                            <input type="text" class="form-control" id="business_sub_category"
+                                                name="business_sub_category"
+                                                value=""
+                                                required="">
+                                        </div>
+                                        <span class="text-danger">*</span>
+                                    </div>
+
+
+
+                                    <div class="input-group mb-3">
+                                        <label for="cono1"
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Enterprise</label>
+
+                                        <div class="input-group col-sm-8 col-xs-11">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i
+                                                        class="fa fa-home"></i></span></div>
+                                            <select class="form-control form-control-line size " name="enterprise"  required>
+                                                <option value="0" selected>Select Enterprise</option>
+
+                                            </select>
+                                        </div>
+                                        <span class="text-danger">*</span>
 
                                     </div>
 
+
+                                </div>
+
+                                <div v-show="currentStep === 3" style="display: none;">
+                                    <!-- Step 3: Address Information -->
 
                                     <div class="input-group mb-3">
                                         <label for="zip"
@@ -223,9 +252,13 @@
 
                                 <!-- Navigation buttons -->
                                 <div class="box-footer text-right">
-                                    <button v-if="currentStep !== 1" @click="backStep" class="btn btn-dark waves-effect waves-light ml-5 ">Back</button>
-                                    <button v-if="currentStep !== totalSteps" @click="nextStep" class="btn btn-primary">Next</button>
-                                    <button v-else type="submit" class="btn btn-primary" name="">Save</button>
+                                    <button v-if="currentStep !== 1" @click="backStep"
+                                        class="btn btn-dark waves-effect waves-light ml-5 ">Back</button>
+
+                                    <button v-if="currentStep !== totalSteps" @click="nextStep"
+                                        class="btn btn-primary  ml-1">Next</button>
+
+                                    <button v-else type="submit" class="btn btn-primary  ml-1" name="">Save</button>
                                 </div>
 
                             </form>
@@ -247,7 +280,7 @@ import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 const currentStep = ref(1);
-const totalSteps = 2;
+const totalSteps = 3;
 
 function nextStep() {
     if (currentStep.value < totalSteps) {
