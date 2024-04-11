@@ -4,16 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('store_code')->unique();
+            // $table->foreignId('card_code_id')->constrained();
+            $table->string('store_code')->unique()->nullable();
             $table->string('customer_card_num')->unique();
             $table->string('fname');
             $table->string('mname')->nullable();
@@ -24,6 +27,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('zip')->nullable();
             $table->string('street')->nullable();
+            $table->string('city')->nullable();
             $table->string('province')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
@@ -32,9 +36,11 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('customers');
     }
-};
+}

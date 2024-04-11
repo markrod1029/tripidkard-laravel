@@ -18,7 +18,7 @@ class CustomerFactory extends Factory
         return [
             'store_code' => $this->faker->name(),
             'customer_card_num' => Str::random(8), // Random string na may 8 characters
-            'fname' => $this->faker->firstName(),
+            'fname' => $this->faker->firstName(),   
             'mname' => $this->faker->lastName(), // Middle name field, maaaring hindi mo kailangan ito depende sa iyong application
             'lname' => $this->faker->lastName(),
             'contact' => $this->faker->phoneNumber(), // Random phone number
@@ -26,6 +26,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->email(),
             'zip' => $this->faker->postcode(),
             'street' => $this->faker->streetName(),
+            'city' => $this->faker->city(),
             'province' => $this->faker->state(),
 
         ];

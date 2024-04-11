@@ -11,13 +11,15 @@
                     <!-- title -->
                     <div class="box-header with-border" style="background-color:#367FA9;">
                         <div class="card-header">
-                            <h4 class="card-title text-white title">Add New Customer</h4>
+                            <h4 class="card-title text-white title" v-if="editCustomerTitle">Update New Customer</h4>
+                            <h4 class="card-title text-white title" v-else>Add New Customer</h4>
                         </div>
                     </div>
 
                     <div class="box-body">
                         <div class="card-body">
-                            <form class="form-horizontal" @submmit="createCustomer" method="POST" enctype="multipart/form-data">
+                            <form class="form-horizontal" @submit.prevent="handleSubmit" method="POST"
+                                enctype="multipart/form-data">
 
                                 <!-- Customer Information -->
                                 <h4 class="card-title text-dark mb-3">Customer Information</h4><br>
@@ -25,16 +27,17 @@
                                 <div v-show="currentStep === 1">
                                     <!-- Step 1: Personal Information -->
                                     <div class="input-group mb-3">
-                                        <label for="fname"
-                                            class="col-sm-2 col-xs-2 text-right col-form-label text-muted">Customer Number
+                                        <label for="Customer"
+                                            class="col-sm-2 col-xs-2 text-right col-form-label text-muted">Customer
+                                            Number
                                             <span class="text-danger">*</span>
-                                            </label>
+                                        </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-credit-card"></i></span></div>
-                                            <input type="text" v-model="form.customer_code" class="form-control" id="fname" name="customer_code"
-                                                value="" required="">
+                                            <input type="text" v-model="form.customer_card_num" class="form-control"
+                                                id="customer_code" name="customer_code" value="" required="">
                                         </div>
                                     </div>
 
@@ -47,8 +50,8 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" v-model="form.fname" class="form-control" id="fname" name="fname" value=""
-                                                required="">
+                                            <input type="text" v-model="form.fname" class="form-control" id="fname"
+                                                name="fname" required="">
                                         </div>
                                     </div>
 
@@ -60,8 +63,8 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" v-model="form.mname" class="form-control" id="mname" name="mname" value=""
-                                                placeholder="Optional">
+                                            <input type="text" v-model="form.mname" class="form-control" id="mname"
+                                                name="mname" value="" placeholder="Optional">
                                         </div>
                                     </div>
 
@@ -76,8 +79,8 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-user"></i></span></div>
-                                            <input type="text" v-model="form.lname" class="form-control" id="lname" name="lname" value=""
-                                                required="">
+                                            <input type="text" v-model="form.lname" class="form-control" id="lname"
+                                                name="lname" value="" required="">
                                         </div>
                                     </div>
 
@@ -91,24 +94,24 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text"><i
                                                         class="fa fa-phone"></i></span></div>
-                                            <input type="text" v-model="form.contact" class="form-control" id="contact" name="contact" value=""
-                                                required="">
+                                            <input type="text" v-model="form.contact" class="form-control" id="contact"
+                                                name="contact" value="" required="">
                                         </div>
                                     </div>
 
                                     <div class="input-group mb-3">
                                         <label for="email"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Email Address
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Email
+                                            Address
                                             <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-envelope"></i></span></div>
-                                            <input type="email" v-model="form.email" class="form-control" id="email" name="email" value=""
-                                                required="">
+                                            <input type="email" v-model="form.email" class="form-control" id="email"
+                                                name="email" value="" required="">
                                         </div>
-                                        <span class="text-danger">*</span>
                                     </div>
                                 </div>
 
@@ -117,15 +120,15 @@
 
                                     <div class="input-group mb-3">
                                         <label for="zip"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Birth Date
-                                            <span class="text-danger">*</span>
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Birth
+                                            Date
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-birthday-cake"></i></span></div>
-                                            <input type="date" v-model="form.bdate"  class="form-control" id="bdate" name="bdate"
-                                                placeholder="ZIP Code" value="" required="">
+                                            <input type="date" v-model="form.bdate" class="form-control" id="bdate"
+                                                name="bdate" placeholder="Optional" value="">
                                         </div>
                                     </div>
 
@@ -136,56 +139,52 @@
                                     <div class="input-group mb-3">
                                         <label for="zip"
                                             class="col-sm-2 text-right control-label col-form-label text-muted">Address
-                                            <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" v-model="form.zip"  class="form-control" id="zip" name="zip"
-                                                placeholder="ZIP Code" value="" required="">
+                                            <input type="text" v-model="form.zip" class="form-control" id="zip"
+                                                name="zip" placeholder="Optional" value="">
                                         </div>
                                     </div>
 
                                     <div class="input-group mb-3">
                                         <label for="street"
                                             class="col-sm-2 text-right control-label col-form-label text-muted">Street
-                                            <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" v-model="form.street"  class="form-control" id="street" name="street"
-                                                placeholder="Street" value="" required>
+                                            <input type="text" v-model="form.street" class="form-control" id="street"
+                                                name="street" placeholder="Optional" value="">
                                         </div>
                                     </div>
 
                                     <div class="input-group mb-3">
                                         <label for="city"
                                             class="col-sm-2 text-right control-label col-form-label text-muted">City
-                                            <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" v-model="form.city"  class="form-control" id="city" name="city"
-                                                placeholder="City" value="" required>
+                                            <input type="text" v-model="form.city" class="form-control" id="city"
+                                                name="city" placeholder="Optional" value="">
                                         </div>
                                     </div>
 
                                     <div class="input-group mb-3">
                                         <label for="province"
                                             class="col-sm-2 text-right control-label col-form-label text-muted">Province
-                                            <span class="text-danger">*</span>
                                         </label>
 
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-home"></i></span></div>
-                                            <input type="text" v-model="form.province" class="form-control" id="province" name="province"
-                                                placeholder="Province" value="" required>
+                                            <input type="text" v-model="form.province" class="form-control"
+                                                id="province" name="province" placeholder="Optional" value="">
                                         </div>
                                     </div>
 
@@ -193,8 +192,10 @@
 
                                 <!-- Navigation buttons -->
                                 <div class="box-footer text-right">
-                                    <button v-if="currentStep !== 1" @click="backStep" class="btn btn-dark waves-effect waves-light ml-5 ">Back</button>
-                                    <button v-if="currentStep !== totalSteps" @click="nextStep" class="btn btn-primary  ml-1">Next</button>
+                                    <button v-if="currentStep !== 1" @click="backStep"
+                                        class="btn btn-dark waves-effect waves-light ml-5 ">Back</button>
+                                    <button v-if="currentStep !== totalSteps" @click="nextStep"
+                                        class="btn btn-primary  ml-1">Next</button>
                                     <button v-else type="submit" class="btn btn-primary ml-1" name="">Save</button>
                                 </div>
 
@@ -210,28 +211,21 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+
+import { ref, reactive, onMounted } from 'vue';
+import axios from 'axios';
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
 import Sidebar from '@/Components/Organisims/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
+import { useToastr } from '@/toastr.js';
+// import { useRoute, useRouter } from 'vue-route';
+import { useRouter, useRoute } from 'vue-router';
+
+
 
 const currentStep = ref(1);
 const totalSteps = 2;
-const customers = ref([]);
-const form = reactive({
-    customer_code: '',
-    fname: '',
-    mname: '',
-    lname: '',
-    contact: '',
-    bdate: '',
-    email: '',
-    zip: '',
-    street: '',
-    province: '',
-
-});
 
 function nextStep() {
     if (currentStep.value < totalSteps) {
@@ -245,20 +239,96 @@ function backStep() {
     }
 }
 
+
+const toastr = useToastr();
+const router = useRouter();
+const route = useRoute();
+
+const customers = ref([]);
+
+const form = reactive({
+    customer_card_num: '',
+    fname: '',
+    mname: '',
+    lname: '',
+    contact: '',
+    bdate: '',
+    email: '',
+    zip: '',
+    street: '',
+    province: '',
+
+});
+
+//Display Customer In Form
+
+let getCustomers = () => {
+    axios.get(`/api/customers/${route.params.id}/edit`)
+        .then(({ data }) => {
+            // Log the response data to inspect
+            console.log(data); // Dapat ay response.data ang iyong ginagamit dito
+            // Assign data to the form fields
+            form.customer_card_num = data.customer_card_num;
+            form.fname = data.fname;
+            form.mname = data.mname;
+            form.lname = data.lname;
+            form.contact = data.contact;
+            form.bdate = data.bdate;
+            form.email = data.email;
+            form.zip = data.zip;
+            form.street = data.street;
+            form.city = data.city;
+            form.province = data.province;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+
+// Add New Customer
 const createCustomer = (values, actions) => {
+    axios.post('/api/customers/register', form)
+        .then((response) => {
+            console.log(response);
+            router.push('/admin/customer');
 
-    axios.post('/api/customers/create', form)
-    .then((ressponse) => {
-        console.log(ressponse)
-    })
-    .catch(err => {
-        console.error(ressponse); 
-    })
+            toastr.success('Customer Added Successfuly');
+        })
+        .catch((error) => {
+            actions.setErrors(error.response.data.errors);
+        })
+};
 
+let updateCustomer = (values, actions) => {
+    axios.post(`/api/customers/${route.params.id}/edit`, form)
+        .then((response) => {
+            router.push('/admin/customer');
+            toastr.success('Customer Updated Successfuly');
+        })
+        .catch((error) => {
+            actions.setErrors(error.response.data.errors);
+        })
 }
 
 
-const handleSubmit = () => {
 
+const editCustomerTitle = ref(false);
+
+onMounted(() => {
+    if (route.name === 'admin.customer.edit') {
+        editCustomerTitle.value = true;
+        getCustomers();
+    }
+});
+
+const handleSubmit = (values, actions) => {
+
+    if (editCustomerTitle.value) {
+        updateCustomer(values, actions);
+    } else {
+        createCustomer(values, actions);
+    }
 }
+
 </script>

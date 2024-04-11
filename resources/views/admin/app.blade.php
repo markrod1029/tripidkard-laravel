@@ -14,8 +14,6 @@
     
     <div class="wrapper" id="app">
     
-    
-       
         <router-view>
             
         </router-view>

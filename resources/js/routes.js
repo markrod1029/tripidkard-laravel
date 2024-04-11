@@ -13,7 +13,7 @@ import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue'
 import AdminTripidkardRegister from './Pages/Admin/Tripidkard/TripidkardRegister.vue'
 
 import AdminCustomer from './Pages/Admin/Customer/CustomerList.vue'
-import AdminCustomerregister from './Pages/Admin/Customer/CustomerRegister.vue'
+import AdminCustomerForm from './Pages/Admin/Customer/CustomerRegister.vue'
 
 import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue'
 import AdminLoyaltyPointRegister from './Pages/Admin/Points/LoyaltyPointRegister.vue'
@@ -87,6 +87,9 @@ const routes = [
     },
 
 
+    
+
+
     {
         path: '/admin/merchant/archive',
         name: 'admin.merchant.archive',
@@ -129,12 +132,22 @@ const routes = [
     {
         path: '/admin/customer/register',
         name: 'admin.customer.register',
-        component: AdminCustomerregister,
+        component: AdminCustomerForm,
         meta: {
             title: 'Customer Register'
         }
     },
 
+
+    
+    {
+        path: '/admin/customer/:id/edit',
+        name: 'admin.customer.edit',
+        component: AdminCustomerForm,
+        meta: {
+            title: 'Customer Update'
+        }
+    },
 
     {
         path: '/admin/loyalty-points',

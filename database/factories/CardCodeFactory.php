@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CardCode;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,5 +24,7 @@ class CardCodeFactory extends Factory
             'status' => rand(1, 3),
 
         ];
+
+
     }
 }

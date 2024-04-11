@@ -19,7 +19,9 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+Route::post('/api/customers/{customer}/edit', [CustomerController::class, 'update']);
+Route::get('/api/customers/{customer}/edit', [CustomerController::class, 'edit']);
+Route::post('/api/customers/register', [CustomerController::class, 'store']);
 
 Route::get('/api/customers', [CustomerController::class, 'index']);
-Route::post('/api/customers/create', [CustomerController::class, 'store']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

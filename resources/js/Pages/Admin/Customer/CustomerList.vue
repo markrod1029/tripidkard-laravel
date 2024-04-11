@@ -64,14 +64,13 @@
 
                         <td>
                           <div style="display: flex; justify-content: center;">
-                            <a href="enterprise-merchant?enterprise_id=<?php echo $row['id']?>"
-                              class="btn btn-success btn-sm  " style="margin-right: 5px;"><i class="fa fa-eye"></i> </a>
-                            <a href="enterprise-register?action=update&&enterprise_id=<?php echo $row['id']?>"
+                            <router-link :to="`/admin/customer/${customer.id}/edit`"
                               class="btn btn-primary btn-sm  " style="margin-right: 5px;"><i class="fa fa-edit"></i>
-                            </a>
-                            <a href="class/enterprise_crud.php?action=archive&&enterprise_id=<?php echo $row['id']?>"
-                              onclick="return confirm('Are you sure you want to remove Archive this Enterprise Account?')"
-                              class="btn btn-danger btn-sm  "><i class="fa fa-redo"></i> </a>
+                            </router-link>
+
+                            <router-link class="btn btn-danger btn-sm "><i class="fa fa-trash"></i> </router-link>
+
+
                           </div>
                         </td>
                       </tr>
@@ -99,8 +98,12 @@ import Sidebar from '@/Components/Organisims/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
+import { useToastr } from '@/toastr.js';
+
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+
+const toastr = useToastr();
 
 // const customers = ref([
 //   {
@@ -135,6 +138,8 @@ const getCustomers = () => {
 
 onMounted(() => {
   getCustomers();
+
+
 });
 
 </script>
