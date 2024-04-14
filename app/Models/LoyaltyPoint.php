@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class loyalty_points extends Model
+class LoyaltyPoint extends Model
 {
     use HasFactory;
     protected $guarded = [];

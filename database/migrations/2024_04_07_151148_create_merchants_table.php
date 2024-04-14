@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('merchants', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->unique();
+            // $table->foreignId('enterprise_id')->constrained()->unique();
+            $table->string('business_code')->unique()->nullable();
+            $table->string('card_code')->unique()->nullable();
+            $table->string('business_name');
+            $table->string('business_category');
+            $table->string('business_sub_category');
+            $table->string('zip');
+            $table->string('street');
+            $table->string('city');
+            $table->string('province');
             $table->timestamps();
         });
     }

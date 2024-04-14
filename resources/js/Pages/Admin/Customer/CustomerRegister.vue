@@ -265,8 +265,6 @@ const form = reactive({
 let getCustomers = () => {
     axios.get(`/api/customers/${route.params.id}/edit`)
         .then(({ data }) => {
-            // Log the response data to inspect
-            console.log(data); // Dapat ay response.data ang iyong ginagamit dito
             // Assign data to the form fields
             form.customer_card_num = data.customer_card_num;
             form.fname = data.fname;
@@ -290,7 +288,6 @@ let getCustomers = () => {
 const createCustomer = (values, actions) => {
     axios.post('/api/customers/register', form)
         .then((response) => {
-            console.log(response);
             router.push('/admin/customer');
 
             toastr.success('Customer Added Successfuly');

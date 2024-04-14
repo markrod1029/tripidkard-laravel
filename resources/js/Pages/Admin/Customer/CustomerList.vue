@@ -31,7 +31,7 @@
               </div>
 
 
-              <div>
+              <div  class="col-3">
                 <input type="text" name="" v-model="searchQuery" class="form-control" placeholder="Search..." id="">
 
               </div>
@@ -52,7 +52,7 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="customers.length > 0">
 
                       <tr v-for="(customer, index) in customers " :key="customer.id">
                         <td>{{ index + 1 }}</td>
@@ -64,17 +64,29 @@
 
                         <td>
                           <div style="display: flex; justify-content: center;">
-                            <router-link :to="`/admin/customer/${customer.id}/edit`"
-                              class="btn btn-primary btn-sm  " style="margin-right: 5px;"><i class="fa fa-edit"></i>
+                            <router-link :to="`/admin/customer/${customer.id}/edit`" class="btn btn-primary btn-sm  "
+                              style="margin-right: 5px;"><i class="fa fa-edit"></i>
                             </router-link>
 
-                            <router-link class="btn btn-danger btn-sm "><i class="fa fa-trash"></i> </router-link>
+                            <a class="btn btn-danger btn-sm text-white" @click.prevent="(deleteCustomer(customer.id))"
+                              style="margin-right: 5px;"><i class="fa fa-redo"></i>
+                            </a>
+
 
 
                           </div>
                         </td>
                       </tr>
                     </tbody>
+                    <tbody v-else>
+
+                      <tr>
+                        <td colspan="7" class="text-center"> No Customer Found</td>
+                      </tr>
+
+                    </tbody>
+
+
                   </table>
                 </div>
               </div>
@@ -101,40 +113,33 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useToastr } from '@/toastr.js';
 
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { debounce } from 'lodash';
 
 const toastr = useToastr();
-
-// const customers = ref([
-//   {
-//     'code': '001',
-//     'cardNumber': '1234567890',
-//     'fname': 'John',
-//     'mname': 'C',
-//     'lname': 'Doe',
-//     'businessName': 'ABC Inc.',
-//     'contactNumber': '123-456-7890',
-//     'email': 'john@example.com',
-//     'address': '123 Main St, City, Country',
-//     'id': 1 // Assuming you have an ID for each customer
-//   },
-
-// ]);
-
 const customers = ref([]);
+const searchQuery = ref([]);
 
-
-const getCustomers = () => {
-  axios.get('/api/customers')
-    .then((response) => {
-      customers.value = response.data;
-
-      console.log(customers.value)
-    })
-    .catch((error) => {
-      console.error('Error fetching services:', error);
+const getCustomers = async () => {
+  try {
+    const response = await axios.get('/api/customers', {
+      params: {
+        query: searchQuery.value
+      }
     });
+    customers.value = response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+  }
 }
+
+
+
+watch(searchQuery, debounce(() => {
+  getCustomers();
+}, 100));
+
+
 
 onMounted(() => {
   getCustomers();
@@ -142,4 +147,7 @@ onMounted(() => {
 
 });
 
+// let deleteCustomer = () => {
+//   axios.post('/api/')
+// }
 </script>

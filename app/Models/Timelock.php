@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class time_lock extends Model
+class Timelock extends Model
 {
     use HasFactory;
     protected $guarded = [];

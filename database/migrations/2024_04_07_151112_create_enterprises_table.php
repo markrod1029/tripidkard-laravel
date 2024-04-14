@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('enterprises', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('enterprise_code');
-            $table->string('card_code');
-            $table->string('enterprise_name');
-            $table->string('business_category');
+            $table->foreignId('user_id')->constrained()->unique();
+            $table->string('business_code')->unique()->nullable();
+            $table->string('card_code')->unique()->nullable();
+            $table->string('business_name');
+            $table->string('business_category')->nullable();
             $table->string('zip');
             $table->string('street');
             $table->string('city');

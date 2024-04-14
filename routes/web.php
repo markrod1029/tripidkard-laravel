@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
 
 /*
@@ -19,6 +22,24 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
+// Tripidkard Route
+
+Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
+Route::post('/api/tripidkards', [CardCodeController::class, 'store']);
+
+// Enterprise Route
+Route::get('/api/enterprises', [EnterpriseController::class, 'index']);
+Route::post('/api/enterprises/create', [EnterpriseController::class, 'store']);
+Route::get('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'edit']);
+Route::post('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'update']);
+
+// Merchant Route
+Route::get('/api/merchants', [MerchantController::class, 'index']);
+Route::post('/api/merchants/create', [MerchantController::class, 'store']);
+Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);
+Route::post('/api/merchants/{merchant}/edit', [MerchantController::class, 'update']);
+
+// Customer Route
 Route::post('/api/customers/{customer}/edit', [CustomerController::class, 'update']);
 Route::get('/api/customers/{customer}/edit', [CustomerController::class, 'edit']);
 Route::post('/api/customers/register', [CustomerController::class, 'store']);

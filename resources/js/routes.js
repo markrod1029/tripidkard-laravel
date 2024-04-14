@@ -2,11 +2,11 @@ import AdminDashboard from './Pages/Admin/Dashboard/Dashboard.vue'
 import NotFound from './Pages/Error/404.vue'
 
 import AdminEnterprise from './Pages/Admin/Enterprise/EnterpriseList.vue'
-import AdminEnterpriseRegister from './Pages/Admin/Enterprise/EnterpriseRegister.vue'
+import AdminEnterpriseForm from './Pages/Admin/Enterprise/EnterpriseRegister.vue'
 import AdminEnterpriseArchive from './Pages/Admin/Enterprise/EnterpriseArchive.vue'
 
 import AdminMerchant from './Pages/Admin/Merchant/MerchantList.vue'
-import AdminMerchantRegister from './Pages/Admin/Merchant/MerchantRegister.vue'
+import AdminMerchantForm from './Pages/Admin/Merchant/MerchantRegister.vue'
 import AdminMerchantArchive from './Pages/Admin/Merchant/MerchantArchive.vue'
 
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue'
@@ -51,11 +51,21 @@ const routes = [
     {
         path: '/admin/enterprise/register',
         name: 'admin.enterprise.register',
-        component: AdminEnterpriseRegister,
+        component: AdminEnterpriseForm,
         meta: {
             title: 'Enterprise Register'
         }
     },
+
+    {
+        path: '/admin/enterprise/:id/edit',
+        name: 'admin.enterprise.edit',
+        component: AdminEnterpriseForm,
+        meta: {
+            title: 'Enterprise Update'
+        }
+    },
+
 
     {
         path: '/admin/enterprise/archive',
@@ -80,11 +90,21 @@ const routes = [
     {
         path: '/admin/merchant/register',
         name: 'admin.merchant.register',
-        component: AdminMerchantRegister,
+        component: AdminMerchantForm,
         meta: {
             title: 'Merchant Register'
         }
     },
+
+    {
+        path: '/admin/merchant/:id/edit',
+        name: 'admin.merchant.edit',
+        component: AdminMerchantForm,
+        meta: {
+            title: 'Merchant Update'
+        }
+    },
+
 
 
     

@@ -10,9 +10,24 @@ class CustomerController extends Controller
 
     public function index(){
 
-        return Customer::latest()->get();
+        // return Customer::latest()->get();
+        $searchFields = ['customer_card_num', 'fname', 'mname', 'lname',  'contact', 'email', 'zip', 'street', 'city', 'province', ];
+        $customer = Customer::query()
+        ->where('status', 1)
+        ->when(request('query'), function ($query, $searchQuery) use ($searchFields){
+            $query->where(function ($query) use ($searchFields, $searchQuery) {
+                foreach ($searchFields as $field) {
+                    $query->orWhere($field, 'like', "%{$searchQuery}%");
+                }
+            });
+        })
+        // ->when(request('query'), function ($query, $searchQuery) {
+        //     $query->where('fname', 'like', "%{$searchQuery}%");
+        // })
+        ->latest()->get();
 
-        dd(Customer::latest()->get());
+        return response()->json($customer);
+
     }
     
     public function store(Request $request)
@@ -62,7 +77,7 @@ class CustomerController extends Controller
             'lname' => 'required',
             'contact' => 'required',
             'bdate' => '', 
-            'email' => 'required|unique:users,email',
+            'email' => 'required|unique:users,email,'.$customer->user->id,
             'zip' => '', 
             'street' => '', 
             'city' => '', 

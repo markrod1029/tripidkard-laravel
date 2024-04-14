@@ -28,6 +28,7 @@ class CustomerFactory extends Factory
             'street' => $this->faker->streetName(),
             'city' => $this->faker->city(),
             'province' => $this->faker->state(),
+            'status' => rand(0, 1),
 
         ];
     }
