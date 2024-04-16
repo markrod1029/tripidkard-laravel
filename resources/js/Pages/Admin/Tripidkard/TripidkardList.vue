@@ -44,7 +44,6 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th class="no-print">QR Code</th>
                         <th>Business Code</th>
                         <th>Card Code</th>
                         <th>Validity</th>
@@ -54,8 +53,8 @@
 
                       <tr v-for="(tripidkard, index) in tripidkards" :key="tripidkard.id">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ tripidkard.business_code }}</td>
-                        <td>{{ tripidkard.card_code }}</td>
+                        <td>{{ tripidkard.business_name }}</td>
+                        <td>{{ tripidkard.card_number }}</td>
                         <td>{{ tripidkard.validity }}</td>
                       </tr>
                     </tbody>
@@ -102,7 +101,7 @@ const searchQuery = ref([]);
 
 const gettripidkards = async () => {
   try {
-    const response = await axios.get('/api/merchants', {
+    const response = await axios.get('/api/tripidkards', {
       params: {
         query: searchQuery.value,
       }
@@ -116,13 +115,13 @@ const gettripidkards = async () => {
 
 
 watch(searchQuery, debounce(() => {
-  getMerchants();
+  gettripidkards();
 }, 100));
 
 
 
 onMounted(() => {
-  getMerchants();
+  gettripidkards();
 
 
 });

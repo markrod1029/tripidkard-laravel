@@ -16,9 +16,10 @@ class CreateCardCodesTable extends Migration
         Schema::create('card_codes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('store_code');
+            $table->string('store_code')->nullable();
             $table->string('card_number');
             $table->tinyInteger('status');
+            $table->date('validity');
             $table->timestamps();
         });
     }

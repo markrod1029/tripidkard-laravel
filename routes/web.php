@@ -25,7 +25,7 @@ Route::get('/', function () {
 // Tripidkard Route
 
 Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
-Route::post('/api/tripidkards', [CardCodeController::class, 'store']);
+Route::post('/api/tripidkards/create', [CardCodeController::class, 'store']);
 
 // Enterprise Route
 Route::get('/api/enterprises', [EnterpriseController::class, 'index']);

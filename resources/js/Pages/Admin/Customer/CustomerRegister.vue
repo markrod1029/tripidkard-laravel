@@ -38,7 +38,9 @@
                                                     <i class="fa fa-credit-card"></i></span></div>
                                             <input type="text" v-model="form.customer_card_num" class="form-control"
                                                 id="customer_code" name="customer_code" value="" required="">
-                                        </div>
+
+                                            </div>
+
                                     </div>
 
                                     <div class="input-group mb-3">
@@ -284,6 +286,8 @@ let getCustomers = () => {
 }
 
 
+
+
 // Add New Customer
 const createCustomer = (values, actions) => {
     axios.post('/api/customers/register', form)
@@ -305,6 +309,7 @@ let updateCustomer = (values, actions) => {
         })
         .catch((error) => {
             actions.setErrors(error.response.data.errors);
+            toastr.error(error.response.data.error); // Ito ang bagong line na idadagdag mo
         })
 }
 

@@ -31,7 +31,48 @@ class MerchantController extends Controller
     }
     
     
+
+    function generateRandomStringWithNumbers($length) {
+        $characters = '0123456789';
+        $randomString = '';
     
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+    
+        return $randomString;
+    }
+
+    function generateBusinessCode($businessName, $length = 8) {
+        // Remove spaces from the business name
+        $businessName = str_replace(' ', '', $businessName);
+    
+        // Extract the first few characters from the modified business name (e.g., 3 characters)
+        $prefix = substr(strtoupper($businessName), 0, 3);
+    
+        // Calculate the length for the unique identifier (to ensure numbers are included)
+        $uniqueIdentifierLength = max(0, $length - strlen($prefix));
+    
+        // Generate a unique identifier with numbers
+        $uniqueIdentifier = $this->generateRandomStringWithNumbers($uniqueIdentifierLength);
+    
+        // Combine the prefix and unique identifier to create the store code
+        $storeCode = $prefix . $uniqueIdentifier;
+    
+        return $storeCode;
+    }
+
+    
+    public function generateCardCode()
+    {
+        $currentYear = date('Y');
+        $lastCardCode = Merchant::where('card_code', 'like', $currentYear . '-%')->latest('card_code')->value('card_code');
+        $lastSerialNumber = 1;
+        if ($lastCardCode) {
+            $lastSerialNumber = intval(substr($lastCardCode, -7)) + 1;
+        }
+        return $currentYear . '-0M-' . str_pad($lastSerialNumber, 7, '0', STR_PAD_LEFT);
+    }
 
     public function store(Request $request) {
 
@@ -50,6 +91,8 @@ class MerchantController extends Controller
             'city' => 'required',
             'province' => 'required',
         ]);
+        $businessCode = $this->generateBusinessCode($validate['business_name']);
+        $cardCode = $this->generateCardCode();
     
         $user =  User::create([
             'fname' => $validate['fname'],  // Dapat ito ay 'mname' base sa iyong design
@@ -57,13 +100,16 @@ class MerchantController extends Controller
             'lname' => $validate['lname'],
             'contact' => $validate['contact'],
             'email' => $validate['email'],
-            'password' => bcrypt($validate['email']), // Hindi ito isang magandang ideya. Gumamit ka ng unique field para sa password
+            'password' => bcrypt($businessCode), // Hindi ito isang magandang ideya. Gumamit ka ng unique field para sa password
             'role' => 'Merchant',
             'status' => 1,
         ]);
     
+        
         Merchant::create([
             'user_id' =>  $user->id, 
+            'business_code' => $businessCode,
+            'card_code' => $cardCode,
             'business_name' => $validate['business_name'], // Dapat ito ay $validate['business_name']
             'business_category' => $validate['business_category'], // Dapat ito ay $validate['business_category']
             'business_sub_category' => $validate['business_sub_category'], // Dapat ito ay $validate['business_sub_category']

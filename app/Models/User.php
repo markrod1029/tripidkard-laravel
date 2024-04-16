@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\CardCode;
 use App\Models\Merchant;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,24 +55,20 @@ class User extends Authenticatable
     }
 
 
-    /**
-     * Get the merchant that owns the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
     public function merchant()
     {
         return $this->hasOne(Merchant::class);
     }
 
-
-    /**
-     * Get the merchant that owns the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
+    
     public function enterprise()
     {
         return $this->hasOne(Enterprise::class);
+    }
+
+    
+    public function cardCodes()
+    {
+        return $this->hasOne(CardCode::class);
     }
 }
