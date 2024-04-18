@@ -51,7 +51,6 @@ class CustomerController extends Controller
 
         // If no card code found or status is not 0, return error
         if (!$cardCode) {
-            return response()->json(['error' => 'Invalid customer card number'], 422);
         }
 
 
@@ -70,6 +69,9 @@ class CustomerController extends Controller
             'status' => 1,
         ]);
 
+        CardCode::where('card_number', $validated['customer_card_num'])->update(['status' => 1]);
+
+
         return response()->json(['success' => 'Customer Updated Successfuly']);
 
     }
@@ -85,7 +87,7 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
 
-        $validate = $request->validate([
+        $validated = $request->validate([
             'customer_card_num' => 'required',
             'mname' => '',
             'fname' => 'required',
@@ -100,7 +102,9 @@ class CustomerController extends Controller
 
         ]);
 
-        $customer->update($validate);
+        $customer->update($validated);
+    
+        
 
         return response()->json(['success' => true]);
 

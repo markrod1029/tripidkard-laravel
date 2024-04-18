@@ -84,7 +84,7 @@
                                       <tbody v-else>
 
                                           <tr>
-                                              <td colspan="10" class="text-center"> No Merchants Found</td>
+                                              <td colspan="10" class="text-center"> No Enterprise Found</td>
                                           </tr>
 
                                       </tbody>

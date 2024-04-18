@@ -19,6 +19,18 @@ import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue'
 import AdminLoyaltyPointRegister from './Pages/Admin/Points/LoyaltyPointRegister.vue'
 import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue'
 
+
+// Merchant
+import MerchantDashboard from './Pages/Merchant/Dashboard/Dashboard.vue'
+import MerchantTripidkard from './Pages/Merchant/Tripidkard/TripidkardList.vue'
+import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue'
+import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue'
+
+
+import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue'
+import MerchantLoyaltyPointRegister from './Pages/Merchant/Points/LoyaltyPointRegister.vue'
+import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue'
+
 const routes = [
 
 
@@ -35,7 +47,7 @@ const routes = [
         name: 'admin.dashboard',
         component: AdminDashboard,
         meta: {
-            title: 'Dashboard'
+            title: 'Admin Dashboard'
         }
     },
 
@@ -196,6 +208,88 @@ const routes = [
             title: 'Activity Logs List'
         }
     },
+
+    {
+        path: '/merchant/dashboard/',
+        name: 'merchant.dashboard',
+        component: MerchantDashboard,
+        meta: {
+            title: 'Merchant Dashboard'
+        }
+    },
+
+
+
+    {
+        path: '/merchant/tripidkard/',
+        name: 'merchant.tripidkard',
+        component: MerchantTripidkard,
+        meta: {
+            title: 'Tripidkard List'
+        }
+    },
+
+    {
+        path: '/merchant/customer/',
+        name: 'merchant.customer',
+        component: MerchantCustomer,
+        meta: {
+            title: 'Customer List'
+        }
+    },
+
+    {
+        path: '/merchant/customer/register',
+        name: 'merchant.customer.register',
+        component: MerchantCustomerForm,
+        meta: {
+            title: 'Customer Register'
+        }
+    },
+
+
+    
+    {
+        path: '/merchant/customer/:id/edit',
+        name: 'merchant.customer.edit',
+        component: MerchantCustomerForm,
+        meta: {
+            title: 'Customer Update'
+        }
+    },
+
+
+    {
+        path: '/merchant/loyalty-points',
+        name: 'merchant.loyalty-points',
+        component: MerchantLoyaltyPoint,
+        meta: {
+            title: 'Loyalty Points List'
+        }
+    },
+
+    {
+        path: '/merchant/loyalty-points/register',
+        name: 'merchant./loyalty-points.register',
+        component: MerchantLoyaltyPointRegister,
+        meta: {
+            title: 'Loyalty Points Register'
+        }
+    },
+
+
+    {
+        path: '/merchant/activity-log/',
+        name: 'merchant./activity-log',
+        component: MerchantLogs,
+        meta: {
+            title: 'Activity Logs List'
+        }
+    }
+
+
+    
+
 
 ]
 
