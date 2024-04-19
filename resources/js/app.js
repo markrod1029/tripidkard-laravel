@@ -10,7 +10,7 @@
 
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js';
 import 'admin-lte/dist/js/adminlte.min.js';
-
+// import 'https://unpkg.com/html5-qrcode';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import Routes from './routes.js';
@@ -19,6 +19,8 @@ import Routes from './routes.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import Login from './Pages/Auth/Login.vue';
+
 // Idagdag ang lahat ng mga solid icons sa library
 // import Login from './pages/auth/login.vue';
 
@@ -39,11 +41,10 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 
 const router = createRouter({
     routes: Routes,
-    // routes: Object.values(routes.admin).reduce((acc, val) => acc.concat(Object.values(val)), []),
     history: createWebHistory(),
 });
 
 app.use(router);
 
-// app.component('Login', Login);
+app.component('Login', Login);
 app.mount('#app');

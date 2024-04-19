@@ -26,127 +26,135 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-          <!-- Add icons to the links using the .nav-icon class
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          <li class="header text-center brand-text  text-white">PERSONAL</li>
+        <li class="header text-center brand-text  text-white">PERSONAL</li>
 
 
-          <li class="nav-item">
-            <router-link to="/merchant/dashboard" class="nav-link" active-class="active">
-              <i class="nav-icon fa fa-tachometer"></i>
-              <p>Dashboard</p>
-            </router-link>
-          </li>
+        <li class="nav-item">
+          <a href="home" class="nav-link">
+            <i class="nav-icon fa fa-tachometer"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
 
-       
-          <li class="nav-item">
-            <router-link to="/merchant/scanner" class="nav-link" active-class="active">
-              <i class="nav-icon fa fa-qrcode"></i>
-              <p>QR Code Scanner</p>
-            </router-link>
-          </li>
+        <li class="nav-item">
+          <a href="tripidkard-scanner" class="nav-link">
+            <i class="nav-icon fa fa-qrcode"></i>
+            <p>QR Code Scanner</p>
+          </a>
+        </li>
 
-
-          <li class="nav-item has-treeview ">
-            <router-link to="#"  class="nav-link">
-              <i class="nav-icon fas fa-credit-card"></i>
-              <p>
-                TripidKard Code
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </router-link>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/merchant/tripidkard" active-class="active" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>TripidKard List</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+        <li class="nav-item has-treeview ">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Merchant Account
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="merchant-list" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Merchant List</p>
+              </a>
+            </li>
 
 
+          </ul>
+        </li>
 
 
+        <li class="nav-item">
+          <a href="tripidkard" class="nav-link">
+            <i class="nav-icon fa fa-credit-card"></i>
+            <p>TripidKard</p>
+          </a>
+        </li>
 
-
-
-
-          <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Customer Account
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/merchant/customer" active-class="active" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Customer List</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/merchant/customer/register" active-class="active" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Customer Register</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item has-treeview ">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-coins"></i>
-              <p>
-                Loyalty Points
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/merchant/loyalty-points" active-class="active" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p> Loyalty Points List</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/merchant/loyalty-points/register" active-class="active" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Register Loyalty Points</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item">
-            <router-link to="/merchant/activity-log" active-class="active" class="nav-link">
-              <i class="nav-icon fa fa-coins"></i>
-              <p>Activity Logs</p>
-            </router-link>
-          </li>
-
-
-
-          <!-- <li class="nav-item">
-            <a href="aboutus.php" class="nav-link">
-              <i class="nav-icon fa fa-user-circle"></i>
-              <p>About Us</p>
-            </a>
-          </li> -->
-          <br>
+        <li class="nav-item">
+          <a href="discount" class="nav-link">
+            <i class="nav-icon fa fa-money"></i>
+            <p>Discount</p>
+            <span class="badge badge-danger badge-pill ml-2">1</span>
+          </a>
+        </li>
 
 
 
 
+        <li class="nav-item has-treeview ">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Customer Account
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="customer-list" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Customer List</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="customer-register?action=register" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Customer Register</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
-        </ul>
-      </nav>
+
+        <li class="nav-item has-treeview ">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-coins"></i>
+            <p>
+              Loyalty Points
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="loyalty-points" class="nav-link ">
+                <i class="far fa-circle nav-icon"></i>
+                <p> Loyalty Points List</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="reedem-loyalty" class="nav-link">
+                <i class="nav-icon fa fa-coins"></i>
+                <p>Reedem Loyalty Points</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+
+
+        <li class="nav-item">
+          <a href="activity_log" class="nav-link">
+            <i class="nav-icon fa fa-history"></i>
+            <p>Activity Log</p>
+          </a>
+        </li>
+
+
+        <br>
+
+
+
+
+
+      </ul>
+    </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

@@ -1,3 +1,4 @@
+import Login from './Pages/Auth/Login.vue'
 import AdminDashboard from './Pages/Admin/Dashboard/Dashboard.vue'
 import NotFound from './Pages/Error/404.vue'
 
@@ -22,6 +23,7 @@ import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue'
 
 // Merchant
 import MerchantDashboard from './Pages/Merchant/Dashboard/Dashboard.vue'
+import MerchantScanner from './Pages/Merchant/Scanner/Qr-Code.vue'
 import MerchantTripidkard from './Pages/Merchant/Tripidkard/TripidkardList.vue'
 import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue'
 import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue'
@@ -41,7 +43,14 @@ const routes = [
           title: '404 Not Found'
         }
       },
-    
+      {
+        path: '/login/',
+        name: 'login',
+        component: Login,
+        meta: {
+            title: 'Admin Dashboard'
+        }
+    },
     {
         path: '/admin/dashboard/',
         name: 'admin.dashboard',
@@ -215,6 +224,15 @@ const routes = [
         component: MerchantDashboard,
         meta: {
             title: 'Merchant Dashboard'
+        }
+    },
+
+    {
+        path: '//merchant/scanner',
+        name: 'merchant.scanner',
+        component: MerchantScanner,
+        meta: {
+            title: 'Merchant QR '
         }
     },
 

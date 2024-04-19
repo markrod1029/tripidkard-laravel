@@ -10,6 +10,6 @@ class ApplicationController extends Controller
 
     function __invoke() {
 
-        return view('app');
+        return view('admin.app');
     }
 }
