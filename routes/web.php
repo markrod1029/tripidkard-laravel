@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
@@ -22,8 +23,15 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-// Tripidkard Route
 
+Route::get('/csrf-token', function () {
+    return response()->json(['csrfToken' => csrf_token()]);
+});
+
+Route::post('/login', [LoginController::class, 'authentications']);
+Route::post('/logout', [LoginController::class, 'logout']);
+
+// Tripidkard Route
 Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
 Route::post('/api/tripidkards/create', [CardCodeController::class, 'store']);
 

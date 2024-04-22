@@ -1,72 +1,93 @@
-<script setup>
-import { ref, reactive } from 'vue';
-
-const showpassword = () => {
-    const passwordInput = document.getElementById("password");
-    if (passwordInput.type == "password") {
-        passwordInput.type = "text";
-        icon.innerHTML = '<span class="fa fa-fw fa-eye-slash"></span>';
-    } else {
-        passwordInput.type = "password";
-        icon.innerHTML = '<span class="fa fa-fw fa-eye"></span>';
-    }
-}
-
-
-
-
-
-</script>
-
-
 <template>
     <section class="login">
-
         <div class="container">
-
-
             <div class="wrapper">
                 <div class="title"><span>TripidKard Sign In</span></div>
-
-                <form method="POST" action="classes/login_process.php">
-
-                    <br>
-                    <div class='alert alert-danger alert-dismissible'>
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <form method="POST" @submit.prevent="loginForm">
+                    <div class='alert alert-danger alert-dismissible' v-if="errorMessage">
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' @click="errorMessage = ''">&times;</button>
+                        {{ errorMessage }}
                     </div>
-
-                    <div class='alert alert-success alert-dismissible'>
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-
+                    <div class='alert alert-success alert-dismissible' v-if="successMessage">
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' @click="successMessage = ''">&times;</button>
+                        {{ successMessage }}
                     </div>
-
-
                     <div class="row">
-                        <i class="fas fa-user icon"></i>
-                        <input type="text" name="email" placeholder="Email or Phone" required>
-
+                        <i class="fas fa-users icon"></i>
+                        <input type="email" v-model="form.email" name="email" placeholder="Email" required>
                     </div>
                     <div class="row">
                         <i class="fas fa-lock icon"></i>
-                        <!-- Show/hide password toggle button -->
-                        <span class="toggle-password" @click="showpassword">
-                            <span class="fa fa-fw fa-eye"></span>
+                        <span class="toggle-password" @click="togglePassword">
+                            <span class="fa fa-fw" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></span>
                         </span>
-
-                        <input type="password" name="password" id="password" placeholder="Password" required>
+                        <input :type="showPassword ? 'text' : 'password'" v-model="form.password" name="password" id="password" placeholder="Password" required>
                     </div>
                     <div class="pass"><a href="forgot-password">Forgot password?</a></div>
                     <div class="row button">
-                        <input type="submit" name="login" value="Login">
+                        <button type="submit" name="login" class="btn btn-primary btn-block" :disabled="loading">
+                            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <span v-else>Sign In</span>
+                        </button>
                     </div>
-                    <div class="signup-link">Not a member? <a href="https://tripidkard.com/merchant-details">Signup
-                            now</a></div>
+                    <div class="signup-link">Not a member? <a href="https://tripidkard.com/merchant-details">Signup now</a></div>
                 </form>
             </div>
         </div>
     </section>
-
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const form = ref({
+    email: '',
+    password: ''
+});
+
+
+const csrfToken = ref('');
+
+const getCsrfToken = async () => {
+    const response = await axios.get('/csrf-token');
+    csrfToken.value = response.data.csrfToken;
+}
+
+onMounted(() => {
+    getCsrfToken();
+});
+
+const loading = ref(false);
+const errorMessage = ref('');
+const successMessage = ref('');
+const showPassword = ref(false);
+
+const togglePassword = () => {
+    showPassword.value = !showPassword.value;
+}
+
+const loginForm = async () => {
+    loading.value = true;
+    try {
+        const response = await axios.post('/login', form.value);
+        // Handle success message if needed
+        successMessage.value = response.data.message;
+        // Redirect if login successful
+        window.location.href = '/admin/dashboard';
+    } catch(error) {
+        if (error.response) {
+            errorMessage.value = error.response.data.message;
+        } else {
+            errorMessage.value = "An error occurred.";
+        }
+    } finally {
+        loading.value = false;
+    }
+}
+</script>
 
 
 <style scoped>
