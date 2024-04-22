@@ -18,9 +18,12 @@
         "@fortawesome/free-solid-svg-icons": "^6.5.2",
         "@fortawesome/vue-fontawesome": "^3.0.6",
         "admin-lte": "^3.2.0",
+        "html5-qrcode": "^2.3.8",
         "lodash": "^4.17.21",
+        "quagga": "^0.12.1",
         "toastr": "^2.1.4",
         "vue": "^3.4.21",
+        "vue-qrcode-reader": "^5.5.3",
         "vue-route": "^1.5.1",
         "vue-router": "^4.3.0"
     }
