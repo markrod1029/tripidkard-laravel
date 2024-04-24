@@ -3,7 +3,7 @@
     <Sidebar/>
 
     <div class="content-wrapper">
-        
+
     <Breadcrumb/>
 
 
@@ -16,10 +16,10 @@
                     <span class="info-box-icon bg-success"><i class="far fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Merchant List</span>
-                        <!-- <?php 
+                        <!-- <?php
                         $sql = "SELECT * FROM merchant LEFT JOIN business ON merchant.id = business.merchant_id WHERE business.status = '1'";
                         $query = $conn->query($sql);
-                    
+
                         ?>
                         <span class="info-box-number"><?php  echo $merchant_total = $query->num_rows; ?></span> -->
                     </div>
@@ -31,10 +31,10 @@
                     <span class="info-box-icon bg-primary"><i class="far fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Customer List</span>
-                        <!-- <?php 
+                        <!-- <?php
                         $sql = "SELECT * FROM customer";
                         $query = $conn->query($sql);
-                    
+
                         ?>
                         <span class="info-box-number"><?php  echo $customer_total = $query->num_rows; ?></span> -->
                     </div>
@@ -46,10 +46,10 @@
                     <span class="info-box-icon bg-warning"><i class="far fa-coins"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Tripidkard List </span>
-                        <!-- <?php 
+                        <!-- <?php
                         $sql = "SELECT * FROM customer_code";
                         $query = $conn->query($sql);
-                    
+
                         ?> -->
                         <!-- <span class="info-box-number"><?php  echo $tripidkard_total = $query->num_rows; ?></span> -->
                     </div>
@@ -64,8 +64,8 @@
 
                 <div class="mapouter">
                     <div class="gmap_canvas">
-                        <iframe width="100%" height="400" id="gmap_canvas" 
-                                src="https://maps.google.com/maps?q=<?php echo urlencode(Perez BlvdDagupan, Pangasinan); ?>&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        <iframe width="100%" height="400" id="gmap_canvas"
+                                src="https://maps.google.com/maps?q=<?php echo urlencode(Perez BlvdDagupan, Pangasinan); ?>&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                 frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                         <a href="https://putlocker-is.org"></a>
                         <br>

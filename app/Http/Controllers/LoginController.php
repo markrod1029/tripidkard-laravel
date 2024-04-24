@@ -19,7 +19,9 @@ class LoginController extends Controller
             $credentials = $request->only('email', 'password');
 
             if (Auth::attempt($credentials)) {
-                return response()->json(['message' => 'Login successful'], 200);
+                $user = Auth::user();
+                $role = $user->role; // Assuming your user model has a 'role' attribute
+                return response()->json(['message' => 'Login successful', 'role' => $role], 200);
             } else {
                 return response()->json(['message' => 'Invalid credentials'], 401);
             }
@@ -30,6 +32,6 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-            return response()->json(['message'=> 'Loggout Account'],200);
+        return response()->json(['message'=> 'Logged out successfully'], 200);
     }
 }

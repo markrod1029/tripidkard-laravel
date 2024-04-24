@@ -48,9 +48,19 @@ const routes = [
         name: 'login',
         component: Login,
         meta: {
-            title: 'Admin Dashboard'
+            title: 'User Login'
         }
     },
+
+    {
+        path: '/admin/login/',
+        name: 'admin.login',
+        component: Login,
+        meta: {
+            title: 'Admin Login'
+        }
+    },
+
     {
         path: '/admin/dashboard/',
         name: 'admin.dashboard',
@@ -128,7 +138,7 @@ const routes = [
 
 
 
-    
+
 
 
     {
@@ -180,7 +190,7 @@ const routes = [
     },
 
 
-    
+
     {
         path: '/admin/customer/:id/edit',
         name: 'admin.customer.edit',
@@ -266,7 +276,7 @@ const routes = [
     },
 
 
-    
+
     {
         path: '/merchant/customer/:id/edit',
         name: 'merchant.customer.edit',
@@ -306,7 +316,7 @@ const routes = [
     }
 
 
-    
+
 
 
 ]

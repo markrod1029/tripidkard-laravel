@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,12 +26,23 @@ Route::get('/', function () {
 });
 
 
+
+
 Route::get('/csrf-token', function () {
     return response()->json(['csrfToken' => csrf_token()]);
 });
 
-Route::post('/login', [LoginController::class, 'authentications']);
+    Route::post('/login', [LoginController::class, 'authentications']);
+
+
+Route::middleware(['auth'])->group(function () {
+    // Logout route
 Route::post('/logout', [LoginController::class, 'logout']);
+
+});
+// User Profile
+Route::get('/api/profile', [ProfileController::class, 'index']);
+
 
 // Tripidkard Route
 Route::get('/api/tripidkards', [CardCodeController::class, 'index']);

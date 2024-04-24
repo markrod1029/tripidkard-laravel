@@ -19,6 +19,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'fname',
         'mname',
         'lname',
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'role',
         'avatar',
         'status',
-        
+
     ];
 
     /**
@@ -60,13 +61,13 @@ class User extends Authenticatable
         return $this->hasOne(Merchant::class);
     }
 
-    
+
     public function enterprise()
     {
         return $this->hasOne(Enterprise::class);
     }
 
-    
+
     public function cardCodes()
     {
         return $this->hasOne(CardCode::class);

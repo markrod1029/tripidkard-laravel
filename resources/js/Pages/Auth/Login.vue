@@ -5,11 +5,13 @@
                 <div class="title"><span>TripidKard Sign In</span></div>
                 <form method="POST" @submit.prevent="loginForm">
                     <div class='alert alert-danger alert-dismissible' v-if="errorMessage">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' @click="errorMessage = ''">&times;</button>
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
+                            @click="errorMessage = ''">&times;</button>
                         {{ errorMessage }}
                     </div>
                     <div class='alert alert-success alert-dismissible' v-if="successMessage">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true' @click="successMessage = ''">&times;</button>
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
+                            @click="successMessage = ''">&times;</button>
                         {{ successMessage }}
                     </div>
                     <div class="row">
@@ -21,7 +23,8 @@
                         <span class="toggle-password" @click="togglePassword">
                             <span class="fa fa-fw" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></span>
                         </span>
-                        <input :type="showPassword ? 'text' : 'password'" v-model="form.password" name="password" id="password" placeholder="Password" required>
+                        <input :type="showPassword ? 'text' : 'password'" v-model="form.password" name="password"
+                            id="password" placeholder="Password" required>
                     </div>
                     <div class="pass"><a href="forgot-password">Forgot password?</a></div>
                     <div class="row button">
@@ -32,7 +35,8 @@
                             <span v-else>Sign In</span>
                         </button>
                     </div>
-                    <div class="signup-link">Not a member? <a href="https://tripidkard.com/merchant-details">Signup now</a></div>
+                    <div class="signup-link">Not a member? <a href="https://tripidkard.com/merchant-details">Signup
+                            now</a></div>
                 </form>
             </div>
         </div>
@@ -41,6 +45,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const form = ref({
@@ -48,8 +53,8 @@ const form = ref({
     password: ''
 });
 
-
 const csrfToken = ref('');
+const router = useRouter();
 
 const getCsrfToken = async () => {
     const response = await axios.get('/csrf-token');
@@ -73,11 +78,19 @@ const loginForm = async () => {
     loading.value = true;
     try {
         const response = await axios.post('/login', form.value);
-        // Handle success message if needed
         successMessage.value = response.data.message;
-        // Redirect if login successful
-        window.location.href = '/admin/dashboard';
-    } catch(error) {
+        const role = response.data.role;
+        if (role === 'Merchant') {
+            router.push('/merchant/dashboard');
+        } else if (role === 'Enterprise') {
+            router.push('/enterprise/dashboard');
+        } else if (role === 'Admin') {
+            router.push('/admin/dashboard');
+
+        } else {
+            router.push('/login');
+        }
+    } catch (error) {
         if (error.response) {
             errorMessage.value = error.response.data.message;
         } else {
@@ -87,6 +100,7 @@ const loginForm = async () => {
         loading.value = false;
     }
 }
+
 </script>
 
 

@@ -1,50 +1,34 @@
-
-  
-{/* <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></scr> */}
-
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js';
 import 'admin-lte/dist/js/adminlte.min.js';
-// import 'https://unpkg.com/html5-qrcode';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import { createRouter, createWebHistory } from 'vue-router';
+
 import Routes from './routes.js';
 
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import Login from './Pages/Auth/Login.vue';
-
-// Idagdag ang lahat ng mga solid icons sa library
-// import Login from './pages/auth/login.vue';
-
-// import { createPinia } from 'pinia';
-// import { useAuthUserStore } from './stores/AuthUser';
-
-library.add(fas);
-
-
-const app = createApp({});
-// const pinia = createPinia();
-// app.use(pinia);
-
-// Convert routes object to array
-
-
-app.component('font-awesome-icon', FontAwesomeIcon)
+import { createPinia } from 'pinia';
+import { useAuthUserStore } from './Stores/AuthUser';
 
 const router = createRouter({
     routes: Routes,
     history: createWebHistory(),
 });
 
-app.use(router);
+// router.beforeEach(async (to, from, next) => {
+//     const authUserStore = useAuthUserStore();
+//     if (authUserStore.users.fname === '' && to.name !== 'login') {
+//         await authUserStore.getUser(); // Tawagin ang getUser() method ng store
 
-app.component('Login', Login);
+//         // Hindi mo na kailangang maghintay sa Promise.all dahil async-await na ang ginagamit mo
+//         //await Promise.all([
+//         //    authUserStore.getUser(),
+//         //]);
+//     }
+//     next();
+// });
+
+const app = createApp({});
+const pinia = createPinia();
+
+app.use(pinia);
+app.use(router);
 app.mount('#app');
