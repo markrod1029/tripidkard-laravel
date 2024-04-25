@@ -301,7 +301,17 @@ const routes = [
         name: 'merchant./loyalty-points.register',
         component: MerchantLoyaltyPointRegister,
         meta: {
-            title: 'Loyalty Points Register'
+            title: 'Loyalty Stars Register'
+        }
+    },
+
+
+    {
+        path: '/merchant/loyalty-points/:id/edit',
+        name: 'merchant.loyalty-points.edit',
+        component: MerchantLoyaltyPointRegister,
+        meta: {
+            title: 'Loyalty Stars Update'
         }
     },
 

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loyalty_points', function (Blueprint $table) {
+        Schema::create('points', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('card_number');
             $table->string('product_code');
-            $table->string('or_photo');
+            $table->string('or_photo')->nullable();
             $table->string('product_price');
             $table->string('points');
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loyalty_points');
+        Schema::dropIfExists('points');
     }
 };

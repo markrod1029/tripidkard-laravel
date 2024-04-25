@@ -101,7 +101,7 @@ const searchQuery = ref([]);
 
 const gettripidkards = async () => {
   try {
-    const response = await axios.get('/api/tripidkards', {
+    const response = await axios.get('/api/merchant/tripidkards', {
       params: {
         query: searchQuery.value,
       }

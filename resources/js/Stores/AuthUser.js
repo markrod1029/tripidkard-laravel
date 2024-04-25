@@ -10,6 +10,14 @@ export const useAuthUserStore = defineStore('AuthUser', () => {
         contact: '',
         email: '',
         role: '',
+        business_name: '',
+        business_category: '',
+        business_sub_category: '',
+        zip: '',
+        street: '',
+        city: '',
+        province: '',
+
     });
 
     const errorMessage = ref('');

@@ -1,3 +1,9 @@
+<script setup>
+import { useAuthUserStore } from '../../../Stores/AuthUser';
+
+const authUser = useAuthUserStore();
+</script>
+
 <template>
   <aside class="main-sidebar sidebar-dark-primary">
     <a href="home" class="brand-link " style="border-style:none; height:70px; ">
@@ -18,9 +24,10 @@
         </div>
 
         <div class="info">
-          <a href="#" class="d-block mt-1 mb-0 text-white text-center font-size:16px;">TRIPIDKARD</a>
-          <a href="#" class="d-block  text-white ml-2 font-size:16px; text-center mb-2">Administrator</a>
-        </div>
+                    <a href="#" class="d-block mt-1 mb-0 text-white text-center font-size:16px;">{{ authUser.users.fname}} {{ authUser.users.mname}} {{ authUser.users.lname}}</a>
+                    <a href="#" class="d-block text-white ml-2 font-size:16px; text-center mb-2">{{ authUser.users.role
+                        }}</a>
+                </div>
 
       </div>
 
@@ -40,7 +47,7 @@
             </router-link>
           </li>
 
-       
+
           <li class="nav-item">
             <router-link to="/merchant/scanner" class="nav-link" active-class="active">
               <i class="nav-icon fa fa-qrcode"></i>
@@ -386,7 +393,7 @@
   height: 500px;
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top:20px;  
+  margin-top:20px;
 }
 .con::-webkit-scrollbar-track
 {

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PointController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
@@ -32,7 +33,7 @@ Route::get('/csrf-token', function () {
     return response()->json(['csrfToken' => csrf_token()]);
 });
 
-    Route::post('/login', [LoginController::class, 'authentications']);
+Route::post('/login', [LoginController::class, 'authentications']);
 
 
 Route::middleware(['auth'])->group(function () {
@@ -40,12 +41,24 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/logout', [LoginController::class, 'logout']);
 
 });
+
+
+// Merchant Route
+Route::get('/api/merchant/points', [PointController::class,'merchantIndex']);
+Route::get('/api/merchant/points/{point}/edit', [PointController::class, 'edit']);
+Route::post('/api/merchant/points/{point}/edit', [PointController::class, 'update']);
+
+Route::post('/api/merchant/points/register', [PointController::class,'store']);
+
+// Admin Route
 // User Profile
 Route::get('/api/profile', [ProfileController::class, 'index']);
 
 
 // Tripidkard Route
 Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
+Route::get('/api/merchant/tripidkards', [CardCodeController::class, 'merchantIndex']);
+
 Route::post('/api/tripidkards/create', [CardCodeController::class, 'store']);
 
 // Enterprise Route

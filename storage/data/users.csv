@@ -1,7 +1,7 @@
 fname,mname,lname,contact,email,password,role,status
 Mark Rod,P.,cadayong,09452318814,markrod@tripidkard.com,admin,Admin,1
 Edmundo,C.,Casulla,09234544535,ed@tripidkard.com,admin,Admin,1
-Edmundo,C.,Casulla,09234544335,ambro@tripidkard.com,merchant,Merchant,1
+Edmundo,C.,Casulla,09234544335,aeon@tripidkard.com,merchant,Merchant,1
 Lie,,Casulla,09234546533,sqyzy@tripidkard.com,merchant,Merchant,1
 CB,,Mall,09234546532,cbmall@tripidkard.com,enterprise,Enterprise,1
 Goldilocks,,,09234546531,goldilocks@tripidkard.com,tenant,Tenant,1

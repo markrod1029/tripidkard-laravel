@@ -9,20 +9,23 @@ use Illuminate\Http\Request;
 
 class CardCodeController extends Controller
 {
+
+    // Enterprise Index
     public function index()
     {
         $searchFields = [
             'enterprises.business_code',
             'merchants.business_code',
-            'card_codes.card_code',
-            'card_codes.business_name',
+            'card_codes.card_number',
+            'merchants.business_name',
+            'enterprises.business_name',
             // 'card_codes.validity',
         ];
 
         $tripidkards = User::query()
             ->leftJoin('card_codes', 'card_codes.user_id', '=', 'users.id')
-            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
             ->leftJoin('enterprises', 'enterprises.user_id', '=', 'users.id')
+            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
             ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
                 $query->where(function ($query) use ($searchFields, $searchQuery) {
                     foreach ($searchFields as $field) {
@@ -35,6 +38,38 @@ class CardCodeController extends Controller
 
         return response()->json($tripidkards);
     }
+
+
+// Merchant Index
+
+    public function merchantIndex()
+    {
+        $user = request()->user();
+
+        $searchFields = [
+            'merchants.business_code',
+            'card_codes.card_number',
+            'card_codes.business_name',
+            'card_codes.user_id',
+        ];
+
+        $tripidkards = User::query()
+            ->leftJoin('card_codes', 'card_codes.user_id', '=', 'users.id')
+            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->where('card_codes.status', '=', 0)
+            ->where('card_codes.user_id', '=', $user->id)
+            ->get();
+
+        return response()->json($tripidkards);
+    }
+
 
     public function store(Request $request)
     {

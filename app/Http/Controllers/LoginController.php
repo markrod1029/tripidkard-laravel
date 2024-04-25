@@ -23,7 +23,8 @@ class LoginController extends Controller
                 $role = $user->role; // Assuming your user model has a 'role' attribute
                 return response()->json(['message' => 'Login successful', 'role' => $role], 200);
             } else {
-                return response()->json(['message' => 'Invalid credentials'], 401);
+                return response()->json(['message' => 'Invalid email or password. Please check your credentials and try again.'], 401);
+
             }
         } else {
             return response()->json(['errors' => $validator->errors()], 422);

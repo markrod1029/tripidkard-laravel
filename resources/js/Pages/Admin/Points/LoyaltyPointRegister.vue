@@ -14,7 +14,7 @@
                     <img class="img-fluid mx-auto"
                         src="https://tripidkard.com/wp-content/uploads/2023/10/tripid-card-ver.-2-1.png" width="150"
                         height="100" />
-                            <h3>Register Loyalty Points</h3>
+                            <h3>Register Loyalty Stars</h3>
                             <form method="POST" action="class/loyalty_points_crud.php">
 
                                 <div class="form-group mt-3">
@@ -74,7 +74,7 @@
         </section>
 
 
-       
+
     </div>
 
     <Footer />
