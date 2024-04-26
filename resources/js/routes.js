@@ -33,6 +33,8 @@ import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue'
 import MerchantLoyaltyPointRegister from './Pages/Merchant/Points/LoyaltyPointRegister.vue'
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue'
 
+
+import Profile from './Pages/Profiles/Information.vue';
 const routes = [
 
 
@@ -318,10 +320,19 @@ const routes = [
 
     {
         path: '/merchant/activity-log/',
-        name: 'merchant./activity-log',
+        name: 'merchant.activity-log',
         component: MerchantLogs,
         meta: {
             title: 'Activity Logs List'
+        }
+    },
+
+    {
+        path: '/merchant/profile/',
+        name: 'merchant.profile',
+        component: Profile,
+        meta: {
+            title: 'Merchant Profile Information'
         }
     }
 

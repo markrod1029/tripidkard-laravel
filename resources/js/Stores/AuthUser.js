@@ -10,6 +10,8 @@ export const useAuthUserStore = defineStore('AuthUser', () => {
         contact: '',
         email: '',
         role: '',
+        business_code : '',
+        card_code  : '',
         business_name: '',
         business_category: '',
         business_sub_category: '',

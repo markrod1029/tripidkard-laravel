@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('loyalty_stars')->nullable();
             $table->enum('role', ['Admin','Merchant', 'Enterprise', 'Tenant'])->default('Merchant');
             $table->string('avatar')->nullable();
             $table->tinyInteger('status');

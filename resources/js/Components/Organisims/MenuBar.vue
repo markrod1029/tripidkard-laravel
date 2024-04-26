@@ -1,6 +1,6 @@
 <template>
 
-    
+
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
     <ul class="navbar-nav">
@@ -46,14 +46,14 @@
 
 
                         <a class="border-top dropdown-item " ></a>
-                    <a href="#" class="dropdown-item">
+                    <a href="/merchant/profile" class="dropdown-item">
                         <i class="fas fa-user mr-2"></i>  Profile Settings
                     </a>
 
                     <a onclick="return confirm('Are you sure To Log Out')" href="../classes/logout.php" class="dropdown-item">
                         <i class="fa fa-power-off mr-2"></i> Logout
                     </a>
-            
+
                 <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
             </div>
         </li>
@@ -76,9 +76,9 @@
 
         <ul class="navbar-nav1 mr-auto">
             <li class="nav-item dropdown">
-                
+
                 <a class="nav-link" data-toggle="dropdown" id="main-sidebar" href="#">
-                    <center>  
+                    <center>
                         <i class="fa fa-cogs text-white"> </i>
                     </center>
                 </a>
@@ -94,7 +94,7 @@
 
 </template>
 
-<!-- 
+<!--
 <style>
 
 
@@ -103,7 +103,7 @@ body {
 display: block;
 margin: 0 !important;
 }
-/* 
+/*
 @media screen and (min-width: 0px) and (max-width: 700px) {
   .hide {
 

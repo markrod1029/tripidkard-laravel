@@ -103,8 +103,8 @@ class CustomerController extends Controller
         ]);
 
         $customer->update($validated);
-    
-        
+
+
 
         return response()->json(['success' => true]);
 
