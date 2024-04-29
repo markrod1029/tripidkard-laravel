@@ -53,7 +53,10 @@ Route::post('/api/merchant/points/register', [PointController::class,'store']);
 // Admin Route
 // User Profile
 Route::get('/api/profile', [ProfileController::class, 'index']);
-Route::put('/api/profile/edit', [ProfileController::class,'update']);
+Route::put('/api/profile-information/edit', [ProfileController::class,'updateProfile']);
+Route::put('/api/profile-business/edit', [ProfileController::class,'updateBusiness']);
+Route::put('/api/profile-password/change', [ProfileController::class,'changePassword']);
+
 
 // Tripidkard Route
 Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
