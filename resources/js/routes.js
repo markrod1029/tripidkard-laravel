@@ -11,13 +11,14 @@ import AdminMerchantForm from './Pages/Admin/Merchant/MerchantRegister.vue'
 import AdminMerchantArchive from './Pages/Admin/Merchant/MerchantArchive.vue'
 
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue'
-import AdminTripidkardRegister from './Pages/Admin/Tripidkard/TripidkardRegister.vue'
+import AdminTripidkardForm from './Pages/Admin/Tripidkard/TripidkardRegister.vue'
 
 import AdminCustomer from './Pages/Admin/Customer/CustomerList.vue'
 import AdminCustomerForm from './Pages/Admin/Customer/CustomerRegister.vue'
 
 import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue'
-import AdminLoyaltyPointRegister from './Pages/Admin/Points/LoyaltyPointRegister.vue'
+import AdminLoyaltyStarForm from './Pages/Admin/Points/LoyaltyPointRegister.vue'
+import AdminCustomerStars from './Pages/Admin/Points/CustomerStars.vue'
 import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue'
 
 
@@ -30,7 +31,7 @@ import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue
 
 
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue'
-import MerchantLoyaltyPointRegister from './Pages/Merchant/Points/LoyaltyPointRegister.vue'
+import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue'
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue'
 
 
@@ -167,7 +168,7 @@ const routes = [
     {
         path: '/admin/tripidkard/register',
         name: 'admin.tripidkard.register',
-        component: AdminTripidkardRegister,
+        component: AdminTripidkardForm,
         meta: {
             title: 'Tripidkard Register'
         }
@@ -203,22 +204,41 @@ const routes = [
     },
 
     {
-        path: '/admin/loyalty-points',
-        name: 'admin.loyalty-points',
+        path: '/admin/loyalty-stars',
+        name: 'admin.loyalty-stars',
         component: AdminLoyaltyPoint,
         meta: {
-            title: 'Loyalty Points List'
+            title: 'Loyalty Stars List'
         }
     },
 
     {
-        path: '/admin/loyalty-points/register',
-        name: 'admin./loyalty-points.register',
-        component: AdminLoyaltyPointRegister,
+        path: '/admin/loyalty-stars/register',
+        name: 'admin.loyalty-stars.register',
+        component: AdminLoyaltyStarForm,
         meta: {
-            title: 'Loyalty Points Register'
+            title: 'Loyalty Stars Register'
         }
     },
+
+    {
+        path: '/admin/loyalty-stars/:id/edit',
+        name: 'admin.loyalty-stars.edit',
+        component: AdminLoyaltyStarForm,
+        meta: {
+            title: 'Loyalty Stars Udate'
+        }
+    },
+
+    {
+        path: '/admin/loyalty-stars/:id/customer',
+        name: 'admin.loyalty-stars.customer',
+        component: AdminCustomerStars,
+        meta: {
+            title: 'Customer Loyalty Stars List'
+        }
+    },
+
 
 
     {
@@ -290,18 +310,18 @@ const routes = [
 
 
     {
-        path: '/merchant/loyalty-points',
-        name: 'merchant.loyalty-points',
+        path: '/merchant/loyalty-stars',
+        name: 'merchant.loyalty-stars',
         component: MerchantLoyaltyPoint,
         meta: {
-            title: 'Loyalty Points List'
+            title: 'Loyalty Stars List'
         }
     },
 
     {
-        path: '/merchant/loyalty-points/register',
-        name: 'merchant./loyalty-points.register',
-        component: MerchantLoyaltyPointRegister,
+        path: '/merchant/loyalty-stars/register',
+        name: 'merchant./loyalty-stars.register',
+        component: MerchantStarsPointForm,
         meta: {
             title: 'Loyalty Stars Register'
         }
@@ -309,9 +329,9 @@ const routes = [
 
 
     {
-        path: '/merchant/loyalty-points/:id/edit',
-        name: 'merchant.loyalty-points.edit',
-        component: MerchantLoyaltyPointRegister,
+        path: '/merchant/loyalty-stars/:id/edit',
+        name: 'merchant.loyalty-stars.edit',
+        component: MerchantStarsPointForm,
         meta: {
             title: 'Loyalty Stars Update'
         }

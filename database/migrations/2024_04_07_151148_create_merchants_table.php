@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('business_name');
             $table->string('business_category');
             $table->string('business_sub_category');
+            $table->integer('stars_points')->default(0);
             $table->string('zip');
             $table->string('street');
             $table->string('city');

@@ -110,21 +110,21 @@ const authUser = useAuthUserStore();
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-coins"></i>
               <p>
-                Loyalty Points
+                Loyalty Stars
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/merchant/loyalty-points" active-class="active" class="nav-link ">
+                <router-link to="/merchant/loyalty-stars" active-class="active" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p> Loyalty Points List</p>
+                  <p> Loyalty Stars List</p>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/merchant/loyalty-points/register" active-class="active" class="nav-link">
+                <router-link to="/merchant/loyalty-stars/register" active-class="active" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Register Loyalty Points</p>
+                  <p>Register Loyalty Stars</p>
                 </router-link>
               </li>
             </ul>

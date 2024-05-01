@@ -15,6 +15,7 @@ export const useAuthUserStore = defineStore('AuthUser', () => {
         business_name: '',
         business_category: '',
         business_sub_category: '',
+        stars_points: '',
         zip: '',
         street: '',
         city: '',

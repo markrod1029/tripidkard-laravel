@@ -41,6 +41,7 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="input-group mb-3" id="merchant_dropdown"
                                     v-if="form.enterprise_id !== '' && form.enterprise_id === 'None'">
                                     <label for="fname"

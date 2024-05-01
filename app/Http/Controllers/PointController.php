@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 class PointController extends Controller
 {
 
-    public function merchantIndex()
+    public function merchantIndex(Request $request)
     {
+
         $user = request()->user();
+        $user_id = $request->route('user_id');
+        dd($user_id);
         $searchFields = [
             'points.card_number',
             'customers.fname',

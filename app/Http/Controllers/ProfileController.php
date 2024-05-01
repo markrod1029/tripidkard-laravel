@@ -24,6 +24,7 @@ class ProfileController extends Controller
             $profileDetails['card_code'] = $merchant->card_code;
             $profileDetails['business_name'] = $merchant->business_name;
             $profileDetails['business_category'] = $merchant->business_category;
+            $profileDetails['stars_points'] = $merchant->stars_points;
             $profileDetails['business_sub_category'] = $merchant->business_sub_category;
             $profileDetails['zip'] = $merchant->zip;
             $profileDetails['street'] = $merchant->street;

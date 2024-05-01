@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\StartPointsController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
@@ -42,6 +43,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 });
 
+
+Route::post('/api/stars/crete', [StartPointsController::class, 'update']);
+Route::get('/api/stars/{merchant}/edit', [StartPointsController::class, 'edit']);
 
 // Merchant Route
 Route::get('/api/merchant/points', [PointController::class,'merchantIndex']);
