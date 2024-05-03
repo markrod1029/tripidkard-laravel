@@ -187,12 +187,24 @@ const authUser = useAuthUserStore();
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
+
                             <li class="nav-item">
                                 <router-link to="/admin/loyalty-stars" active-class="active" class="nav-link ">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p> Loyalty Stars List</p>
                                 </router-link>
                             </li>
+
+
+                            <li class="nav-item">
+                                <router-link to="/admin/stars/register" active-class="active" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>total of Loyalty Stars</p>
+                                </router-link>
+                            </li>
+
+
                             <li class="nav-item">
                                 <router-link to="/admin/loyalty-stars/register" active-class="active" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -260,6 +272,7 @@ const authUser = useAuthUserStore();
 
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
     background-color: #367fa9;
+    width: 290px;
 
 }
 

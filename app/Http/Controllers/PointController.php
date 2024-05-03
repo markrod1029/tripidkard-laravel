@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CardCode;
 use App\Models\User;
 use App\Models\Point;
+use App\Models\CardCode;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
@@ -14,8 +15,6 @@ class PointController extends Controller
     {
 
         $user = request()->user();
-        $user_id = $request->route('user_id');
-        dd($user_id);
         $searchFields = [
             'points.card_number',
             'customers.fname',
@@ -41,7 +40,10 @@ class PointController extends Controller
 
     public function store(Request $request)
     {
-        $user = request()->user();
+        $user = request()->merchant();
+
+        // $merchant = Merchant::findOrFail('user_id' == $user->id);
+        // dd($merchant);
 
         $validated = $request->validate([
             'card_number' => 'required',
@@ -54,10 +56,10 @@ class PointController extends Controller
         $cardCode = CardCode::where('card_number', $validated['card_number'])
             ->where('status', 1)
             ->first();
-
         if (!$cardCode) {
+            return response()->json(['message' => 'Card Number is not yet registered'], 422); // Ayusin ang maximum limit at HTTP status code
 
-        } else {
+        }
             Point::create([
                 'user_id' => $user->id,
                 'card_number' => $validated['card_number'],
@@ -66,8 +68,7 @@ class PointController extends Controller
                 'points' => $validated['points'],
             ]);
 
-        }
-        return response()->json(['message' => 'success']);
+        return response()->json(['message' => 'Start Points Added Successfully']);
     }
 
     public function edit(Point $point) {

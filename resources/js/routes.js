@@ -18,6 +18,7 @@ import AdminCustomerForm from './Pages/Admin/Customer/CustomerRegister.vue'
 
 import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue'
 import AdminLoyaltyStarForm from './Pages/Admin/Points/LoyaltyPointRegister.vue'
+import AdminStarForm from './Pages/Admin/Points/StarsForm.vue'
 import AdminCustomerStars from './Pages/Admin/Points/CustomerStars.vue'
 import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue'
 
@@ -221,12 +222,22 @@ const routes = [
         }
     },
 
+
     {
         path: '/admin/loyalty-stars/:id/edit',
         name: 'admin.loyalty-stars.edit',
         component: AdminLoyaltyStarForm,
         meta: {
             title: 'Loyalty Stars Udate'
+        }
+    },
+
+    {
+        path: '/admin/stars/register',
+        name: 'admin.stars.register',
+        component: AdminStarForm,
+        meta: {
+            title: 'Total of Loyalty Stars'
         }
     },
 

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             EnterpriseSeeder::class,
             CardCodeSeeder::class,
             CustomerSeeder::class,
+            StarSeeder::class,
         ]);
     }
 }

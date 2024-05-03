@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StarController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\ProfileController;
@@ -44,7 +45,8 @@ Route::post('/logout', [LoginController::class, 'logout']);
 });
 
 
-Route::post('/api/stars/crete', [StartPointsController::class, 'update']);
+Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'update']);
+Route::put('/api/stars/update', [StarController::class, 'update']);
 Route::get('/api/stars/{merchant}/edit', [StartPointsController::class, 'edit']);
 
 // Merchant Route
@@ -55,6 +57,11 @@ Route::post('/api/merchant/points/{point}/edit', [PointController::class, 'updat
 Route::post('/api/merchant/points/register', [PointController::class,'store']);
 
 // Admin Route
+
+// stars
+
+Route::get('/api/stars', [StarController::class, 'index']);
+
 // User Profile
 Route::get('/api/profile', [ProfileController::class, 'index']);
 Route::put('/api/profile-information/edit', [ProfileController::class,'updateProfile']);

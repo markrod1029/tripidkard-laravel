@@ -15,6 +15,18 @@
                     <h3 v-else>Register Merchant Loyalty Stars</h3>
                     <form method="POST" @submit.prevent="createStars">
 
+
+                        <div class="form-group mt-3">
+                            <div class="col-md-12 d-flex align-items-center">
+                                <input class="form-control" v-for="star in stars" :key="star.id"
+                                    :value="star.stars + ' ' + star.newProperty" readonly>
+                                <input class="form-control" v-model="form.id" hidden>
+
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
                                 <select class="form-control" name="merchants" v-model="form.merchant" id="merchants">
@@ -29,8 +41,9 @@
 
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
-                                <select v-if="!showOtherInput && updatestarts == false " class="form-control" name="starsPoints"
-                                    v-model="form.starsPoints" id="starsPoints" @change="handleSelectChange">
+                                <select v-if="!showOtherInput && updatestarts == false" class="form-control"
+                                    name="starsPoints" v-model="form.starsPoints" id="starsPoints"
+                                    @change="handleSelectChange">
                                     <option value="" disabled selected>Select Loyalty Stars</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -66,14 +79,17 @@ import axios from 'axios';
 
 import { useRouter, useRoute } from 'vue-router';
 import { useToastr } from '@/toastr';
-const merchants = ref([]);
 const showOtherInput = ref(false);
 const router = useRouter();
 const route = useRoute();
 const toastr = useToastr();
 
+const stars = ref([]);
+const merchants = ref([]);
+
 const updatestarts = ref(false);
 const form = reactive({
+    id: '',
     merchant: '',
     starsPoints: '',
     otherStarsPoints: ''
@@ -87,6 +103,25 @@ const getMerchants = async () => {
         console.error('Error fetching merchants:', error);
     }
 }
+
+
+const getStars = async () => {
+    try {
+        const response = await axios.get('/api/stars');
+        const modifiedStars = response.data.map(star => {
+            return {
+                ...star,
+                newProperty: 'Star Points',
+            };
+        });
+        stars.value = modifiedStars;
+        form.id = stars.value[0].id; // Set the form id to the first star id
+    } catch (error) {
+        console.error('Error fetching stars:', error);
+    }
+}
+
+
 
 
 const handleSelectChange = () => {
@@ -107,11 +142,16 @@ const handleOtherInputBlur = () => {
 
 const createStars = async () => {
     try {
-        const response = await axios.post('/api/stars/crete', form);
+        const response = await axios.post('/api/loyalty-stars/crete', form);
         router.push('/admin/loyalty-stars');
         toastr.success(response.data.message);
     } catch (error) {
-
+        console.error('Error creating stars:', error);
+        if (error.response && error.response.status === 422) {
+            toastr.error(error.response.data.message);
+        } else {
+            toastr.error('An error occurred while updating stars');
+        }
     }
 }
 
@@ -130,13 +170,13 @@ const getPoints = async () => {
 
 
 onMounted(() => {
-    if(route.name === 'admin.loyalty-stars.edit') {
+    if (route.name === 'admin.loyalty-stars.edit') {
         updatestarts.value = true;
-    getPoints();
-
+        getPoints();
+        getStars();
     }
     getMerchants();
-    console.log(updatestarts.value)
+    getStars();
 
 })
 </script>
