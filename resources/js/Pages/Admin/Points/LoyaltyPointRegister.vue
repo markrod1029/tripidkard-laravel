@@ -13,7 +13,7 @@
                         height="100" />
                     <h3 v-if="updatestarts">Update Merchant Loyalty Stars</h3>
                     <h3 v-else>Register Merchant Loyalty Stars</h3>
-                    <form method="POST" @submit.prevent="createStars">
+                    <form method="POST" @submit.prevent="handdleSubmit">
 
 
                         <div class="form-group mt-3">
@@ -158,7 +158,7 @@ const createStars = async () => {
 
 const getPoints = async () => {
     try {
-        const response = await axios.get(`/api/stars/${route.params.id}/edit`);
+        const response = await axios.get(`/api/loyalty-stars/${route.params.id}/edit`);
         const data = response.data;
         form.merchant = data.id;
         form.starsPoints = data.stars_points;
@@ -168,6 +168,24 @@ const getPoints = async () => {
     }
 }
 
+
+const updatePoints = async () => {
+    try {
+        const response = await axios.put(`/api/loyalty-stars/edit`, form);
+        router.push('/admin/loyalty-stars');
+        toastr.success(response.data.message);
+    } catch (error) {
+
+    }
+}
+
+const handdleSubmit = async () => {
+    if (updatestarts.value) {
+        await updatePoints();
+    } else {
+        await createStars();
+    }
+}
 
 onMounted(() => {
     if (route.name === 'admin.loyalty-stars.edit') {

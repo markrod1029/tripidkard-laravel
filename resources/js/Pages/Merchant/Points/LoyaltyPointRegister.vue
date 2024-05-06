@@ -24,14 +24,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group mt-3">
-                            <div class="col-md-12 d-flex align-items-center">
-                                <input type="text" class="form-control" v-model="form.product_code" id="product_code"
-                                    name="product_code" value="" placeholder="Product Code" :readonly="editMode"
-                                    required>
-                                <span class="ml-2 text-danger">*</span>
-                            </div>
-                        </div>
 
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
@@ -85,7 +77,6 @@ export default {
 
         const form = reactive({
             card_number: '',
-            product_code: '',
             product_price: '',
             points: ''
         });
@@ -114,7 +105,6 @@ export default {
                 const response = await axios.get(`/api/merchant/points/${route.params.id}/edit`);
                 const data = response.data;
                 form.card_number = data.card_number;
-                form.product_code = data.product_code;
                 form.price = data.product_price;
                 form.points = data.points;
                 editMode.value = true;

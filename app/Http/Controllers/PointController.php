@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CardCode;
 use App\Models\User;
 use App\Models\Point;
-use App\Models\CardCode;
-use App\Models\Merchant;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
@@ -20,7 +19,6 @@ class PointController extends Controller
             'customers.fname',
             'customers.mname',
             'customers.lname',
-            'points.product_code',
             'points.points',
         ];
         $tripidkards = Point::query()
@@ -40,18 +38,27 @@ class PointController extends Controller
 
     public function store(Request $request)
     {
-        $user = request()->merchant();
+        $user = request()->user();
 
-        // $merchant = Merchant::findOrFail('user_id' == $user->id);
-        // dd($merchant);
+        $merchant = User::with('merchant')->find($user->id);
+        $totalStars = $merchant->merchant->stars_points;
 
         $validated = $request->validate([
             'card_number' => 'required',
-            'product_code' => 'required',
-            'price' => 'required',
-            'points' => 'required',
+            'price' => 'required|numeric',
+            'points' => 'required|numeric',
         ]);
 
+        $points = $totalStars - $validated['points'];
+
+        if($totalStars === 0) {
+            return response()->json(['message' => 'You Cant add Loyalty Stars you have 0 Stars'], 422); // Ayusin ang maximum limit at HTTP status code
+
+        }
+        else if( $validated['points'] > $totalStars ){
+            return response()->json(['message' => 'you exceed your Points need to order more Loyalty Stars'], 422); // Ayusin ang maximum limit at HTTP status code
+
+        }
         // Check if customer_card_num exists in CardCodes with status 0
         $cardCode = CardCode::where('card_number', $validated['card_number'])
             ->where('status', 1)
@@ -63,11 +70,11 @@ class PointController extends Controller
             Point::create([
                 'user_id' => $user->id,
                 'card_number' => $validated['card_number'],
-                'product_code' => $validated['product_code'],
                 'product_price' => $validated['price'],
                 'points' => $validated['points'],
             ]);
 
+            $merchant->merchant->update(['stars_points' => $points]);
         return response()->json(['message' => 'Start Points Added Successfully']);
     }
 

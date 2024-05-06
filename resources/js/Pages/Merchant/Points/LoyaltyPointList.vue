@@ -46,7 +46,6 @@
                           <th>#</th>
                           <th>Card Number</th>
                           <th>Customer Name</th>
-                          <th>Product Code</th>
                           <th>Product Price</th>
                           <th>Loyalty Stars</th>
                           <th>Action</th>
@@ -58,12 +57,11 @@
                           <td>{{ index + 1 }}</td>
                           <td>{{ point.card_number }}</td>
                           <td>{{ point.fname }} {{ point.mname }} {{ point.lname }}</td>
-                          <td>{{ point.product_code }}</td>
                           <td>{{ point.product_price }}</td>
                           <td>{{ point.points }}</td>
                           <td>
                             <div style="display: flex; justify-content: center;">
-                              <router-link :to="`/merchant/loyalty-points/${point.point_id}/edit`" class="btn btn-primary btn-sm  "
+                              <router-link :to="`/merchant/loyalty-stars/${point.point_id}/edit`" class="btn btn-primary btn-sm  "
                                 style="margin-right: 5px;"><i class="fa fa-edit"></i>
                               </router-link>
 

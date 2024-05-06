@@ -45,9 +45,10 @@ Route::post('/logout', [LoginController::class, 'logout']);
 });
 
 
+Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'update']);
-Route::put('/api/stars/update', [StarController::class, 'update']);
-Route::get('/api/stars/{merchant}/edit', [StartPointsController::class, 'edit']);
+Route::get('/api/loyalty-stars/{merchant}/edit', [StartPointsController::class, 'edit']);
+Route::put('/api/loyalty-stars/edit', [StartPointsController::class, 'update']);
 
 // Merchant Route
 Route::get('/api/merchant/points', [PointController::class,'merchantIndex']);

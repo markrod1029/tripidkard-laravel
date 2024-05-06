@@ -8,13 +8,13 @@ use App\Models\Merchant; // Import the Merchant model
 
 class StartPointsController extends Controller
 {
-    public function update(Request $request){
+    public function store(Request $request)
+    {
 
         $validated = $request->validate([
             "id" => "required|exists:stars,id",
             "merchant" => "required",
-            "starsPoints" => "",
-            "otherStarsPoints" => "required_if:starsPoints,Other" // Require otherStarsPoints only if starsPoints is Other
+            "otherStarsPoints" => "required" // Require otherStarsPoints only if starsPoints is Other
         ]);
 
         // Find the Merchant model using the ID provided in the request
@@ -25,11 +25,11 @@ class StartPointsController extends Controller
         $points = $validated['otherStarsPoints'] ?? $validated['starsPoints'];
 
 
-        $newStars = $star->stars - $points ;
+        $newStars = $star->stars - $points;
 
-        $newPoints =  $merchant->stars_points + $points;
+        $newPoints = $merchant->stars_points + $points;
 
-        if($points >  $star->stars){
+        if ($points > $star->stars) {
             return response()->json(['message' => 'Stars exceeded the maximum limit '], 422); // Ayusin ang maximum limit at HTTP status code
         }
 
@@ -40,7 +40,36 @@ class StartPointsController extends Controller
         // Optionally, you can return a response indicating success or failure
         return response()->json(['message' => 'Points updated successfully']);
     }
-    public function edit(Merchant $merchant){
+    public function edit(Merchant $merchant)
+    {
         return $merchant;
     }
+
+    public function update(Request $request)
+    {
+
+        $validated = $request->validate([
+            "id" => "required|exists:stars,id",
+            "merchant" => "required",
+            "starsPoints" => "",
+            "otherStarsPoints" => "required_if:starsPoints,Other" // Require otherStarsPoints only if starsPoints is Other
+        ]);
+
+        $merchant = Merchant::findOrFail($validated['merchant']);
+        $star = Star::findOrFail($validated['id']);
+
+        $points = $validated['otherStarsPoints'];
+        $newStars = $star->stars - $points;
+
+        if ($points > $star->stars) {
+            return response()->json(['message' => 'Stars exceeded the maximum limit '], 422); // Ayusin ang maximum limit at HTTP status code
+        }
+
+        // Update the points attribute of the merchant
+        $merchant->update(['stars_points' => $points]);
+        $star->update(['stars' => $newStars]);
+        return response()->json(['message' => 'Points updated successfully']);
+
+
     }
+}
