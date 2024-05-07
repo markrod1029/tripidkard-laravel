@@ -52,7 +52,8 @@ const routes = [
         name: 'login',
         component: Login,
         meta: {
-            title: 'User Login'
+            title: 'User Login',
+            requiresAuth: false // Adjust as needed
         }
     },
 

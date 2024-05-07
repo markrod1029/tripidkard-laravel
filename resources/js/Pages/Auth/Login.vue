@@ -44,6 +44,9 @@
 </template>
 
 <script setup>
+import  checkSession  from '@/Stores/sessionCheck.js';
+
+checkSession();
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -73,21 +76,21 @@ const showPassword = ref(false);
 const togglePassword = () => {
     showPassword.value = !showPassword.value;
 }
-
 const loginForm = async () => {
     loading.value = true;
     try {
         const response = await axios.post('/login', form.value);
         successMessage.value = response.data.message;
         const role = response.data.role;
+
         if (role === 'Merchant') {
             router.push('/merchant/dashboard');
         } else if (role === 'Enterprise') {
             router.push('/enterprise/dashboard');
         } else if (role === 'Admin') {
             router.push('/admin/dashboard');
-
         } else {
+            // Redirect to login page if no role is specified
             router.push('/login');
         }
     } catch (error) {
@@ -100,7 +103,6 @@ const loginForm = async () => {
         loading.value = false;
     }
 }
-
 </script>
 
 
