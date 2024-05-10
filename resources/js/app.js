@@ -3,14 +3,16 @@ import 'admin-lte/dist/js/adminlte.min.js';
 import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import Routes from './routes.js';
+// import Routes from './routes.js';
+import { routesAdmin, routesMerchant, routesDefault } from './routes.js';
 
 import { createPinia } from 'pinia';
 import { useAuthUserStore } from './Stores/AuthUser';
 
 
 const router = createRouter({
-    routes: Routes,
+    // routes: Routes,
+    routes: [...routesAdmin, ...routesMerchant, ...routesDefault],
     history: createWebHistory(),
 });
 

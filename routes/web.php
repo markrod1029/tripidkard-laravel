@@ -24,12 +24,6 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-});
-
-
-
 
 Route::get('/csrf-token', function () {
     return response()->json(['csrfToken' => csrf_token()]);
