@@ -33,7 +33,7 @@ import Login from './Pages/Auth/Login.vue';
 import NotFound from './Pages/Error/404.vue';
 import Profile from './Pages/Profiles/Information.vue';
 
-import Index from './Pages/Home/Home.vue';
+import Index from './Pages/Home/Dashboard/HomeList.vue';
 import TripidkardDetails from './Pages/Home/Tripidkard.vue';
 import MerchantDetails from './Pages/Home/Merchant.vue';
 import Join from './Pages/Home/Join.vue';
