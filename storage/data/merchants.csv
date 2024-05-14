@@ -1,3 +1,6 @@
 user_id,business_code,card_code,business_name,business_category,business_sub_category,zip,street,city,province,
-3,AEON43W34,2024-0M-00000001,Aeonsprint_Solution,Services,Web Development,2420,herror,Dagupan City, Pangasinan
+3,AEON43W3,2024-0M-00000001,Aeonsprint Solution,Services,Web Development,2420,herror,Dagupan City, Pangasinan
 4,SQY43W34,2024-0M-00000002,SQYZY,Services,Spa,2420,herror,Dagupan City, Pangasinan
+5,SRP23S34,2024-0M-00000003,S&R Printworks,Services,Print,2420,herror,Dagupan City, Pangasinan
+6,VLF23R34,2024-0M-00000004,Villa Leonida Family Resort,Services,Pools,2000,Bugallon,Bugallon, Pangasinan
+7,AMBR43W3,2024-0M-00000005,Ambro Shawarma Resto,Restaurant,Foods,2420,herror,Dagupan City, Pangasinan

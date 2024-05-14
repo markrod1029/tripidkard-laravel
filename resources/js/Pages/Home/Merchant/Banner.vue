@@ -5,11 +5,10 @@
         <div v-for="(image, index) in images" :key="index" class="banner-image" :style="{ zIndex: index, opacity: (index === currentImageIndex) ? 1 : 0 }">
           <img :src="image" alt="Banner Image" class="img-fluid zoom-effect">
           <div class="overlay">
-          <div class="tagline">
 
-            <h1 class="font-weight-bold ">
-                See wonders, Discover secrets, Explore possibilities.
-            </h1></div>
+            <h1 class=" title font-weight-bold ">
+                Comprehensive Guide to Choosing  Merchants
+            </h1>
           </div>
           <!-- <div class="tagline">Your tagline here</div> -->
         </div>
@@ -18,12 +17,12 @@
 
   </template>
 
-  <style>
+  <style scoped>
   .banner-container {
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 88vh; /* Adjust height as needed */
+    height: 35vh; /* Adjust height as needed */
   }
 
   .banner-image {
@@ -46,19 +45,22 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with 70% opacity */
+    background-color: rgba(0, 0, 0, 0.6); /* Black background with 70% opacity */
   }
 
   .tagline {
     position: absolute;
-    left: 5%;
-    top: 30%;
-    width: 60%;
+    top:50%;
+    margin:auto;
+    width: 100%;
+
   }
 
-  .tagline, h1 {
+  .title {
     color: white;
-    font-size: 75px;
+    font-size: 45px;
+    text-align:center;
+    margin-top:7%;
 
   }
 

@@ -34,11 +34,11 @@ import NotFound from './Pages/Error/404.vue';
 import Profile from './Pages/Profiles/Information.vue';
 
 import Index from './Pages/Home/Dashboard/HomeList.vue';
-import TripidkardDetails from './Pages/Home/Tripidkard.vue';
-import MerchantDetails from './Pages/Home/Merchant.vue';
-import Join from './Pages/Home/Join.vue';
-import ContactUs from './Pages/Home/ContactUs.vue';
-import FAQ from './Pages/Home/FAQ.vue';
+import TripidkardDetails from './Pages/Home/Tripidkard/TripidkardList.vue';
+import MerchantDetails from './Pages/Home/Merchant/MerchantList.vue';
+import Join from './Pages/Home/Join/JoinList.vue';
+import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
+import FAQ from './Pages/Home/FAQ/FAQList.vue';
 
 // Admin Routes
 const routesAdmin = [
