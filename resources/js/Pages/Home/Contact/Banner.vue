@@ -7,7 +7,7 @@
           <div class="overlay">
 
             <h1 class=" title font-weight-bold ">
-                Unlock Savings Everywhere with Tripid Kard
+                Reach Out and Connect with Us
             </h1>
           </div>
           <!-- <div class="tagline">Your tagline here</div> -->
@@ -22,7 +22,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 35vh; /* Adjust height as needed */
+    height: 40vh; /* Adjust height as needed */
   }
 
   .banner-image {
@@ -48,19 +48,11 @@
     background-color: rgba(0, 0, 0, 0.6); /* Black background with 70% opacity */
   }
 
-  .tagline {
-    position: absolute;
-    top:50%;
-    margin:auto;
-    width: 100%;
-
-  }
-
   .title {
     color: white;
     font-size: 45px;
     text-align:center;
-    margin-top:7%;
+    margin-top:11%;
 
   }
 

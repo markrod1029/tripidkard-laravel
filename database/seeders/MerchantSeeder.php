@@ -13,7 +13,7 @@ class MerchantSeeder extends Seeder
      */
     public function run(): void
     {
-     
+
         $csvFilePath = base_path('storage/data/merchants.csv');
         $file = fopen($csvFilePath, 'r');
 
@@ -33,7 +33,7 @@ class MerchantSeeder extends Seeder
                 'city' => $data[8],
                 'province' => $data[9]
             ]);
-        
+
         endwhile;
 
     }

@@ -23,7 +23,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 88vh; /* Adjust height as needed */
+    height: 100vh; /* Adjust height as needed */
   }
 
   .banner-image {

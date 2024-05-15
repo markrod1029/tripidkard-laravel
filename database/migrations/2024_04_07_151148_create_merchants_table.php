@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('business_category');
             $table->string('business_sub_category');
             $table->integer('stars_points')->default(0);
-            $table->string('zip');
-            $table->string('street');
-            $table->string('city');
-            $table->string('province');
+            $table->string('zip')->nullable();
+            $table->string('street')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
         });

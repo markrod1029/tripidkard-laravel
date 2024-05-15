@@ -9,15 +9,27 @@ use Illuminate\Support\Facades\DB;
 
 class MerchantController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $searchFields = [
-            'card_code', 'business_code', 'business_name', 'business_category',
-            'zip', 'street', 'city', 'province', 'stars_points', 'users.fname', 'users.mname',
-            'users.lname', 'users.contact', 'users.email'
+            'card_code',
+            'business_code',
+            'business_name',
+            'business_category',
+            'zip',
+            'street',
+            'city',
+            'province',
+            'stars_points',
+            'users.fname',
+            'users.mname',
+            'users.lname',
+            'users.contact',
+            'users.email'
         ];
 
         $merchants = Merchant::query()
-        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
             ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
             ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
                 $query->where(function ($query) use ($searchFields, $searchQuery) {
@@ -26,6 +38,7 @@ class MerchantController extends Controller
                     }
                 });
             })
+            ->where('users.status', '!=', '0')
             ->get();
 
         return response()->json($merchants);
@@ -33,7 +46,8 @@ class MerchantController extends Controller
 
 
 
-    function generateRandomStringWithNumbers($length) {
+    function generateRandomStringWithNumbers($length)
+    {
         $characters = '0123456789';
         $randomString = '';
 
@@ -44,7 +58,8 @@ class MerchantController extends Controller
         return $randomString;
     }
 
-    function generateBusinessCode($businessName, $length = 8) {
+    function generateBusinessCode($businessName, $length = 8)
+    {
         // Remove spaces from the business name
         $businessName = str_replace(' ', '', $businessName);
 
@@ -75,56 +90,77 @@ class MerchantController extends Controller
         return $currentYear . '-0M-' . str_pad($lastSerialNumber, 7, '0', STR_PAD_LEFT);
     }
 
-    public function store(Request $request) {
-
-        // dd($request->all());
-
-        $validate = $request->validate([
-            'fname' => 'required',
-            'lname' => 'required',
-            'contact' => 'required',
-            'email' => 'required|unique:users,email',
+    public function store(Request $request)
+    {
+        // Separate validation for Merchant
+        $merchantValidation = $request->validate([
             'business_name' => 'required',
             'business_category' => 'required',
             'business_sub_category' => 'required',
-            'zip' => 'required',
-            'street' => 'required',
-            'city' => 'required',
-            'province' => 'required',
-        ]);
-        $businessCode = $this->generateBusinessCode($validate['business_name']);
-        $cardCode = $this->generateCardCode();
-
-        $user =  User::create([
-            'fname' => $validate['fname'],  // Dapat ito ay 'mname' base sa iyong design
-            'mname' => request('mname'),     // Dapat ito ay 'fname' base sa iyong design
-            'lname' => $validate['lname'],
-            'contact' => $validate['contact'],
-            'email' => $validate['email'],
-            'password' => bcrypt($businessCode), // Hindi ito isang magandang ideya. Gumamit ka ng unique field para sa password
-            'role' => 'Merchant',
-            'status' => 1,
+            'zip' => '',
+            'street' => '',
+            'city' => '',
+            'province' => '',
         ]);
 
+        // Start a database transaction
+        DB::beginTransaction();
 
-        Merchant::create([
-            'user_id' =>  $user->id,
-            'business_code' => $businessCode,
-            'card_code' => $cardCode,
-            'business_name' => $validate['business_name'], // Dapat ito ay $validate['business_name']
-            'business_category' => $validate['business_category'], // Dapat ito ay $validate['business_category']
-            'business_sub_category' => $validate['business_sub_category'], // Dapat ito ay $validate['business_sub_category']
-            'zip' => $validate['zip'],
-            'street' => $validate['street'],
-            'city' => $validate['city'],
-            'province' => $validate['province'],
-        ]);
+        try {
+            // Validate User
+            $userValidation = $request->validate([
+                'fname' => 'required',
+                'lname' => 'required',
+                'contact' => 'required',
+                'email' => 'required|unique:users,email',
+            ]);
 
-        return response()->json(['message' => 'success']);
+            // Generate business code and card code
+            $businessCode = $this->generateBusinessCode($merchantValidation['business_name']);
+            $cardCode = $this->generateCardCode();
 
+            // Create User
+            $user = User::create([
+                'fname' => $userValidation['fname'],
+                'mname' => request('mname'),
+                'lname' => $userValidation['lname'],
+                'contact' => $userValidation['contact'],
+                'email' => $userValidation['email'],
+                'password' => bcrypt($businessCode),
+                'role' => 'Merchant',
+                'status' => 0,
+            ]);
+
+            // Create Merchant
+            Merchant::create([
+                'user_id' => $user->id,
+                'business_code' => $businessCode,
+                'card_code' => $cardCode,
+                'business_name' => $merchantValidation['business_name'],
+                'business_category' => $merchantValidation['business_category'],
+                'business_sub_category' => $merchantValidation['business_sub_category'],
+                'zip' => request('zip'),
+                'street' => request('street'),
+                'city' => request('city'),
+                'province' => request('province'),
+            ]);
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['message' => 'success']);
+        } catch (\Exception $e) {
+            // Rollback the transaction and delete the user
+            DB::rollback();
+            if (isset($user)) {
+                $user->delete();
+            }
+            return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
+        }
     }
 
-    public function edit(Merchant $merchant) {
+    public function edit(Merchant $merchant)
+    {
         // Kunin ang merchant kasama ang impormasyon ng user
         $merchantWithUser = Merchant::with('user:id,fname,mname,lname,contact,email')
             ->findOrFail($merchant->id);
@@ -132,13 +168,14 @@ class MerchantController extends Controller
         return $merchantWithUser;
     }
 
-    public function update(Request $request, Merchant $merchant){
+    public function update(Request $request, Merchant $merchant)
+    {
 
         $validate = $request->validate([
             'fname' => 'required',
             'lname' => 'required',
             'contact' => 'required',
-            'email' => 'required|unique:users,email,'.$merchant->user->id,
+            'email' => 'required|unique:users,email,' . $merchant->user->id,
             'business_name' => 'required',
             'business_category' => 'required',
             'business_sub_category' => 'required',

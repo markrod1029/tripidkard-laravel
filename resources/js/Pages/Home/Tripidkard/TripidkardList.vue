@@ -3,7 +3,7 @@
     <MenuBar/>
     <Banner/>
     <Details/>
-    <h1>{{ $route.meta.title }}</h1>
+    <FAQ/>
 
     <Footer />
 
@@ -12,13 +12,15 @@
     <script>
     import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
     import Banner from '@//Pages/Home/Tripidkard/Banner.vue';
-    import Details from '@//Pages/Home/Tripidkard/Details.vue';
+    import Details from '@/Pages/Home/Tripidkard/Details.vue';
+    import FAQ from '@/Pages/Home/Tripidkard/FAQ.vue';
     import Footer from '@/Components/Organisims/Home/Footer.vue';
     export default {
 
         components: {
             MenuBar,
             Banner,
+            FAQ,
             Details,
             Footer,
         },

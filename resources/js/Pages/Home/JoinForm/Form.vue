@@ -1,0 +1,217 @@
+<template>
+    <div class="py-3 py-md-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="bg-white p-4 p-md-5 rounded shadow-lg">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center mb-5">
+                                    <a href="#!">
+                                        <h3 class="text-dark font-weight-bold">Merchant Information</h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error and Success Messages -->
+                        <div class='alert alert-danger alert-dismissible' v-if="errorMessage">
+                            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
+                                @click="errorMessage = ''">&times;</button>
+                            {{ errorMessage }}
+                        </div>
+                        <div class='alert alert-success alert-dismissible' v-if="successMessage">
+                            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
+                                @click="successMessage = ''">&times;</button>
+                            {{ successMessage }}
+                        </div>
+
+                        <!-- Merchant Information Form -->
+                        <form @submit.prevent="createMerchants">
+                            <div class="row gy-3">
+                                <!-- First Name -->
+                                <div class="col-12 mb-3">
+                                    <label for="firstName" class="form-label">First Name <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="firstName" id="firstName"
+                                            v-model="form.fname" required>
+                                    </div>
+                                </div>
+                                <!-- Middle Name -->
+                                <div class="col-12 mb-3">
+                                    <label for="middleName" class="form-label">Middle Name</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="middleName" id="middleName"
+                                            v-model="form.mname" placeholder="Optional">
+                                    </div>
+                                </div>
+                                <!-- Last Name -->
+                                <div class="col-12 mb-3">
+                                    <label for="lastName" class="form-label">Last Name <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="lastName" id="lastName"
+                                            v-model="form.lname" required>
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="col-12 mb-3">
+                                    <label for="email" class="form-label">Email <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" name="email" id="email"
+                                            v-model="form.email" required>
+                                    </div>
+                                </div>
+                                <!-- Phone Number -->
+                                <div class="col-12 mb-3">
+                                    <label for="phoneNumber" class="form-label">Phone Number <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"
+                                            v-model="form.contact" required>
+                                    </div>
+                                </div>
+                                <!-- Business Name -->
+                                <div class="col-12 mb-3">
+                                    <label for="businessName" class="form-label">Business Name <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="businessName" id="businessName"
+                                            v-model="form.business_name" required>
+                                    </div>
+                                </div>
+                                <!-- Business Category Dropdown -->
+                                <div class="col-12 mb-3">
+                                    <label for="businessCategory" class="form-label">Business Category <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="businessCategory"
+                                            v-model="form.business_category" @change="updateSubCategories" required>
+                                            <option value="">Select Business Category</option>
+                                            <option v-for="(subcategories, category) in categories" :key="category"
+                                                :value="category">{{ category }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Business Sub Category Dropdown -->
+                                <div class="col-12 mb-3">
+                                    <label for="businessSubCategory" class="form-label">Business Sub Category <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <select class="form-control" id="businessSubCategory"
+                                            v-model="form.business_sub_category" required>
+                                            <option value="">Select Business Sub Category</option>
+                                            <option v-for="subCategory in subCategories" :key="subCategory"
+                                                :value="subCategory">{{ subCategory }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- City -->
+                                <div class="col-12 mb-3">
+                                    <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="city" id="city"
+                                            v-model="form.city" required>
+                                    </div>
+                                </div>
+                                <!-- Province -->
+                                <div class="col-12 mb-3">
+                                    <label for="province" class="form-label">Province <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="province" id="province"
+                                            v-model="form.province" required>
+                                    </div>
+                                </div>
+                                <!-- Button -->
+                                <div class="col-12 mt-2 d-flex justify-content-center">
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary btn-lg btn-block px-5"
+                                            type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useToastr } from '@/toastr.js';
+
+const router = useRouter();
+const toastr = useToastr();
+
+const form = ref({
+    fname: '',
+    mname: '',
+    lname: '',
+    contact: '',
+    email: '',
+    business_name: '',
+    business_category: '',
+    business_sub_category: '',
+    city: '',
+    province: '',
+});
+const categories = ref({
+    'Retail': ['Clothing', 'Electronics', 'Groceries', 'Furniture', 'Books'],
+    'Food and Beverage': ['Restaurants', 'Cafes', 'Bars', 'Fast Food', 'Bakeries'],
+    'Health and Wellness': ['Gyms', 'Yoga Studios', 'Spas', 'Nutritionists', 'Health Clinics'],
+    'Beauty and Personal Care': ['Hair Salons', 'Nail Salons', 'Skincare', 'Cosmetics', 'Barber Shops'],
+    'Travel and Leisure': ['Hotels', 'Travel Agencies', 'Tour Operators', 'Cruise Lines', 'Adventure Sports'],
+    'Entertainment': ['Movie Theaters', 'Music Venues', 'Amusement Parks', 'Casinos', 'Art Galleries'],
+    'Automotive': ['Car Dealerships', 'Auto Repair', 'Car Rentals', 'Car Wash', 'Auto Parts'],
+    'Home and Garden': ['Home Decor', 'Gardening Supplies', 'Hardware Stores', 'Furniture Stores', 'Cleaning Services'],
+    'Electronics and Gadgets': ['Mobile Phones', 'Computers', 'Home Appliances', 'Audio Equipment', 'Camera Equipment'],
+    'Fashion and Apparel': ['Men\'s Clothing', 'Women\'s Clothing', 'Kids\' Clothing', 'Shoes', 'Accessories'],
+    'Financial Services': ['Banks', 'Insurance', 'Investment Services', 'Accounting', 'Financial Advisors'],
+    'Professional Services': ['Legal Services', 'Consulting', 'Marketing', 'Human Resources', 'IT Services'],
+    'Education and Training': ['Schools', 'Colleges', 'Online Courses', 'Vocational Training', 'Tutoring'],
+    'Technology': ['Software Development', 'IT Support', 'Web Design', 'Cybersecurity', 'Tech Consulting'],
+    'Real Estate': ['Residential Sales', 'Commercial Sales', 'Property Management', 'Real Estate Agencies', 'Real Estate Investment'],
+    'Hospitality': ['Hotels', 'Motels', 'Bed and Breakfasts', 'Hostels', 'Resorts'],
+    'Sports and Recreation': ['Gyms', 'Sports Clubs', 'Outdoor Activities', 'Equipment Rentals', 'Fitness Classes'],
+    'Pet Services': ['Veterinary Clinics', 'Pet Grooming', 'Pet Boarding', 'Pet Training', 'Pet Supplies'],
+    'Media and Advertising': ['Advertising Agencies', 'Digital Marketing', 'Print Media', 'Television', 'Radio'],
+    'Non-Profit and Community Services': ['Charities', 'Community Centers', 'Social Services', 'Environmental Organizations', 'Cultural Organizations']
+});
+
+const subCategories = ref([]);
+
+const updateSubCategories = () => {
+    subCategories.value = categories.value[form.value.business_category] || [];
+};
+
+const errorMessage = ref('');
+const successMessage = ref('');
+
+const createMerchants = async () => {
+    try {
+        const response = await axios.post('/api/merchants/create', form.value);
+        router.push('/merchants');
+        successMessage.value = response.data.message;
+        toastr.success('Merchant Added Successfully');
+    } catch (error) {
+        if (error.response && error.response.data.error) {
+            errorMessage.value = error.response.data.error;
+        } else {
+            errorMessage.value = 'An error occurred while processing your request.';
+        }
+    }
+}
+</script>
+
+<style scoped>
+.text-gray {
+    color: gray;
+}
+</style>

@@ -36,9 +36,13 @@ import Profile from './Pages/Profiles/Information.vue';
 import Index from './Pages/Home/Dashboard/HomeList.vue';
 import TripidkardDetails from './Pages/Home/Tripidkard/TripidkardList.vue';
 import MerchantDetails from './Pages/Home/Merchant/MerchantList.vue';
-import Join from './Pages/Home/Join/JoinList.vue';
+import JoinForm from './Pages/Home/JoinForm/JoinList.vue';
 import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
 import FAQ from './Pages/Home/FAQ/FAQList.vue';
+
+import Raffle from './Pages/Home/JoinTheFun/Raffle.vue';
+import Points from './Pages/Home/JoinTheFun/Points.vue';
+import Events from './Pages/Home/JoinTheFun/Events.vue';
 
 // Admin Routes
 const routesAdmin = [
@@ -342,12 +346,44 @@ const routesDefault = [
     {
         path: '/join',
         name:'join',
-        component: Join,
+        component: JoinForm,
         meta: {
             title: 'Join Now'
         },
 
     },
+
+
+    {
+        path: '/join-the-fun/raffle',
+        name:'join-the-fun.join',
+        component: Raffle,
+        meta: {
+            title: 'Join The Raffle'
+        },
+
+    },
+
+    {
+        path: '/join-the-fun/points',
+        name:'join-the-fun.points',
+        component: Points,
+        meta: {
+            title: 'loyalty Stars'
+        },
+
+    },
+
+    {
+        path: '/join-the-fun/events',
+        name:'join-the-fun.events',
+        component: Events,
+        meta: {
+            title: 'Upcoming Events'
+        },
+
+    },
+
 
     {
         path: '/contact-us',

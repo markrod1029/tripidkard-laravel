@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- Navigation bar -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-light" style="height: 12vh;  font-family: Poppins, sans-serif; font-size:15px; font-weight: bold;">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top" style="height: 12vh;  font-family: Poppins, sans-serif; font-size:15px; font-weight: bold; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="container">
           <!-- Logo aligned to the left -->
           <a class="navbar-brand" href="/">
@@ -13,7 +13,7 @@
             <!-- Bootstrap classes for hiding text on smaller screens -->
             <span class="sr-only">Toggle navigation</span>
             <!-- Font Awesome icon for the toggle button -->
-            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+            <span class="navbar-toggler-icon" style="color: black;"></span>
           </button>
 
           <!-- Navigation links aligned to the right -->
@@ -36,7 +36,6 @@
               <li class="nav-item">
                 <router-link class="nav-link  text-uppercase btn btn-primary font-weight-bold" style="font-size:13px;" to="/login">Merchant Login</router-link>
               </li>
-
             </ul>
           </div>
         </div>

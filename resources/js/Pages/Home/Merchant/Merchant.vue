@@ -18,7 +18,7 @@
 
             <div class="row">
               <!-- Merchants cards here -->
-              <div class="col-md-4 mb-4" style="overflow: hidden;" v-for="(merchant) in merchants" :key="merchant.id">
+              <div class="col-md-4 mb-  4" style="overflow: hidden;" v-for="(merchant) in merchants" :key="merchant.id">
                 <div class="card float-left">
                   <img src="https://via.placeholder.com/640x360" class="card-img-top" alt="...">
                   <div class="card-body">

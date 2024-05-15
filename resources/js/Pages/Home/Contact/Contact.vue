@@ -3,7 +3,7 @@
     <!-- Contact 5 - Bootstrap Brain Component -->
     <section class="py-3 py-md-5 py-xl-8">
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row gy-4 gy-md-5 gy-lg-0 align-items-md-center">
 
                 <!-- Contact Form Column -->
@@ -67,8 +67,7 @@
                                         </div>
                                         <div>
                                             <h4 class="mb-2">Phone</h4>
-                                            <p class="mb-2">Please speak with us directly.</p>
-                                            <hr class="w-75 mb-3 border-dark-subtle">
+                                            <hr class=" mb-3 border-dark-subtle">
                                             <p class="mb-0">
                                                 <a class="link-secondary text-decoration-none"
                                                     href="tel:+09569908000">+639569908000</a>
@@ -89,8 +88,7 @@
                                         </div>
                                         <div>
                                             <h4 class="mb-2">Email</h4>
-                                            <p class="mb-2">We look forward to hearing from you online.</p>
-                                            <hr class="w-75 mb-3 border-dark-subtle">
+                                            <hr class=" mb-3 border-dark-subtle">
                                             <p class="mb-0">
                                                 <a class="link-secondary text-decoration-none"
                                                     href="mailto:aeon.redstone@gmail.com">aeon.redstone@gmail.com</a>
@@ -115,9 +113,7 @@
                                         </div>
                                         <div>
                                             <h4 class="mb-2">Visit</h4>
-                                            <p class="mb-2">Please stop by our office for a face to face Consultation.
-                                            </p>
-                                            <hr class="w-75 mb-3 border-dark-subtle">
+                                            <hr class=" mb-3 border-dark-subtle">
                                             <p class="mb-0">
                                                 <a class="link-secondary text-decoration-none" href="#">Perez Blvd,
                                                     Dagupan, Pangasinan</a>
@@ -137,8 +133,7 @@
                                         </div>
                                         <div>
                                             <h4 class="mb-2">Social Media</h4>
-                                            <p class="mb-2">We look forward to hearing from you online Chat.</p>
-                                            <hr class="w-75 mb-3 border-dark-subtle">
+                                            <hr class=" mb-3 border-dark-subtle">
                                             <p class="mb-0">
                                                 <a class="link-secondary text-decoration-none"
                                                     href="https://www.facebook.com/TripidKard.Pangasinan"> Tripidkard
