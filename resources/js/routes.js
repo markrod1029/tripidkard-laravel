@@ -36,9 +36,9 @@ import Profile from './Pages/Profiles/Information.vue';
 import Index from './Pages/Home/Dashboard/HomeList.vue';
 import TripidkardDetails from './Pages/Home/Tripidkard/TripidkardList.vue';
 import MerchantDetails from './Pages/Home/Merchant/MerchantList.vue';
+import MerchantWeb from './Pages/Home/Websites/MerchantWeb.vue';
 import JoinForm from './Pages/Home/JoinForm/JoinList.vue';
 import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
-import FAQ from './Pages/Home/FAQ/FAQList.vue';
 import MerchantResultCity from './Pages/Home/Result/MerchantResultCity.vue';
 import MerchantResultProvince from './Pages/Home/Result/MerchantResultProvince.vue';
 
@@ -344,6 +344,21 @@ const routesDefault = [
 
     },
 
+    {
+        path: '/merchants/:id/:name',
+        name:'merchants.name',
+        component: MerchantWeb,
+        meta: {
+            title: 'Merchant Website'
+        },
+
+    },
+
+
+
+
+
+
 
     {
         path: '/join',
@@ -397,15 +412,6 @@ const routesDefault = [
 
     },
 
-    {
-        path: '/faq',
-        name:'faq',
-        component: FAQ,
-        meta: {
-            title: 'Frequently asked questions (FAQ) '
-        },
-
-    },
 
     {
         path: '/merchant-result-province',
@@ -424,6 +430,8 @@ const routesDefault = [
             title: 'Merchant Result City'
         },
       },
+
+
 
 
     {

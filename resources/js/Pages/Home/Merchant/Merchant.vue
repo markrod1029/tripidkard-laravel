@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h2 class="text-center mt-5 mb-4 font-weight-bold" style="font-size: 2.3rem; font-family: 'Arial', sans-serif;">
-           {{ route.query.province }} Affiliate Merchants
+            {{ route.query.province }} Affiliate Merchants
         </h2>
 
         <div id="merchantCarousel" class="carousel slide" data-ride="carousel">
@@ -25,7 +25,10 @@
                             <div class="card float-left">
                                 <img src="https://via.placeholder.com/640x360" class="card-img-top" alt="...">
                                 <div class="card-body">
+                                    <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
+
                                     <h5 class="card-title mb-3 font-weight-bold">{{ merchant.business_name }}</h5>
+                                    </router-link>
                                     <div>
                                         <p class="card-text my-2"><i class="fas fa-percent text-gray"
                                                 style="font-size:12px;"></i> &nbsp; {{ merchant.discount }}% Discount
@@ -38,13 +41,18 @@
                                     <div>
                                         <p class="card-text mt-2 mb-3"><i class="fa fa-map-marker text-gray"
                                                 style="font-size:12px;"></i> &nbsp; {{ merchant.zip }} {{
-                                    merchant.street }} {{ merchant.city }} {{ merchant.province }}</p>
+                                                    merchant.street }} {{ merchant.city }} {{ merchant.province }}</p>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center border-top pt-2">
+
+                                    <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
+
+                                    <div class="d-flex justify-content-between align-items-center border-top pt-2 text-dark">
                                         <span>{{ merchant.business_category }} > {{ merchant.business_sub_category
                                             }}</span>
                                         <i class="text-gray fas fa-eye" style="font-size:15px;"></i>
                                     </div>
+                                </router-link>
+
                                 </div>
                             </div>
                         </div>
@@ -53,14 +61,6 @@
                 </div>
                 <!-- Add more carousel items as needed -->
             </div>
-            <a class="carousel-control-prev" href="#merchantCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#merchantCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
 </template>

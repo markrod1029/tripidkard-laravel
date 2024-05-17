@@ -53,16 +53,9 @@ class MerchantController extends Controller
         ->when(request("province"), function ($query, $province) {
             $query->where("province", "like","%{$province}%");
         })
-
-        ->when(request('location'), function ($query, $location) {
-            $query->where(function ($query) use ($location) {
-                $query->orWhere('zip', 'like', "%{$location}%")
-                      ->orWhere('street', 'like', "%{$location}%")
-                      ->orWhere('city', 'like', "%{$location}%")
-                      ->orWhere('province', 'like', "%{$location}%");
-            });
-        })
         ->where('users.status', '!=', '0')
+        ->orderBy('stars_points', 'desc')
+        ->orderBy('discount', 'desc')
         ->get();
 
     return response()->json($merchants);
@@ -187,6 +180,7 @@ class MerchantController extends Controller
 
     public function edit(Merchant $merchant)
     {
+
         // Kunin ang merchant kasama ang impormasyon ng user
         $merchantWithUser = Merchant::with('user:id,fname,mname,lname,contact,email')
             ->findOrFail($merchant->id);
