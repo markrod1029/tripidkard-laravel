@@ -39,6 +39,8 @@ import MerchantDetails from './Pages/Home/Merchant/MerchantList.vue';
 import JoinForm from './Pages/Home/JoinForm/JoinList.vue';
 import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
 import FAQ from './Pages/Home/FAQ/FAQList.vue';
+import MerchantResultCity from './Pages/Home/Result/MerchantResultCity.vue';
+import MerchantResultProvince from './Pages/Home/Result/MerchantResultProvince.vue';
 
 import Raffle from './Pages/Home/JoinTheFun/Raffle.vue';
 import Points from './Pages/Home/JoinTheFun/Points.vue';
@@ -400,10 +402,29 @@ const routesDefault = [
         name:'faq',
         component: FAQ,
         meta: {
-            title: 'equently asked questions (FAQ) '
+            title: 'Frequently asked questions (FAQ) '
         },
 
     },
+
+    {
+        path: '/merchant-result-province',
+        name: 'MerchantResultProvince',
+        component: MerchantResultProvince,
+        meta: {
+            title: 'Merchant Result Province'
+        },
+      },
+
+      {
+        path: '/merchant-result-city',
+        name: 'MerchantResultCity',
+        component: MerchantResultCity,
+        meta: {
+            title: 'Merchant Result City'
+        },
+      },
+
 
     {
         path: '/login/',

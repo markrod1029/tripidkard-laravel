@@ -19,7 +19,11 @@
           <!-- Navigation links aligned to the right -->
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto"> <!-- Add ml-auto class here -->
-              <li class="nav-item active">
+                <li class="nav-item active">
+                <router-link class="nav-link text-dark text-uppercase" to="/">Home</router-link>
+              </li>
+
+                <li class="nav-item active">
                 <router-link class="nav-link text-dark text-uppercase" to="/tripidkard">Tripidkard</router-link>
               </li>
               <li class="nav-item">

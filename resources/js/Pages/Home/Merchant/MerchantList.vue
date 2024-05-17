@@ -2,37 +2,40 @@
 
 <template>
     <div>
-      <MenuBar/>
-      <Banner/>
-      <Merchant/>
-      <Footer/>
+        <MenuBar />
+        <Banner />
+        <Search />
+        <Merchant />
+        <Footer />
 
-      <!-- Include the modal subscription component -->
-      <ModalSubscription/>
+        <!-- Include the modal subscription component -->
+        <!-- <ModalSubscription /> -->
     </div>
-  </template>
+</template>
 
-  <script>
-  import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
-  import Banner from '@//Pages/Home/Merchant/Banner.vue';
-  import Merchant from '@/Pages/Home/Merchant/Merchant.vue';
-  import Footer from '@/Components/Organisims/Home/Footer.vue';
+<script>
+import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
+import Banner from '@//Pages/Home/Merchant/Banner.vue';
+import Search from '@/Components/Molecules/Search/ProvinceSearch.vue';
+import Merchant from '@/Pages/Home/Merchant/Merchant.vue';
+import Footer from '@/Components/Organisims/Home/Footer.vue';
 
-  // Import the modal subscription component
-  import ModalSubscription from '@/Pages/Home/Merchant/ModalSubscription.vue';
+// Import the modal subscription component
+import ModalSubscription from '@/Pages/Home/Merchant/ModalSubscription.vue';
 
-  export default {
+export default {
     components: {
-      MenuBar,
-      Banner,
-      Merchant,
-      Footer,
-      // Register the modal subscription component
-      ModalSubscription,
+        MenuBar,
+        Banner,
+        Search,
+        Merchant,
+        Footer,
+        // Register the modal subscription component
+        ModalSubscription,
     },
-  };
-  </script>
+};
+</script>
 
-  <style scoped>
-  /* Add your component-specific styles here */
-  </style>
+<style scoped>
+/* Add your component-specific styles here */
+</style>

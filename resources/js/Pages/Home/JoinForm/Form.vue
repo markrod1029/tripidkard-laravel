@@ -73,6 +73,17 @@
                                             v-model="form.contact" required>
                                     </div>
                                 </div>
+
+                                <!-- DTI No -->
+                                <div class="col-12 mb-3">
+                                    <label for="dtiNo" class="form-label">DTI No <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="dtiNo" id="dtiNo"
+                                            v-model="form.dtiNo" required>
+                                    </div>
+                                </div>
+
                                 <!-- Business Name -->
                                 <div class="col-12 mb-3">
                                     <label for="businessName" class="form-label">Business Name <span
@@ -92,25 +103,43 @@
                                             <option value="">Select Business Category</option>
                                             <option v-for="(subcategories, category) in categories" :key="category"
                                                 :value="category">{{ category }}</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
                                 </div>
-                                <!-- Business Sub Category Dropdown -->
+                                <!-- Business Sub Category -->
                                 <div class="col-12 mb-3">
                                     <label for="businessSubCategory" class="form-label">Business Sub Category <span
                                             class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <select class="form-control" id="businessSubCategory"
-                                            v-model="form.business_sub_category" required>
-                                            <option value="">Select Business Sub Category</option>
-                                            <option v-for="subCategory in subCategories" :key="subCategory"
-                                                :value="subCategory">{{ subCategory }}</option>
-                                        </select>
+                                        <template v-if="form.business_category === 'Other'">
+                                            <input type="text" class="form-control" id="businessSubCategory"
+                                                v-model="form.business_sub_category" required>
+                                        </template>
+
+                                        <template v-else>
+                                            <select class="form-control" id="businessSubCategory"
+                                                v-model="form.business_sub_category" required>
+                                                <option value="">Select Business Sub Category</option>
+                                                <option v-for="subCategory in subCategories" :key="subCategory"
+                                                    :value="subCategory">{{ subCategory }}</option>
+                                            </select>
+                                        </template>
+                                    </div>
+                                </div>
+                                <!-- Street -->
+                                <div class="col-12 mb-3">
+                                    <label for="street" class="form-label">Street <span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="street" id="street"
+                                            v-model="form.street" required>
                                     </div>
                                 </div>
                                 <!-- City -->
                                 <div class="col-12 mb-3">
-                                    <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                                    <label for="city" class="form-label">City/Town <span
+                                            class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="city" id="city"
                                             v-model="form.city" required>
@@ -156,9 +185,11 @@ const form = ref({
     lname: '',
     contact: '',
     email: '',
+    dtiNo: '',
     business_name: '',
     business_category: '',
     business_sub_category: '',
+    street: '',
     city: '',
     province: '',
 });
@@ -188,7 +219,12 @@ const categories = ref({
 const subCategories = ref([]);
 
 const updateSubCategories = () => {
-    subCategories.value = categories.value[form.value.business_category] || [];
+    if (form.value.business_category === 'Other') {
+        subCategories.value = [];
+        form.value.business_sub_category = ''; // Reset sub-category when 'Other' is selected
+    } else {
+        subCategories.value = categories.value[form.value.business_category] || [];
+    }
 };
 
 const errorMessage = ref('');

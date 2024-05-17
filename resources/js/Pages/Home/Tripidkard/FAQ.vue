@@ -35,11 +35,16 @@
   import { reactive } from 'vue';
 
   const faqs = reactive([
-    { question: 'What is Tripid Kard?', answer: 'Tripid Kard is a loyalty card that allows you to unlock savings at various merchants.', open: false },
-    { question: 'How do I join?', answer: 'You can join by signing up on our website and purchasing a Tripid Kard.', open: false },
-    { question: 'Where can I use Tripid Kard?', answer: 'Tripid Kard can be used at all participating merchants listed on our website.', open: false },
-    { question: 'Where can I use Tripid Kard?', answer: 'Tripid Kard can be used at all participating merchants listed on our website.', open: false },
-    { question: 'Where can I use Tripid Kard?', answer: 'Tripid Kard can be used at all participating merchants listed on our website.', open: false },
+    { question: 'What is Tripidkard?', answer: 'ripidkard is an online platform that offers exclusive deals, discounts, and promotions for various merchants and services, ranging from dining, travel, leisure, and more', open: false },
+    { question: 'How does Tripidkard work?', answer: 'Tripidkard provides users with access to exclusive discounts and deals by purchasing a membership subscription. Once subscribed, users can explore and redeem offers from a wide range of merchants listed on the platform.', open: false },
+    { question: 'How can I become a member of Tripidkard?', answer: 'To become a Tripidkard member, simply visit our website and sign up for a membership subscription. Choose from our available subscription plans and follow the steps to complete the registration process.', open: false },
+    { question: 'What types of merchants are available on Tripidkard?', answer: 'Tripidkard features a diverse selection of merchants, including restaurants, cafes, hotels, travel agencies, spas, fitness centers, entertainment venues, and more. We partner with various businesses to offer exclusive discounts and deals to our members.', open: false },
+    { question: 'Can I use Tripidkard internationally?', answer: 'While Tripidkard primarily focuses on deals and discounts within the Philippines, some offers may be applicable internationally. Make sure to check the details of each offer for any restrictions or limitations.', open: false },
+    { question: 'How often are new offers added to Tripidkard?', answer: 'New offers and deals are added to Tripidkard regularly, providing members with fresh discounts and promotions to explore. Keep an eye on our platform for the latest updates and additions.', open: false },
+
+
+    { question: 'How can I contact Tripidkard for support or inquiries?', answer: 'For any questions, concerns, or inquiries regarding Tripidkard, you can reach out to our customer support team through the contact information provided on our website. We are here to assist you with any assistance you may need.', open: false },
+    { question: 'Is my personal information secure with Tripidkard?', answer: 'Yes, Tripidkard values the privacy and security of its members personal information. We implement robust security measures to safeguard your data and ensure a safe and secure online experience.', open: false },
   ]);
 
   const toggleFaq = (index) => {

@@ -28,10 +28,11 @@ class MerchantSeeder extends Seeder
                 'business_name' => $data[3],
                 'business_category' => $data[4],
                 'business_sub_category' => $data[5],
-                'zip' => $data[6],
-                'street' => $data[7],
-                'city' => $data[8],
-                'province' => $data[9]
+                'discount' => $data[6],
+                'zip' => $data[7],
+                'street' => $data[8],
+                'city' => $data[9],
+                'province' => $data[10]
             ]);
 
         endwhile;

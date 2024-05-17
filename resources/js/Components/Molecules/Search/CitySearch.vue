@@ -5,11 +5,11 @@
         <p class="search-top__subtitle" style="font-size:18px;">Search for their Best Offer</p>
       </div>
 
-      <form  class="search-form row justify-content-center">
+      <form @submit.prevent="searchMerchants" class="search-form row justify-content-center">
         <div class="col-md-4 mb-3">
           <div class="form-group">
             <div class="directorist-input-box">
-              <input type="text"  class="form-control category-select py-4"
+              <input type="text" v-model="category" class="form-control category-select py-4"
                 placeholder="Select Category">
             </div>
           </div>
@@ -17,8 +17,8 @@
         <div class="col-md-4 mb-3">
           <div class="form-group">
             <div class="directorist-input-box">
-              <input type="text"  class="form-control location-select py-4"
-                placeholder="Select Location">
+              <input type="text" v-model="city" class="form-control city-select py-4"
+                placeholder="Select City">
             </div>
           </div>
         </div>
@@ -33,3 +33,28 @@
 
     </div>
   </template>
+
+  <script>
+  export default {
+    data() {
+      return {
+        category: '',
+        city: '',
+      };
+    },
+    methods: {
+      searchMerchants() {
+        const currentRoute = this.$route;
+        const province = currentRoute.query.province || ''; // Get the province from the current route's query, default to empty string if not present
+        this.$router.push({
+          name: 'MerchantResultCity',
+          query: {
+            province: province,
+            category: this.category,
+            city: this.city
+          }
+        });
+      }
+    }
+  };
+  </script>

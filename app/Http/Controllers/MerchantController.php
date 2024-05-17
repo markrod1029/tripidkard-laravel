@@ -10,39 +10,63 @@ use Illuminate\Support\Facades\DB;
 class MerchantController extends Controller
 {
     public function index()
-    {
-        $searchFields = [
-            'card_code',
-            'business_code',
-            'business_name',
-            'business_category',
-            'zip',
-            'street',
-            'city',
-            'province',
-            'stars_points',
-            'users.fname',
-            'users.mname',
-            'users.lname',
-            'users.contact',
-            'users.email'
-        ];
+{
+    $searchFields = [
+        'card_code',
+        'dti',
+        'business_code',
+        'business_name',
+        'dti',
+        'business_category',
+        'discount',
+        'zip',
+        'street',
+        'city',
+        'province',
+        'stars_points',
+        'users.fname',
+        'users.mname',
+        'users.lname',
+        'users.contact',
+        'users.email'
+    ];
 
-        $merchants = Merchant::query()
-            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
-            ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
-            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-                $query->where(function ($query) use ($searchFields, $searchQuery) {
-                    foreach ($searchFields as $field) {
-                        $query->orWhere($field, 'like', "%{$searchQuery}%");
-                    }
-                });
-            })
-            ->where('users.status', '!=', '0')
-            ->get();
+    $merchants = Merchant::query()
+        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+        ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+            $query->where(function ($query) use ($searchFields, $searchQuery) {
+                foreach ($searchFields as $field) {
+                    $query->orWhere($field, 'like', "%{$searchQuery}%");
+                }
+            });
+        })
+        ->when(request('category'), function ($query, $category) {
+            $query->where('business_category', 'like', "%{$category}%");
+        })
 
-        return response()->json($merchants);
-    }
+
+        ->when(request("city") , function ($query, $city) {
+            $query->where("city", "like","%{$city}%");
+        })
+
+        ->when(request("province"), function ($query, $province) {
+            $query->where("province", "like","%{$province}%");
+        })
+
+        ->when(request('location'), function ($query, $location) {
+            $query->where(function ($query) use ($location) {
+                $query->orWhere('zip', 'like', "%{$location}%")
+                      ->orWhere('street', 'like', "%{$location}%")
+                      ->orWhere('city', 'like', "%{$location}%")
+                      ->orWhere('province', 'like', "%{$location}%");
+            });
+        })
+        ->where('users.status', '!=', '0')
+        ->get();
+
+    return response()->json($merchants);
+}
 
 
 
@@ -94,13 +118,14 @@ class MerchantController extends Controller
     {
         // Separate validation for Merchant
         $merchantValidation = $request->validate([
+            'dtiNo' => 'required',
             'business_name' => 'required',
             'business_category' => 'required',
             'business_sub_category' => 'required',
             'zip' => '',
-            'street' => '',
-            'city' => '',
-            'province' => '',
+            'street' => 'required',
+            'city' => 'required',
+            'province' => 'required',
         ]);
 
         // Start a database transaction
@@ -136,6 +161,7 @@ class MerchantController extends Controller
                 'user_id' => $user->id,
                 'business_code' => $businessCode,
                 'card_code' => $cardCode,
+                'dti' => $merchantValidation['dtiNo'],
                 'business_name' => $merchantValidation['business_name'],
                 'business_category' => $merchantValidation['business_category'],
                 'business_sub_category' => $merchantValidation['business_sub_category'],
