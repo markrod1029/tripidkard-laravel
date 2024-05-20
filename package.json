@@ -22,10 +22,12 @@
         "lodash": "^4.17.21",
         "pinia": "^2.1.7",
         "quagga": "^0.12.1",
+        "quill": "^2.0.2",
         "toastr": "^2.1.4",
         "vue": "^3.4.21",
         "vue-qrcode-reader": "^5.5.3",
         "vue-route": "^1.5.1",
-        "vue-router": "^4.3.0"
+        "vue-router": "^4.3.0",
+        "vue3-quill": "^0.3.1"
     }
 }

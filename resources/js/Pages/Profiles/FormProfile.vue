@@ -3,7 +3,7 @@
     <div class="tab-pane fade show active" id="pills-timeline" role="tabpanel" aria-labelledby="pills-timeline-tab">
         <div class="card-body">
 
-            <form class="form-horizontal form-material" @submit.prevent="updateUsers" method="POST">
+            <form class="form-horizontal form-material" @submit.prevent="updateUsers" method="PUT">
                 <!--  Profile Details  -->
                 <div class="form-group">
                     <label class="col-md-2 text-left control-label col-form-label text-muted">
@@ -93,7 +93,7 @@ watch(() => authUser.users, (newValue) => {
 
 let updateUsers = async () => {
     try {
-        const response = await axios.put('/api/profile/edit', form);
+        const response = await axios.put('/api/profile-information/edit', form);
         const message = response.data.message; // Kunin ang mensahe mula sa response
         toastr.success(message); // Ipakita ang mensahe gamit ang toastr
     } catch (error) {

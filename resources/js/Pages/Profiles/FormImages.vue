@@ -8,7 +8,7 @@
                 <!--  profile/update_business.php -->
 
                 <div class="form-group">
-                    <label class="col-md-12 text-left control-label col-form-label text-muted">Profile Image</label>
+                    <label class="col-md-12 text-left control-label col-form-label text-muted">Logo</label>
                     <div class="col-md-12">
                         <input type="file" class="form-control" onchange="readURL(this);" name="photo" id="imgInp"
                             required>
@@ -37,6 +37,8 @@
 
 
 <script setup>
+
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

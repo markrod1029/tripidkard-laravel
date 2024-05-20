@@ -5,8 +5,8 @@
       <div v-for="(image, index) in images" :key="index" class="banner-image" :style="{ zIndex: index, opacity: (index === currentImageIndex) ? 1 : 0 }">
         <img :src="image" alt="Banner Image" class="img-fluid zoom-effect">
         <div class="overlay">
-          <h1 class="title font-weight-bold">
-            {{ merchant.business_name }}
+          <h1 class="title font-weight-bold container">
+            {{ merchant.tagline }}
           </h1>
         </div>
       </div>

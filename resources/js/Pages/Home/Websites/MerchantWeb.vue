@@ -2,12 +2,13 @@
     <MenuBar />
     <Banner :merchant="merchants" />
     <Description :merchant="merchants"  />
+    <Img :merchant="merchants"  />
     <Map :merchant="merchants" class="mb-5" />
 
-    
+
     <Footer />
   </template>
-  
+
   <script>
   import { reactive, onMounted } from 'vue';
   import axios from 'axios';
@@ -15,14 +16,16 @@
   import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
   import Banner from '@/Pages/Home/Websites/Banner.vue';
   import Description from '@/Pages/Home/Websites/Description.vue';
+  import Img from '@/Pages/Home/Websites/Images.vue';
   import Map from '@/Pages/Home/Websites/Map.vue';
   import Footer from '@/Components/Organisims/Home/Footer.vue';
-  
+
   export default {
     components: {
       MenuBar,
       Banner,
       Description,
+      Img,
       Map,
       Footer,
     },
@@ -42,13 +45,14 @@
         city: '',
         province: '',
         description: '',
+        tagline: '',
         img1: '',
         img2: '',
         img3: '',
       });
-  
+
       const route = useRoute(); // Get the current route
-  
+
       const getMerchants = async () => {
         try {
           const response = await axios.get(`/api/merchants/${route.params.id}/edit`);
@@ -67,6 +71,7 @@
           merchants.city = data.city;
           merchants.province = data.province;
           merchants.description = data.description;
+          merchants.tagline = data.tagline;
           merchants.img1 = data.img1;
           merchants.img2 = data.img2;
           merchants.img3 = data.img3;
@@ -75,20 +80,19 @@
           // Handle the error appropriately
         }
       };
-  
+
       // Fetch merchant data when the component is mounted
       onMounted(() => {
         getMerchants();
       });
-  
+
       return {
         merchants,
       };
     },
   };
   </script>
-  
+
   <style scoped>
   /* Add your component-specific styles here */
   </style>
-  

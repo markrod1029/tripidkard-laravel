@@ -24,6 +24,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-12 text-left control-label col-form-label text-muted">Business Discount</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-control-line" name="business_category"
+                            v-model="form.discount" required>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     <label class="col-md-12 text-left control-label col-form-label text-muted">Business Sub
                         Category</label>
                     <div class="col-md-12">
@@ -35,8 +44,8 @@
                 <div class="form-group">
                     <label class="col-md-12 text-left control-label col-form-label text-muted">City</label>
                     <div class="col-md-12">
-                        <input type="text" class="form-control form-control-line" name="city"
-                            v-model="form.zip" required>
+                        <input type="text" class="form-control form-control-line" name="city" v-model="form.zip"
+                            required>
                     </div>
                 </div>
 
@@ -44,16 +53,16 @@
                 <div class="form-group">
                     <label class="col-md-12 text-left control-label col-form-label text-muted">Street</label>
                     <div class="col-md-12">
-                        <input type="text" class="form-control form-control-line" name="street"
-                            v-model="form.street" required>
+                        <input type="text" class="form-control form-control-line" name="street" v-model="form.street"
+                            required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-12 text-left control-label col-form-label text-muted">City</label>
                     <div class="col-md-12">
-                        <input type="text" class="form-control form-control-line" name="city"
-                            v-model="form.city" required>
+                        <input type="text" class="form-control form-control-line" name="city" v-model="form.city"
+                            required>
                     </div>
                 </div>
 
@@ -67,10 +76,11 @@
 
                 <div class="form-group text-right">
                     <div class="col-sm-12">
-                        <input type="text" class="form-control form-control-line" name="merchant_id"
-                            value="<?php echo $merchant_id; ?>" hidden>
-                        <button class="btn btn-dark wave-light" >Reset</button>
-                        <button class="btn btn-primary ml-2" type="submit" name="update_business">Update Business</button>
+                        <input type="text" class="form-control form-control-line" name="access" v-model="form.access"
+                            hidden>
+                        <button class="btn btn-dark wave-light">Reset</button>
+                        <button class="btn btn-primary ml-2" type="submit" name="update_business">Update
+                            Business</button>
                     </div>
                 </div>
 
@@ -93,9 +103,11 @@ import { useToastr } from '@/toastr';
 const authUser = useAuthUserStore();
 const toastr = useToastr();
 const form = reactive({
+    access: 'information',
     business_name: '',
     business_category: '',
     business_sub_category: '',
+    discount: '',
     zip: '',
     street: '',
     city: '',
@@ -107,6 +119,7 @@ watch(() => authUser.users, (newValue) => {
     form.business_name = newValue.business_name;
     form.business_category = newValue.business_category;
     form.business_sub_category = newValue.business_sub_category;
+    form.discount = newValue.discount;
     form.zip = newValue.zip;
     form.street = newValue.street;
     form.city = newValue.city;
@@ -117,7 +130,7 @@ watch(() => authUser.users, (newValue) => {
 let updateBusiness = async () => {
     try {
         const response = await axios.put('/api/profile-business/edit', form);
-         const message = response.data.message; // Kunin ang mensahe mula sa response
+        const message = response.data.message; // Kunin ang mensahe mula sa response
         toastr.success(message); // Idisplay success
     } catch (error) {
         console.error(error);

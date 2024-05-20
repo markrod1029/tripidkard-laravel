@@ -31,7 +31,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-business-discount-tab" data-toggle="pill"
                                     href="#pills-business-discount" role="tab" aria-controls="pills-business-discount"
-                                    aria-selected="false">Business Discount</a>
+                                    aria-selected="false">Business Description</a>
                             </li>
 
                             <li class="nav-item">
@@ -60,7 +60,7 @@
 
 
                             <!-- Start Business Discount-->
-                            <FormDiscount />
+                            <FormDesciption />
 
                             <!-- End Business -->
 
@@ -98,7 +98,7 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import Profile from '@/Pages/Profiles/ProfileDetails.vue';
 import FormProfile from '@/Pages/Profiles/FormProfile.vue';
 import FormBusiness from '@/Pages/Profiles/FormBusiness.vue';
-import FormDiscount from '@/Pages/Profiles/FormDiscount.vue';
+import FormDesciption from '@/Pages/Profiles/FormDesciption.vue';
 import FormSecurity from '@/Pages/Profiles/FormSecurity.vue';
 import FormImages from '@/Pages/Profiles/FormImages.vue';
 

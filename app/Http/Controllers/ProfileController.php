@@ -6,8 +6,9 @@ use App\Models\User;
 use App\Models\Merchant;
 use App\Models\Enterprise;
 use Illuminate\Http\Request;
-use App\Actions\Account\UpdateUserPasswordAction;
+use Illuminate\Support\Facades\Storage;
 use App\Exceptions\InvalidPasswordException;
+use App\Actions\Account\UpdateUserPasswordAction;
 
 class ProfileController extends Controller
 {
@@ -24,12 +25,15 @@ class ProfileController extends Controller
             $profileDetails['card_code'] = $merchant->card_code;
             $profileDetails['business_name'] = $merchant->business_name;
             $profileDetails['business_category'] = $merchant->business_category;
+            $profileDetails['discount'] = $merchant->discount;
             $profileDetails['stars_points'] = $merchant->stars_points;
             $profileDetails['business_sub_category'] = $merchant->business_sub_category;
             $profileDetails['zip'] = $merchant->zip;
             $profileDetails['street'] = $merchant->street;
             $profileDetails['city'] = $merchant->city;
             $profileDetails['province'] = $merchant->province;
+            $profileDetails['description'] = $merchant->description;
+            $profileDetails['tagline'] = $merchant->tagline;
 
 
         } else if ($user->role === 'Enterprise') {
@@ -77,30 +81,65 @@ class ProfileController extends Controller
             ->select('merchants.*')
             ->first();
 
-
         // Kumpirmahin kung mayroong negosyo na nauugnay sa user
         if (!$business) {
             return response()->json(['message' => 'User does not have associated business'], 404);
         }
 
-        $validate = $request->validate([
-            'business_name' => 'required',
-            'business_category' => 'required',
-            'business_sub_category' => 'required',
-            'zip' => 'required',
-            'street' => 'required',
-            'city' => 'required',
-            'province' => 'required',
-        ]);
+        if ($request->access === 'description') {
 
-        // Kumuha ng mga validated data
-        $validatedData = $request->only(['business_name', 'business_category', 'business_sub_category', 'zip', 'street', 'city', 'province']);
+            // Dito iproseso ang pag-update ng deskripsyon ng negosyo
+            $validate = $request->validate([
+                'discount' => 'required',
+                'description' => 'required',
+                'tagline' => 'required',
+            ]);
+            $validatedData = $request->only(['discount', 'description', 'tagline']);
 
-        // I-update ang impormasyon ng negosyo
-        $business->update($validatedData);
+            // I-update ang impormasyon ng negosyo
+            $business->update($validatedData);
 
-        return response()->json(['message' => 'Business information updated successfully'], 200);
+            return response()->json(['message' => 'Business Description updated successfully'], 200);
+        } else {
+
+            // Dito iproseso ang pag-update ng iba pang impormasyon ng negosyo (e.g., information)
+            $validate = $request->validate([
+                'business_name' => 'required',
+                'business_category' => 'required',
+                'business_sub_category' => 'required',
+                'zip' => 'required',
+                'street' => 'required',
+                'city' => 'required',
+                'province' => 'required',
+            ]);
+            $validatedData = $request->only(['business_name', 'business_category', 'business_sub_category', 'zip', 'street', 'city', 'province']);
+
+            // I-update ang impormasyon ng negosyo
+            $business->update($validatedData);
+
+            return response()->json(['message' => 'Business information updated successfully'], 200);
+        }
     }
+
+
+    public function uploadImage(Request $request)
+    {
+
+        if ($request->hasFile('profile_picture')) {
+
+            $previousPath = $request->user()->getRawOriginal('avatar');
+
+            $link = Storage::put('/photos/logo', $request->file('profile_picture'));
+
+            $request->user()->update(['avatar' => $link]);
+
+            Storage::delete($previousPath);
+
+            return response()->json(['message' => 'Profile Picture Uploaded Successfuly']);
+
+        }
+    }
+
 
     public function changePassword(Request $request, UpdateUserPasswordAction $updater)
     {
@@ -112,7 +151,7 @@ class ProfileController extends Controller
                 'password' => $request->password,
                 'password_confirmation' => $request->passwordConfirmation,
             ]
-            );
-            return response()->json(['message' => 'Password change Successfuly']);
+        );
+        return response()->json(['message' => 'Password change Successfuly']);
     }
 }

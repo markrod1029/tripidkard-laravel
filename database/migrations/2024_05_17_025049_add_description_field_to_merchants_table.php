@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('merchants', function (Blueprint $table) {
-            //
             $table->text('description')->nullable();
             $table->text('tagline')->nullable();
             $table->string('img1')->nullable();
@@ -27,7 +26,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('merchants', function (Blueprint $table) {
-            //
+
+            $table->dropColumn('description');
+            $table->dropColumn('tagline');
+            $table->dropColumn('img1');
+            $table->dropColumn('img2');
+            $table->dropColumn('img3');
         });
     }
 };

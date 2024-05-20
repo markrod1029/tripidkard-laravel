@@ -10,13 +10,13 @@
       <div class="col-md-6">
         <h2 class="font-weight-bold mb-4 text-center">{{ merchant.business_name }}</h2>
         <div class="accordion">
-          <p class="text-gray text-center" style="font-size:19px;">
-            Pangasinan is a province in Ilocos Region of in northern Luzon, the chief island of the Philippines. The capital of Pangasinan is Lingayen. Being in a somewhat fertile plain, the area is known for agricultural products like corn crops carabao milk, duhat wine, nipa hut roofings, tuba and other products.
+          <p class="text-gray " style="font-size:18px;">
+            {{ merchant.description }}
           </p>
           <ul class="list-unstyled mt-4 text-gray" style="font-size:18px;" >
 
             <li class="mb-1">
-              <strong>Business:</strong> {{ merchant.business_category }} > {{ merchant.business_sub_category }} 
+              <strong>Business:</strong> {{ merchant.business_category }} > {{ merchant.business_sub_category }}
             </li>
 
             <li class="mb-1">
