@@ -61,6 +61,46 @@ class MerchantController extends Controller
     return response()->json($merchants);
 }
 
+public function indexPending() {
+    $searchFields = [
+        'card_code',
+        'dti',
+        'business_code',
+        'business_name',
+        'dti',
+        'business_category',
+        'discount',
+        'zip',
+        'street',
+        'city',
+        'province',
+        'stars_points',
+        'users.fname',
+        'users.mname',
+        'users.lname',
+        'users.contact',
+        'users.email'
+    ];
+
+    $merchants = Merchant::query()
+        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+        ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+            $query->where(function ($query) use ($searchFields, $searchQuery) {
+                foreach ($searchFields as $field) {
+                    $query->orWhere($field, 'like', "%{$searchQuery}%");
+                }
+            });
+        })
+        ->where('users.status', '=', '0')
+        ->orderBy('stars_points', 'desc')
+        ->orderBy('discount', 'desc')
+        ->get();
+
+    return response()->json($merchants);
+
+}
+
 
 
     function generateRandomStringWithNumbers($length)
@@ -242,6 +282,14 @@ class MerchantController extends Controller
         }
     }
 
+    public function archive(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+    $status = $request->input('status');
+
+    $user->update(['status' => $status]);
+    return response()->json(['message' => 'Merchant status updated successfully.']);
+}
 
 
 }

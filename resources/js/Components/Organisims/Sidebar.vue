@@ -27,7 +27,8 @@ const authUser = useAuthUserStore();
 
 
                 <div class="info">
-                    <a href="#" class="d-block mt-1 mb-0 text-white text-center font-size:16px;">{{ authUser.users.fname}} {{ authUser.users.mname}} {{ authUser.users.lname}}</a>
+                    <a href="#" class="d-block mt-1 mb-0 text-white text-center font-size:16px;">{{
+                        authUser.users.fname }} {{ authUser.users.mname }} {{ authUser.users.lname }}</a>
                     <a href="#" class="d-block text-white ml-2 font-size:16px; text-center mb-2">{{ authUser.users.role
                         }}</a>
                 </div>
@@ -51,38 +52,38 @@ const authUser = useAuthUserStore();
                         </router-link>
                     </li>
 
-                    <li class="nav-item has-treeview ">
-                        <router-link to="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Enterprise Account
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </router-link>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <router-link to="/admin/enterprise" active-class="active" class="nav-link ">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Enterprise List</p>
-                                </router-link>
-                            </li>
-
-                            <li class="nav-item">
-                                <router-link to="/admin/enterprise/archive" active-class="active" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Enterprise Archive</p>
-                                </router-link>
-                            </li>
-
-                            <li class="nav-item">
-                                <router-link to="/admin/enterprise/register" active-class="active" class="nav-link ">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Enterprise Register </p>
-                                </router-link>
-                            </li>
-
-                        </ul>
-                    </li>
+                    <!-- <li class="nav-item has-treeview "> -->
+                    <!-- <router-link to="#" class="nav-link"> -->
+                    <!-- <i class="nav-icon fas fa-users"></i> -->
+                    <!-- <p> -->
+                    <!-- Enterprise Account -->
+                    <!-- <i class="right fas fa-angle-left"></i> -->
+                    <!-- </p> -->
+                    <!-- </router-link> -->
+                    <!-- <ul class="nav nav-treeview"> -->
+                    <!-- <li class="nav-item"> -->
+                    <!-- <router-link to="/admin/enterprise" active-class="active" class="nav-link "> -->
+                    <!-- <i class="far fa-circle nav-icon"></i> -->
+                    <!-- <p>Enterprise List</p> -->
+                    <!-- </router-link> -->
+                    <!-- </li> -->
+                    <!--  -->
+                    <!-- <li class="nav-item"> -->
+                    <!-- <router-link to="/admin/enterprise/archive" active-class="active" class="nav-link"> -->
+                    <!-- <i class="far fa-circle nav-icon"></i> -->
+                    <!-- <p>Enterprise Archive</p> -->
+                    <!-- </router-link> -->
+                    <!-- </li> -->
+                    <!--  -->
+                    <!-- <li class="nav-item"> -->
+                    <!-- <router-link to="/admin/enterprise/register" active-class="active" class="nav-link "> -->
+                    <!-- <i class="far fa-circle nav-icon"></i> -->
+                    <!-- <p>Enterprise Register </p> -->
+                    <!-- </router-link> -->
+                    <!-- </li> -->
+                    <!--  -->
+                    <!-- </ul> -->
+                    <!-- </li> -->
 
 
 
@@ -96,10 +97,20 @@ const authUser = useAuthUserStore();
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
+
                             <li class="nav-item">
                                 <router-link to="/admin/merchant" active-class="active" class="nav-link ">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Merchant List</p>
+                                    <p>Merchant Pending</p>
+                                </router-link>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <router-link to="/admin/merchant-pending" active-class="active" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Merchant Listing</p>
                                 </router-link>
                             </li>
 

@@ -6,6 +6,7 @@ import AdminEnterprise from './Pages/Admin/Enterprise/EnterpriseList.vue';
 import AdminEnterpriseForm from './Pages/Admin/Enterprise/EnterpriseRegister.vue';
 import AdminEnterpriseArchive from './Pages/Admin/Enterprise/EnterpriseArchive.vue';
 import AdminMerchant from './Pages/Admin/Merchant/MerchantList.vue';
+import AdminMerchantPending from './Pages/Admin/Merchant/MerchantPending.vue';
 import AdminMerchantForm from './Pages/Admin/Merchant/MerchantRegister.vue';
 import AdminMerchantArchive from './Pages/Admin/Merchant/MerchantArchive.vue';
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue';
@@ -101,9 +102,20 @@ const routesAdmin = [
         name: 'admin.merchant',
         component: AdminMerchant,
         meta: {
-            title: 'Merchant List'
+            title: 'Merchant Listing'
         }
     },
+
+    {
+    path: '/admin/merchant-pending/',
+    name: 'admin.merchant-pending',
+    component: AdminMerchantPending,
+    meta: {
+        title: 'Merchant Pending'
+    }
+},
+
+
     {
         path: '/admin/merchant/register',
         name: 'admin.merchant.register',

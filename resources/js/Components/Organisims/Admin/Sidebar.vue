@@ -99,7 +99,7 @@ const authUser = useAuthUserStore();
                             <li class="nav-item">
                                 <router-link to="/admin/merchant" active-class="active" class="nav-link ">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Merchant List</p>
+                                    <p>Merchant Listing</p>
                                 </router-link>
                             </li>
 

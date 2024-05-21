@@ -72,14 +72,16 @@ Route::get('/api/merchant/tripidkards', [CardCodeController::class, 'merchantInd
 Route::post('/api/tripidkards/create', [CardCodeController::class, 'store']);
 
 // Enterprise Route
-Route::get('/api/enterprises', [EnterpriseController::class, 'index']);
-Route::post('/api/enterprises/create', [EnterpriseController::class, 'store']);
-Route::get('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'edit']);
-Route::post('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'update']);
+// Route::get('/api/enterprises', [EnterpriseController::class, 'index']);
+// Route::post('/api/enterprises/create', [EnterpriseController::class, 'store']);
+// Route::get('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'edit']);
+// Route::post('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'update']);
 
 // Merchant Route
 Route::get('/api/merchants', [MerchantController::class, 'index']);
+Route::get('/api/merchants-pending', [MerchantController::class, 'indexPending']);
 Route::post('/api/merchants/create', [MerchantController::class, 'store']);
+Route::put('/api/merchants/{id}', [MerchantController::class, 'archive']);
 Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);
 Route::post('/api/merchants/{merchant}/edit', [MerchantController::class, 'update']);
 
