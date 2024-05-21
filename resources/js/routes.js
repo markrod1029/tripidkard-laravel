@@ -451,6 +451,4 @@ const routesDefault = [
     }
 ];
 
-
-
 export { routesAdmin, routesMerchant, routesDefault };

@@ -7,7 +7,7 @@
           <div class="overlay">
           <div class="tagline">
 
-            <h1 class="font-weight-bold ">
+            <h1 class="font-weight-bold h1-title">
                 See wonders, Discover secrets, Explore possibilities.
             </h1></div>
           </div>
@@ -18,7 +18,7 @@
 
   </template>
 
-  <style>
+  <style scoped>
   .banner-container {
     position: relative;
     width: 100%;
@@ -56,7 +56,7 @@
     width: 60%;
   }
 
-  .tagline, h1 {
+  .tagline, .h1-title {
     color: white;
     font-size: 75px;
 
