@@ -64,7 +64,7 @@ const handleFileChange = async (event) => {
 watch(() => authUser.users.avatar, (newValue, oldValue) => {
     // Update profile picture URL when avatar changes
     profilePictureUrl.value = newValue;
-    console.log(profilePictureUrl.value);
+    
 });
 </script>
 

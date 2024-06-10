@@ -19,7 +19,8 @@ const authUser = useAuthUserStore();
       <div class="user-panel d-flex">
 
         <div class="image" style="position:relative; right:10px;">
-          <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035157.jpg"
+          <img 
+          :src="authUser.users.avatar ? authUser.users.avatar : 'https://via.placeholder.com/640x360'"
             class="img-circle elevation-2" alt="User Image" style="height:55px; width:55px; margin-top:10px">
         </div>
 

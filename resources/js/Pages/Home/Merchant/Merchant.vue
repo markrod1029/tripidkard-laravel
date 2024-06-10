@@ -10,49 +10,39 @@
                     <div class="border rounded p-3 mb-3">
                         <div class="d-flex justify-content-between">
                             <div class="mb-2 d-flex text-gray">
-                                <h5>{{ merchants.length }} {{ route.query.province }} Affiliate Merchants </h5>
+                                <h5>{{ merchants.length }} {{ route.query.province }} Affiliate Merchants</h5>
                             </div>
                             <div class="col-4">
-                                <input type="text" v-model="searchQuery" class="form-control"
-                                    placeholder="Search Merchant..." id="">
+                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search Merchant..." id="">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <!-- Merchants cards here -->
-                        <div class="col-md-4 mb-4" style="overflow: hidden;" v-for="merchant in filteredMerchants"
-                            :key="merchant.id">
+                        <div class="col-md-4 mb-4" style="overflow: hidden;" v-for="merchant in filteredMerchants" :key="merchant.id">
                             <div class="card float-left">
-                                <img src="https://via.placeholder.com/640x360" class="card-img-top" alt="...">
+
+                                <img :src="merchant.avatar ? `storage/${merchant.avatar}` : 'https://via.placeholder.com/510x360'" class="card-img-top" alt="Merchant Avatar">
+                                <!-- <img :src="'storage/photos/logo/rJ4hgBJNQe6J3gYXNYtkgmGjlfm02x9lpUx2VjHR.jpg'" class="card-img-top" alt="Merchant Avatar"> -->
                                 <div class="card-body">
                                     <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
-
-                                    <h5 class="card-title mb-3 font-weight-bold">{{ merchant.business_name }}</h5>
+                                        <h5 class="card-title mb-3 font-weight-bold">{{ merchant.business_name }}</h5>
                                     </router-link>
                                     <div>
-                                        <p class="card-text my-2"><i class="fas fa-percent text-gray"
-                                                style="font-size:12px;"></i> &nbsp; {{ merchant.discount }}% Discount
-                                        </p>
+                                        <p class="card-text my-2"><i class="fas fa-percent text-gray" style="font-size:12px;"></i> &nbsp; {{ merchant.discount }}% Discount</p>
                                     </div>
                                     <div>
-                                        <p class="card-text my-2"><i class="fas fa-envelope text-gray"
-                                                style="font-size:12px;"></i> &nbsp; {{ merchant.email }}</p>
+                                        <p class="card-text my-2"><i class="fas fa-envelope text-gray" style="font-size:12px;"></i> &nbsp; {{ merchant.email }}</p>
                                     </div>
                                     <div>
-                                        <p class="card-text mt-2 mb-3"><i class="fa fa-map-marker text-gray"
-                                                style="font-size:12px;"></i> &nbsp; {{ merchant.zip }} {{
-                                                    merchant.street }} {{ merchant.city }} {{ merchant.province }}</p>
+                                        <p class="card-text mt-2 mb-3"><i class="fa fa-map-marker text-gray" style="font-size:12px;"></i> &nbsp; {{ merchant.zip }} {{ merchant.street }} {{ merchant.city }} {{ merchant.province }}</p>
                                     </div>
-
                                     <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
-
-                                    <div class="d-flex justify-content-between align-items-center border-top pt-2 text-dark">
-                                        <span>{{ merchant.business_category }} > {{ merchant.business_sub_category
-                                            }}</span>
-                                        <i class="text-gray fas fa-eye" style="font-size:15px;"></i>
-                                    </div>
-                                </router-link>
-
+                                        <div class="d-flex justify-content-between align-items-center border-top pt-2 text-dark">
+                                            <span>{{ merchant.business_category }} > {{ merchant.business_sub_category }}</span>
+                                            <i class="text-gray fas fa-eye" style="font-size:15px;"></i>
+                                        </div>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +76,6 @@ const getMerchants = async () => {
                 city: route.query.city,
                 query: searchQuery.value,
             },
-
         });
         merchants.value = response.data;
     } catch (error) {

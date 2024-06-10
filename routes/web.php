@@ -60,6 +60,7 @@ Route::get('/api/stars', [StarController::class, 'index']);
 // User Profile
 Route::get('/api/profile', [ProfileController::class, 'index']);
 Route::post('/api/upload-profile-image', [ProfileController::class, 'uploadImage']);
+Route::post('/api/profile/upload-background-image', [ProfileController::class, 'uploadBackground']);
 Route::put('/api/profile-information/edit', [ProfileController::class,'updateProfile']);
 Route::put('/api/profile-business/edit', [ProfileController::class,'updateBusiness']);
 Route::put('/api/profile-password/change', [ProfileController::class,'changePassword']);

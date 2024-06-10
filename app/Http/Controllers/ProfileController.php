@@ -15,7 +15,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $user = request()->user();
-        $profileDetails = $user->only(['id', 'fname', 'mname', 'lname', 'contact', 'email', 'role', 'avatar']);
+        $profileDetails = $user->only(['id', 'fname', 'mname', 'lname', 'contact', 'email', 'role', 'avatar', 'photo1', 'photo2', 'photo3']);
 
         if ($user->role === 'Merchant') {
 
@@ -139,6 +139,38 @@ class ProfileController extends Controller
 
         }
     }
+
+
+    public function uploadBackground(Request $request)
+{
+    // Validate that all three photos are present
+
+    // Store each photo separately
+    if ($request->hasFile('photo1')) {
+        $photo1 = Storage::put('/photos/background', $request->file('photo1'));
+        $request->user()->update(['photo1' => $photo1]);
+    }
+
+    if ($request->hasFile('photo2')) {
+        $photo2 = Storage::put('/photos/background', $request->file('photo2'));
+        $request->user()->update(['photo2' => $photo2]);
+
+    }
+
+    if ($request->hasFile('photo3')) {
+        $photo3 = Storage::put('/photos/background', $request->file('photo3'));
+        $request->user()->update(['photo3' => $photo3]);
+
+    }
+
+    // Update user's data with the paths to the uploaded photos
+
+    return response()->json(['message' => 'Background Uploaded Successfully']);
+}
+
+
+
+
 
 
     public function changePassword(Request $request, UpdateUserPasswordAction $updater)

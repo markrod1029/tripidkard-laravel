@@ -31,6 +31,9 @@ class User extends Authenticatable
         'role',
         'avatar',
         'status',
+        'photo1',
+        'photo2',
+        'photo3',
 
     ];
 

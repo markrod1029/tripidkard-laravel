@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('merchants', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->text('description')->nullable();
             $table->text('tagline')->nullable();
-            $table->string('img1')->nullable();
-            $table->string('img2')->nullable();
-            $table->string('img3')->nullable();
+            $table->string('photo1')->nullable();
+            $table->string('photo2')->nullable();
+            $table->string('photo3')->nullable();
+
         });
     }
 
@@ -25,13 +26,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('merchants', function (Blueprint $table) {
-
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('description');
             $table->dropColumn('tagline');
-            $table->dropColumn('img1');
-            $table->dropColumn('img2');
-            $table->dropColumn('img3');
+            $table->dropColumn('photo1');
+            $table->dropColumn('photo2');
+            $table->dropColumn('photo3');
+
         });
     }
 };
