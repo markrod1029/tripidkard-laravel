@@ -72,7 +72,7 @@ class CustomerController extends Controller
         CardCode::where('card_number', $validated['customer_card_num'])->update(['status' => 1]);
 
 
-        return response()->json(['success' => 'Customer Updated Successfuly']);
+        return response()->json(['success' => 'Customer Added Successfuly']);
 
     }
 
