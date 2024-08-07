@@ -1,153 +1,114 @@
 <template>
-    <section class="login">
-        <div class="container">
-            <div class="wrapper">
-                <div class="title"><span>TripidKard Sign In</span></div>
-                <form method="POST" @submit.prevent="loginForm">
-                    <div class='alert alert-danger alert-dismissible' v-if="errorMessage">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
-                            @click="errorMessage = ''">&times;</button>
-                        {{ errorMessage }}
-                    </div>
-                    <div class='alert alert-success alert-dismissible' v-if="successMessage">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'
-                            @click="successMessage = ''">&times;</button>
-                        {{ successMessage }}
-                    </div>
-                    <div class="row">
-                        <i class="fas fa-users icon"></i>
-                        <input type="email" v-model="form.email" name="email" placeholder="Email" required>
-                    </div>
-                    <div class="row">
-                        <i class="fas fa-lock icon"></i>
-                        <span class="toggle-password" @click="togglePassword">
-                            <span class="fa fa-fw" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></span>
+    <se class="login">
+        <div class="container login">
+            <div class="login form">
+                <header>Login</header>
+                <form @submit.prevent="handleSubmit">
+                    <!-- Email Address -->
+                    <div>
+                        <label for="email">Email</label>
+                        <input id="email" type="email" v-model="form.email" placeholder="Enter your email"
+                            class="form-control" required autofocus />
+                        <span v-if="errors.email" class="text-danger">
+                            {{ errors.email }}
                         </span>
-                        <input :type="showPassword ? 'text' : 'password'" v-model="form.password" name="password"
-                            id="password" placeholder="Password" required>
                     </div>
-                    <div class="pass"><a href="forgot-password">Forgot password?</a></div>
-                    <div class="row button">
-                        <button type="submit" name="login" class="btn btn-primary btn-block" :disabled="loading">
-                            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                            <span v-else>Sign In</span>
-                        </button>
+                    <!-- Password -->
+                    <div class="mt-1">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" v-model="form.password" placeholder="Enter your password"
+                            class="form-control" required />
+                        <span v-if="errors.password" class="text-danger">
+                            {{ errors.password }}
+                        </span>
                     </div>
-                    <div class="signup-link">Not a member? <a href="https://tripidkard.com/merchant-details">Signup
-                            now</a></div>
+
+                    <router-link to="#">Forgot password?</router-link>
+
+                    <!-- Submit Button -->
+                    <div class="mt-4">
+                        <input type="submit" class="btn btn-success btn-block" :disabled="loading"
+                            :value="loading ? 'Loading...' : 'Sign In'" />
+                    </div>
+
+
+                    <span v-if="errors.general" class="text-danger">
+                        {{ errors.general }}
+                    </span>
                 </form>
+
+                <!-- <div class="signup mt-4">
+                    <span>Don't have an account?
+                        <router-link to="/register" class="text-decoration-none">Signup</router-link>
+                    </span>
+                </div> -->
+
+
             </div>
         </div>
-    </section>
+    </se>
 </template>
 
+
+
 <script setup>
-import  checkSession  from '@/Stores/sessionCheck.js';
-
-checkSession();
-import { ref, onMounted } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { useAuthStore } from '@/Stores/auth';
 
-const form = ref({
-    email: '',
-    password: ''
-});
-
-const csrfToken = ref('');
+const authStore = useAuthStore();
 const router = useRouter();
 
-const getCsrfToken = async () => {
-    const response = await axios.get('/csrf-token');
-    csrfToken.value = response.data.csrfToken;
-}
+const form = reactive({
+    email: '',
+    password: '',
+});
 
-onMounted(() => {
-    getCsrfToken();
+const errors = reactive({
+    email: '',
+    password: '',
+    general: '',
 });
 
 const loading = ref(false);
-const errorMessage = ref('');
-const successMessage = ref('');
-const showPassword = ref(false);
 
-const togglePassword = () => {
-    showPassword.value = !showPassword.value;
-}
-const loginForm = async () => {
+const handleSubmit = async () => {
     loading.value = true;
+    errors.email = '';
+    errors.password = '';
+    errors.general = '';
     try {
-        const response = await axios.post('/login', form.value);
-        successMessage.value = response.data.message;
-        const role = response.data.role;
-
-        if (role === 'Merchant') {
-            router.push('/merchant/dashboard');
-        } else if (role === 'Enterprise') {
-            router.push('/enterprise/dashboard');
-        } else if (role === 'Admin') {
-            router.push('/admin/dashboard');
+        const responseErrors = await authStore.loginForm(form);
+        if (responseErrors) {
+            errors.email = responseErrors.email ? responseErrors.email[0] : '';
+            errors.password = responseErrors.password ? responseErrors.password[0] : '';
+            errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
-            // Redirect to login page if no role is specified
-            router.push('/login');
+            if (authStore.user) {
+                router.push('/services/chatbot-marketing'); // Redirect to dashboard upon successful login
+            }
         }
     } catch (error) {
-        if (error.response) {
-            errorMessage.value = error.response.data.message;
-        } else {
-            errorMessage.value = "An error occurred.";
-        }
+        errors.general = 'An unexpected error occurred. Please try again.';
     } finally {
         loading.value = false;
     }
-}
+};
+
+
+onMounted(async () => {
+    await authStore.getUser();
+    if (authStore.user) {
+        router.push('/login'); // Redirect to dashboard if user is logged in
+    }
+});
 </script>
 
 
 <style scoped>
-/* Add this CSS to your stylesheet or in a style block in your HTML */
 
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.alert-dismissible {
-    position: relative;
-    padding-right: 35px;
-}
-
-.close {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    padding: 5px;
-}
-
+/* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
 
 .login {
     margin: 0;
@@ -156,148 +117,101 @@ const loginForm = async () => {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    /* Optional: Prevents the background from scrolling */
     overflow: hidden;
 }
 
-::selection {
-    background: rgba(26, 188, 156, 0.3);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-
-a {
-    text-decoration: none !important;
+body {
+    min-height: 120vh;
+    width: 100%;
+    background: #ffffff;
 }
 
 .container {
-    max-width: 540px;
-    padding: 0 20px;
-    margin: 170px auto;
-}
-
-.wrapper {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.signup-link,
-a {
-    text-decoration: none;
-}
-
-.wrapper .title {
-    height: 90px;
-    background: #2585bc;
-    border-radius: 5px 5px 0 0;
-    color: #fff;
-    font-size: 30px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.wrapper form {
-    padding: 30px;
-    box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
-
-}
-
-.wrapper form .row {
-    height: 45px;
-    margin-bottom: 15px;
-    position: relative;
-
-}
-
-.wrapper form .row input {
-    height: 100%;
-    width: 100%;
-    outline: none;
-    padding-left: 60px;
-    border-radius: 5px;
-    border: 1px solid lightgrey;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-form .row input:focus {
-    box-shadow: inset 0px 0px 2px 2px rgba(26, 126, 188, 0.25);
-}
-
-form .row input::placeholder {
-    color: #999;
-}
-
-.wrapper form .row .icon {
+    margin-top: 380px;
     position: absolute;
-    width: 47px;
-    height: 100%;
-    color: #fff;
-    font-size: 18px;
-    background: #2585bc;
-    border: 1px solid #2585bc;
-    border-radius: 5px 0 0 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 430px;
+    width: 100%;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.wrapper form .pass {
-    margin: -8px 0 20px 0;
+.container .form {
+    padding: 2rem;
 }
 
-.wrapper form .pass a {
-    color: #2585bc;
+.form header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form input {
+    height: 50px;
+    width: 100%;
+    padding: 0 15px;
     font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+}
+
+.form input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form a {
+    font-size: 16px;
+    color: #0275d8;
     text-decoration: none;
 }
 
-.wrapper form .pass a:hover {
+.form a:hover {
     text-decoration: underline;
 }
 
-.wrapper form .button input {
+.form .btn {
     color: #fff;
-    font-size: 20px;
+    background: #0275d8;
+    font-size: 1.2rem;
     font-weight: 500;
-    padding-left: 0px;
-    background: #2585bc;
-    border: 1px solid #2585bc;
+    letter-spacing: 1px;
+    margin-top: 1.4rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.form .btn:hover {
+    background: #025aa5;
+}
+
+.signup {
+    font-size: 17px;
+    text-align: center;
+}
+
+.signup label {
+    color: #0275d8;
     cursor: pointer;
 }
 
-form .button input:hover {
-    background: #34a5e2;
-}
-
-.wrapper form .signup-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 17px;
-}
-
-.wrapper form .signup-link a {
-    color: #2585bc;
-    text-decoration: none;
-}
-
-form .signup-link a:hover {
+.signup label:hover {
     text-decoration: underline;
 }
 
-.wrapper form .row .toggle-password {
-    position: absolute;
-    right: 5%;
-    /* Adjust the percentage as needed */
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #2585bc;
-}
-
-.pass {
-    padding-top: 5px;
+.text-danger {
+    color: red;
 }
 </style>
