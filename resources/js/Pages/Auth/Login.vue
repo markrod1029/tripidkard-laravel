@@ -85,7 +85,7 @@ const handleSubmit = async () => {
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
             if (authStore.user) {
-                router.push('/services/chatbot-marketing'); // Redirect to dashboard upon successful login
+                router.push('/admin/dashboard'); // Redirect to dashboard upon successful login
             }
         }
     } catch (error) {

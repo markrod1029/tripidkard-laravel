@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StarController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PointController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -23,7 +24,7 @@ Route::get('/csrf-token', function () {
     return response()->json(['csrfToken' => csrf_token()]);
 });
 
-Route::post('/login', [LoginController::class, 'authentications']);
+// Route::post('/login', [LoginController::class, 'authentications']);
 
 
 Route::middleware(['auth'])->group(function () {
@@ -83,19 +84,15 @@ Route::post('/api/customers/register', [CustomerController::class, 'store']);
 Route::get('/api/customers', [CustomerController::class, 'index']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
 require __DIR__.'/auth.php';
+
 
 
 // Enterprise Route

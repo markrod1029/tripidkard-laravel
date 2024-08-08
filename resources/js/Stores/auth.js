@@ -3,32 +3,37 @@ import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        // authUser: null,
-        authUser: JSON.parse(localStorage.getItem("authUser")) || null,
-
+        authUser: null,
     }),
     getters: {
         user: (state) => state.authUser,
         isAuthenticated: (state) => !!state.authUser,
-
     },
     actions: {
-
+        async getToken() {
+            try {
+                await axios.get('/csrf-token');
+            } catch (error) {
+                console.error("Error fetching CSRF token:", error);
+            }
+        },
 
         async getUser() {
             try {
+                await this.getToken();
                 const response = await axios.get("/api/profile");
                 this.authUser = response.data;
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
             } catch (error) {
-                this.authUser = null;
                 console.error("Error fetching user data:", error);
                 this.authUser = null;
                 localStorage.removeItem("authUser");
             }
         },
+
         async loginForm(data) {
             try {
+                await this.getToken();
                 const response = await axios.post("/login", {
                     email: data.email,
                     password: data.password,
@@ -46,31 +51,9 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
-        async registerForm(data) {
-            try {
-                const response = await axios.post("/register", {
-                    first_names: data.first_name,
-                    last_name: data.last_name,
-                    email: data.email,
-                    password: data.password,
-                    password_confirmation: data.password_confirmation,
-                });
-                this.authUser = response.data.user; // assuming response contains user data
-                return null; // No errors, registration successful
-            } catch (error) {
-                if (error.response && error.response.data.errors) {
-                    return error.response.data.errors; // Return errors to be handled in the component
-                } else {
-                    console.error("Error registering:", error);
-                    return {
-                        general: "An error occurred during registration.",
-                    }; // General error message
-                }
-            }
-        },
-
         async logout() {
             try {
+                await this.getToken();
                 await axios.post("/logout");
                 this.authUser = null;
                 localStorage.removeItem("authUser");
