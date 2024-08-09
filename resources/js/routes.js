@@ -27,6 +27,7 @@ import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
 import Login from './Pages/Auth/Login.vue';
+import ForgotPassword from './Pages/Auth/Forgot.vue';
 import NotFound from './Pages/Error/404.vue';
 import Profile from './Pages/Profiles/Information.vue';
 
@@ -83,19 +84,22 @@ const routesMerchant = [
 ];
 
 const routesDefault = [
+    { path: '/', name: 'home', component: Index, meta: { title: 'Home' } },
+    { path: '/profile/', name: 'profile', component: Profile, meta: { title: 'Profile' } },
+    { path: '/merchants/', name: 'merchants', component: MerchantDetails, meta: { title: 'Merchant' } },
+    { path: '/merchants/:id/:name', name: 'merchants.name', component: MerchantWeb, meta: { title: 'Merchant Website' } },
+    { path: '/join/', name: 'join', component: JoinForm, meta: { title: 'Join Us' } },
+    { path: '/contact-us/', name: 'contact-us', component: ContactUs, meta: { title: 'Contact Us' } },
+    { path: '/merchant/result/city', name: 'merchant-result-city', component: MerchantResultCity, meta: { title: 'Search Result City'} },
+    { path: '/merchant/result/province', name: 'merchant-result-province', component: MerchantResultProvince, meta: { title: 'Search Result Province'} },
+    { path: '/join-the-fun/raffle', name: 'raffle', component: Raffle, meta: { title: 'Join The Fun Raffle'} },
+    { path: '/join-the-fun/points', name: 'points', component: Points, meta: { title: 'Join The Fun Points'} },
+    { path: '/join-the-fun/events', name: 'events', component: Events, meta: { title: 'Join The Fun Events'} },
+
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
-    { path: '/', name: 'home', component: Index, meta: { title: 'Home', requiresGuest: true } },
-    { path: '/profile/', name: 'profile', component: Profile, meta: { title: 'Profile', requiresAuth: true } },
-    { path: '/tripidkard/', name: 'tripidkard', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true } },
-    { path: '/merchant/', name: 'merchant', component: MerchantDetails, meta: { title: 'Merchant', requiresGuest: true } },
-    { path: '/merchant-website/', name: 'merchant-website', component: MerchantWeb, meta: { title: 'Merchant Website', requiresGuest: true } },
-    { path: '/join/', name: 'join', component: JoinForm, meta: { title: 'Join Us', requiresGuest: true } },
-    { path: '/contact/', name: 'contact', component: ContactUs, meta: { title: 'Contact Us', requiresGuest: true } },
-    { path: '/merchant/result/city', name: 'merchant-result-city', component: MerchantResultCity, meta: { title: 'Search Result City', requiresGuest: true } },
-    { path: '/merchant/result/province', name: 'merchant-result-province', component: MerchantResultProvince, meta: { title: 'Search Result Province', requiresGuest: true } },
-    { path: '/join-the-fun/raffle', name: 'raffle', component: Raffle, meta: { title: 'Join The Fun Raffle', requiresGuest: true } },
-    { path: '/join-the-fun/points', name: 'points', component: Points, meta: { title: 'Join The Fun Points', requiresGuest: true } },
-    { path: '/join-the-fun/events', name: 'events', component: Events, meta: { title: 'Join The Fun Events', requiresGuest: true } },
+    { path: '/forgot-password/', name: 'forgot-password', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },
+    { path: '/tripidkard/', name: 'tripidkard', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true, } },
+
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound, meta: { title: 'Not Found' } }
 ];
 

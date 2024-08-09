@@ -39,6 +39,8 @@ export const useAuthStore = defineStore("auth", {
                     password: data.password,
                 });
                 this.authUser = response.data.user;
+
+                console.log(this.authUser);
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
                 return null;
             } catch (error) {

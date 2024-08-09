@@ -23,7 +23,7 @@
                         </span>
                     </div>
 
-                    <router-link to="#">Forgot password?</router-link>
+                    <router-link to="/forgot-password" class="forgot">Forgot password?</router-link>
 
                     <!-- Submit Button -->
                     <div class="mt-4">
@@ -127,6 +127,10 @@ onMounted(async () => {
     font-family: 'Poppins', sans-serif;
 }
 
+.forgot {
+    text-decoration: none !important;
+
+}
 body {
     min-height: 120vh;
     width: 100%;
