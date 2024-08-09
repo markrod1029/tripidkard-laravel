@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StarController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\CardCodeController;
@@ -90,6 +91,10 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+
+Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
+
 
 require __DIR__.'/auth.php';
 

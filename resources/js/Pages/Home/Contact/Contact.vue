@@ -9,35 +9,39 @@
                 <!-- Contact Form Column -->
                 <div class="col-12 col-lg-6">
                     <div class=" overflow-hidden">
-                        <form action="#!">
+                        <form action="#" @submit.prevent="submit">
                             <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
                                 <div class="col-12">
                                     <h2 class="mb-4 font-weight-bold">We're Ready, Let's Talk.</h2>
 
                                     <label for="fullname" class="form-label">Full Name <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="fullname" name="fullname" value=""
-                                        required>
+                                    <input type="text" v-model="form.name" class="form-control" id="fullname"
+                                        name="fullname" value="" required>
                                 </div>
-                                <div class="col-12">
+
+                                <div class="col-12 mt-2">
+                                    <label for="text" class="form-label">Subject</label>
+                                    <div class="input-group">
+                                        <input type="text" v-model="form.subject" class="form-control" id="subject"
+                                            name="subject" value="">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
                                     <label for="email" class="form-label">Email <span
                                             class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <input type="email" class="form-control" id="email" name="email" value=""
-                                            required>
+                                        <input type="email" v-model="form.email" class="form-control" id="email"
+                                            name="email" value="" required>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <label for="phone" class="form-label">Phone Number</label>
-                                    <div class="input-group">
-                                        <input type="tel" class="form-control" id="phone" name="phone" value="">
-                                    </div>
-                                </div>
-                                <div class="col-12">
+
+                                <div class="col-12 mt-2">
                                     <label for="message" class="form-label">Message <span
                                             class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="message" name="message" rows="3"
-                                        required></textarea>
+                                    <textarea class="form-control" v-model="form.message" id="message" name="message"
+                                        rows="3" required></textarea>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <div class="d-grid">
@@ -140,7 +144,8 @@
                                                     Pangasinan</a>
                                                 <br>
                                                 <a class="link-secondary text-decoration-none"
-                                                    href="https://www.facebook.com/tripidkard"> TripidKard Philippines </a>
+                                                    href="https://www.facebook.com/tripidkard"> TripidKard Philippines
+                                                </a>
                                             </p>
 
                                         </div>
@@ -158,8 +163,26 @@
 
 </template>
 
-<script>
-export default {
-    name: "Contact5",
+<script setup>
+import axios from "axios";
+import { reactive } from "vue";
+import { useToastr } from '@/toastr.js';
+
+const toastr = useToastr();
+const form = reactive({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+});
+
+const submit = async () => {
+    try {
+        await axios.post('/contact/send-email', form);
+        toastr.success('Email sent successfully');
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 </script>
