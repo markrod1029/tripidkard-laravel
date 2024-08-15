@@ -33,13 +33,11 @@ export const useAuthStore = defineStore("auth", {
 
         async loginForm(data) {
             try {
-                await this.getToken();
-                const response = await axios.post("/login", {
+                const response = await axios.post("/merchant/login", {
                     email: data.email,
                     password: data.password,
                 });
                 this.authUser = response.data.user;
-
                 console.log(this.authUser);
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
                 return null;

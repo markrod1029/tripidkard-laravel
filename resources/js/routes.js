@@ -39,6 +39,7 @@ import JoinForm from './Pages/Home/JoinForm/JoinList.vue';
 import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
 import MerchantResultCity from './Pages/Home/Result/MerchantResultCity.vue';
 import MerchantResultProvince from './Pages/Home/Result/MerchantResultProvince.vue';
+import Scanner from './Pages/Home/Scanner/index.vue';
 
 import Raffle from './Pages/Home/JoinTheFun/Raffle.vue';
 import Points from './Pages/Home/JoinTheFun/Points.vue';
@@ -95,6 +96,7 @@ const routesDefault = [
     { path: '/join-the-fun/raffle', name: 'raffle', component: Raffle, meta: { title: 'Join The Fun Raffle'} },
     { path: '/join-the-fun/points', name: 'points', component: Points, meta: { title: 'Join The Fun Points'} },
     { path: '/join-the-fun/events', name: 'events', component: Events, meta: { title: 'Join The Fun Events'} },
+    { path: '/scanner/', name: 'scanner', component: Scanner, meta: { title: 'Card Scanner' } },
 
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
     { path: '/forgot-password/', name: 'forgot-password', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },

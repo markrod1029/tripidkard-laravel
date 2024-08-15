@@ -31,25 +31,14 @@
                             :value="loading ? 'Loading...' : 'Sign In'" />
                     </div>
 
-
                     <span v-if="errors.general" class="text-danger">
                         {{ errors.general }}
                     </span>
                 </form>
-
-                <!-- <div class="signup mt-4">
-                    <span>Don't have an account?
-                        <router-link to="/register" class="text-decoration-none">Signup</router-link>
-                    </span>
-                </div> -->
-
-
             </div>
         </div>
     </se>
 </template>
-
-
 
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
@@ -77,15 +66,19 @@ const handleSubmit = async () => {
     errors.email = '';
     errors.password = '';
     errors.general = '';
+
     try {
         const responseErrors = await authStore.loginForm(form);
+
+    console.log(authStore.isAuthenticated);
         if (responseErrors) {
             errors.email = responseErrors.email ? responseErrors.email[0] : '';
             errors.password = responseErrors.password ? responseErrors.password[0] : '';
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
-            if (authStore.user) {
-                router.push('/admin/dashboard'); // Redirect to dashboard upon successful login
+            // Redirect if the user is successfully authenticated
+            if (authStore.isAuthenticated) {
+                router.push('/admin/dashboard');
             }
         }
     } catch (error) {
@@ -95,18 +88,15 @@ const handleSubmit = async () => {
     }
 };
 
-
 onMounted(async () => {
     await authStore.getUser();
     if (authStore.user) {
-        router.push('/login'); // Redirect to dashboard if user is logged in
+        router.push('/admin/dashboard'); // Redirect to dashboard if user is already logged in
     }
 });
 </script>
 
-
 <style scoped>
-
 /* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
@@ -129,8 +119,8 @@ onMounted(async () => {
 
 .forgot {
     text-decoration: none !important;
-
 }
+
 body {
     min-height: 120vh;
     width: 100%;

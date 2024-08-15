@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StarController;
 use App\Http\Controllers\EmailController;
-use App\Http\Controllers\LoginController;
+// use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
@@ -21,18 +21,15 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // });
 
 
+
+Route::get('user', function () {
+    return view('auth.login');
+});
+
 Route::get('/csrf-token', function () {
     return response()->json(['csrfToken' => csrf_token()]);
 });
 
-// Route::post('/login', [LoginController::class, 'authentications']);
-
-
-Route::middleware(['auth'])->group(function () {
-    // Logout route
-Route::post('/logout', [LoginController::class, 'logout']);
-
-});
 
 
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);
@@ -90,7 +87,7 @@ Route::middleware('auth')->group(function () {
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/merchant/login', [AuthenticatedSessionController::class, 'store']);
 
 
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);

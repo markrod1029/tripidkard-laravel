@@ -21,7 +21,7 @@ class EmailController extends Controller
         $message = $validated['message'];
 
         // Send email
-        Mail::to('aeon.redstone@gmail.com')->send(new ContactEmail($email, $subject, $message));
+        Mail::to('aeon.redstone@gmail.com')->send(new ContactEmail($message, $subject, $email));
 
         return response()->json(['message' => 'Contact email sent successfully.'], 200);
 
