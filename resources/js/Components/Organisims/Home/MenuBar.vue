@@ -34,11 +34,15 @@
               </li>
 
               <li class="nav-item">
+                <a class="nav-link text-dark text-uppercase" href="/scanner">Scanner</a>
+              </li>
+
+              <li class="nav-item">
                 <router-link class="nav-link text-dark text-uppercase" to="/contact-us">Contact</router-link>
               </li>
 
               <li class="nav-item">
-                <router-link class="nav-link  text-uppercase btn btn-primary font-weight-bold" style="font-size:13px;" to="/login">Merchant Login</router-link>
+                <router-link class="nav-link  text-uppercase btn btn-primary font-weight-bold" style="font-size:13px; color:#FFFFFF" to="/login">Merchant Login</router-link>
               </li>
             </ul>
           </div>
