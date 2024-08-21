@@ -16,13 +16,13 @@ use App\Http\Controllers\StartPointsController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/register', function () {
+    return view('auth.register');
+});
 
 
 
-Route::get('user', function () {
+Route::get('/user', function () {
     return view('auth.login');
 });
 

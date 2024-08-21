@@ -7,9 +7,9 @@ const authUser = useAuthUserStore();
 
 <template>
     <aside class="main-sidebar sidebar-dark-primary">
-        <a href="home" class="brand-link " style="border-style:none; height:70px; ">
+        <a href="/admin/dashboard" class="brand-link " style="border-style:none; height:70px; ">
             <img src="https://tripidkard.com/wp-content/uploads/2023/10/cropped-tripid-card-ver.-2-1.png" alt=" Logo"
-                class=" img-circle " style=" height:50px;  ">
+                class=" img-circle img-logo " style=" height:45px;  ">
 
             <span class="brand-text font-weight-light text-center">Tripidkard </span>
         </a>
@@ -52,38 +52,6 @@ const authUser = useAuthUserStore();
                         </router-link>
                     </li>
 
-                    <!-- <li class="nav-item has-treeview "> -->
-                    <!-- <router-link to="#" class="nav-link"> -->
-                    <!-- <i class="nav-icon fas fa-users"></i> -->
-                    <!-- <p> -->
-                    <!-- Enterprise Account -->
-                    <!-- <i class="right fas fa-angle-left"></i> -->
-                    <!-- </p> -->
-                    <!-- </router-link> -->
-                    <!-- <ul class="nav nav-treeview"> -->
-                    <!-- <li class="nav-item"> -->
-                    <!-- <router-link to="/admin/enterprise" active-class="active" class="nav-link "> -->
-                    <!-- <i class="far fa-circle nav-icon"></i> -->
-                    <!-- <p>Enterprise List</p> -->
-                    <!-- </router-link> -->
-                    <!-- </li> -->
-                    <!--  -->
-                    <!-- <li class="nav-item"> -->
-                    <!-- <router-link to="/admin/enterprise/archive" active-class="active" class="nav-link"> -->
-                    <!-- <i class="far fa-circle nav-icon"></i> -->
-                    <!-- <p>Enterprise Archive</p> -->
-                    <!-- </router-link> -->
-                    <!-- </li> -->
-                    <!--  -->
-                    <!-- <li class="nav-item"> -->
-                    <!-- <router-link to="/admin/enterprise/register" active-class="active" class="nav-link "> -->
-                    <!-- <i class="far fa-circle nav-icon"></i> -->
-                    <!-- <p>Enterprise Register </p> -->
-                    <!-- </router-link> -->
-                    <!-- </li> -->
-                    <!--  -->
-                    <!-- </ul> -->
-                    <!-- </li> -->
 
 
 
@@ -126,6 +94,40 @@ const authUser = useAuthUserStore();
                                 <router-link to="/admin/merchant/register" active-class="active" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Merchant Register</p>
+                                </router-link>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item has-treeview ">
+                        <router-link to="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Influencer Account
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </router-link>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <router-link to="/admin/enterprise" active-class="active" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Influencer List</p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to="/admin/enterprise/archive" active-class="active" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Influencer Archive</p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to="/admin/enterprise/register" active-class="active" class="nav-link ">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Influencer Register </p>
                                 </router-link>
                             </li>
 
@@ -282,8 +284,7 @@ const authUser = useAuthUserStore();
 
 
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
-    background-color: #367fa9;
-    width: 290px;
+    background-color: #FFFFFF;
 
 }
 
@@ -421,6 +422,11 @@ const authUser = useAuthUserStore();
 }
 
 @media (max-width: 991px) {
+
+    .img-logo {
+        height: 40px;
+    }
+
     .content-header {
         position: relative;
         padding-top: 110px;

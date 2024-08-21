@@ -40,6 +40,7 @@ import ContactUs from './Pages/Home/Contact/ContactUsList.vue';
 import MerchantResultCity from './Pages/Home/Result/MerchantResultCity.vue';
 import MerchantResultProvince from './Pages/Home/Result/MerchantResultProvince.vue';
 import Scanner from './Pages/Home/Scanner/index.vue';
+import ScannerResult from './Pages/Home/ScannerResult/index.vue';
 
 import Raffle from './Pages/Home/JoinTheFun/Raffle.vue';
 import Points from './Pages/Home/JoinTheFun/Points.vue';
@@ -47,27 +48,27 @@ import Events from './Pages/Home/JoinTheFun/Events.vue';
 
 const routesAdmin = [
     { path: '/admin/login/', name: 'admin.login', component: Login, meta: { title: 'Admin Login', requiresAdminAuth: true } },
-    { path: '/admin/dashboard/', name: 'admin.dashboard', component: AdminDashboard, meta: { title: 'Admin Dashboard', requiresAdminAuth: true } },
-    { path: '/admin/enterprise/', name: 'admin.enterprise', component: AdminEnterprise, meta: { title: 'Enterprise List', requiresAdminAuth: true } },
-    { path: '/admin/enterprise/register', name: 'admin.enterprise.register', component: AdminEnterpriseForm, meta: { title: 'Enterprise Register', requiresAdminAuth: true } },
-    { path: '/admin/enterprise/:id/edit', name: 'admin.enterprise.edit', component: AdminEnterpriseForm, meta: { title: 'Enterprise Update', requiresAdminAuth: true } },
-    { path: '/admin/enterprise/archive', name: 'admin.enterprise.archive', component: AdminEnterpriseArchive, meta: { title: 'Enterprise Archive', requiresAdminAuth: true } },
-    { path: '/admin/merchant/', name: 'admin.merchant', component: AdminMerchant, meta: { title: 'Merchant Listing', requiresAdminAuth: true } },
-    { path: '/admin/merchant-pending/', name: 'admin.merchant-pending', component: AdminMerchantPending, meta: { title: 'Merchant Pending', requiresAdminAuth: true } },
-    { path: '/admin/merchant/register', name: 'admin.merchant.register', component: AdminMerchantForm, meta: { title: 'Merchant Register', requiresAdminAuth: true } },
-    { path: '/admin/merchant/:id/edit', name: 'admin.merchant.edit', component: AdminMerchantForm, meta: { title: 'Merchant Update', requiresAdminAuth: true } },
-    { path: '/admin/merchant/archive', name: 'admin.merchant.archive', component: AdminMerchantArchive, meta: { title: 'Merchant Archive', requiresAdminAuth: true } },
-    { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: true } },
-    { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: true } },
-    { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: true } },
-    { path: '/admin/customer/register', name: 'admin.customer.register', component: AdminCustomerForm, meta: { title: 'Customer Register', requiresAdminAuth: true } },
-    { path: '/admin/customer/:id/edit', name: 'admin.customer.edit', component: AdminCustomerForm, meta: { title: 'Customer Update', requiresAdminAuth: true } },
-    { path: '/admin/loyalty-stars', name: 'admin.loyalty-stars', component: AdminLoyaltyPoint, meta: { title: 'Loyalty Stars List', requiresAdminAuth: true } },
-    { path: '/admin/loyalty-stars/register', name: 'admin.loyalty-stars.register', component: AdminLoyaltyStarForm, meta: { title: 'Loyalty Stars Register', requiresAdminAuth: true } },
-    { path: '/admin/loyalty-stars/:id/edit', name: 'admin.loyalty-stars.edit', component: AdminLoyaltyStarForm, meta: { title: 'Loyalty Stars Update', requiresAdminAuth: true } },
-    { path: '/admin/stars/register', name: 'admin.stars.register', component: AdminStarForm, meta: { title: 'Total of Loyalty Stars', requiresAdminAuth: true } },
-    { path: '/admin/loyalty-stars/:id/customer', name: 'admin.loyalty-stars.customer', component: AdminCustomerStars, meta: { title: 'Customer Loyalty Stars List', requiresAdminAuth: true } },
-    { path: '/admin/activity-log/', name: 'admin.activity-log', component: AdminLogs, meta: { title: 'Activity Logs List', requiresAdminAuth: true } }
+    { path: '/admin/dashboard/', name: 'admin.dashboard', component: AdminDashboard, meta: { title: 'Admin Dashboard', requiresAdminAuth: false } },
+    { path: '/admin/enterprise/', name: 'admin.enterprise', component: AdminEnterprise, meta: { title: 'Enterprise List', requiresAdminAuth: false } },
+    { path: '/admin/enterprise/register', name: 'admin.enterprise.register', component: AdminEnterpriseForm, meta: { title: 'Enterprise Register', requiresAdminAuth: false } },
+    { path: '/admin/enterprise/:id/edit', name: 'admin.enterprise.edit', component: AdminEnterpriseForm, meta: { title: 'Enterprise Update', requiresAdminAuth: false } },
+    { path: '/admin/enterprise/archive', name: 'admin.enterprise.archive', component: AdminEnterpriseArchive, meta: { title: 'Enterprise Archive', requiresAdminAuth: false } },
+    { path: '/admin/merchant/', name: 'admin.merchant', component: AdminMerchant, meta: { title: 'Merchant Listing', requiresAdminAuth: false } },
+    { path: '/admin/merchant-pending/', name: 'admin.merchant-pending', component: AdminMerchantPending, meta: { title: 'Merchant Pending', requiresAdminAuth: false } },
+    { path: '/admin/merchant/register', name: 'admin.merchant.register', component: AdminMerchantForm, meta: { title: 'Merchant Register', requiresAdminAuth: false } },
+    { path: '/admin/merchant/:id/edit', name: 'admin.merchant.edit', component: AdminMerchantForm, meta: { title: 'Merchant Update', requiresAdminAuth: false } },
+    { path: '/admin/merchant/archive', name: 'admin.merchant.archive', component: AdminMerchantArchive, meta: { title: 'Merchant Archive', requiresAdminAuth: false } },
+    { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: false } },
+    { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: false } },
+    { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: false } },
+    { path: '/admin/customer/register', name: 'admin.customer.register', component: AdminCustomerForm, meta: { title: 'Customer Register', requiresAdminAuth: false } },
+    { path: '/admin/customer/:id/edit', name: 'admin.customer.edit', component: AdminCustomerForm, meta: { title: 'Customer Update', requiresAdminAuth: false } },
+    { path: '/admin/loyalty-stars', name: 'admin.loyalty-stars', component: AdminLoyaltyPoint, meta: { title: 'Loyalty Stars List', requiresAdminAuth: false } },
+    { path: '/admin/loyalty-stars/register', name: 'admin.loyalty-stars.register', component: AdminLoyaltyStarForm, meta: { title: 'Loyalty Stars Register', requiresAdminAuth: false } },
+    { path: '/admin/loyalty-stars/:id/edit', name: 'admin.loyalty-stars.edit', component: AdminLoyaltyStarForm, meta: { title: 'Loyalty Stars Update', requiresAdminAuth: false } },
+    { path: '/admin/stars/register', name: 'admin.stars.register', component: AdminStarForm, meta: { title: 'Total of Loyalty Stars', requiresAdminAuth: false } },
+    { path: '/admin/loyalty-stars/:id/customer', name: 'admin.loyalty-stars.customer', component: AdminCustomerStars, meta: { title: 'Customer Loyalty Stars List', requiresAdminAuth: false } },
+    { path: '/admin/activity-log/', name: 'admin.activity-log', component: AdminLogs, meta: { title: 'Activity Logs List', requiresAdminAuth: false } }
 ];
 
 const routesMerchant = [
@@ -97,6 +98,7 @@ const routesDefault = [
     { path: '/join-the-fun/points', name: 'points', component: Points, meta: { title: 'Join The Fun Points'} },
     { path: '/join-the-fun/events', name: 'events', component: Events, meta: { title: 'Join The Fun Events'} },
     { path: '/scanner/', name: 'scanner', component: Scanner, meta: { title: 'Card Scanner' } },
+    { path: '/customer/information/:cardNumber', name: 'customer.information', component: ScannerResult, meta: { title: 'Customer Information' } },
 
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
     { path: '/forgot-password/', name: 'forgot-password', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },

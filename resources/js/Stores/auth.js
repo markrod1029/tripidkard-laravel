@@ -3,13 +3,26 @@ import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        authUser: null,
+        authUser: null,  // Initialize with null
     }),
     getters: {
         user: (state) => state.authUser,
         isAuthenticated: (state) => !!state.authUser,
     },
     actions: {
+        async initializeAuthUser() {
+            const storedUser = localStorage.getItem("authUser");
+            if (storedUser) {
+                try {
+                    this.authUser = JSON.parse(storedUser);
+                } catch (error) {
+                    console.error("Error parsing authUser from localStorage:", error);
+                    localStorage.removeItem("authUser"); // Remove invalid data
+                    this.authUser = null;
+                }
+            }
+        },
+
         async getToken() {
             try {
                 await axios.get('/csrf-token');
@@ -33,6 +46,7 @@ export const useAuthStore = defineStore("auth", {
 
         async loginForm(data) {
             try {
+                await this.getToken();
                 const response = await axios.post("/merchant/login", {
                     email: data.email,
                     password: data.password,

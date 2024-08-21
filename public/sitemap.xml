@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://laravel-tripkard.test</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/profile</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchants</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchants/:id/:name</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/join</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/contact-us</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/result/city</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/result/province</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/join-the-fun/raffle</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/join-the-fun/points</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/join-the-fun/events</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/scanner</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/login</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/forgot-password</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/tripidkard</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/login</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/dashboard</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/enterprise</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/enterprise/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/enterprise/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/enterprise/archive</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/merchant</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/merchant-pending</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/merchant/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/merchant/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/merchant/archive</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/tripidkard</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/tripidkard/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/customer</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/customer/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/customer/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/loyalty-stars</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/loyalty-stars/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/loyalty-stars/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/stars/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/loyalty-stars/:id/customer</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/admin/activity-log</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/dashboard</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/scanner</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/tripidkard</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/customer</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/customer/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/customer/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/loyalty-stars</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/loyalty-stars/register</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/loyalty-stars/:id/edit</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/activity-log</loc>
+    
+            </url>
+    <url>
+        <loc>http://laravel-tripkard.test/merchant/profile</loc>
+    
+            </url>
+</urlset>

@@ -7,7 +7,7 @@ const authUser = useAuthUserStore();
 
 <template>
     <aside class="main-sidebar sidebar-dark-primary">
-        <a href="home" class="brand-link " style="border-style:none; height:70px; ">
+        <a href="home" class="brand-link " style="border-style:none; height:10px; ">
             <img src="https://tripidkard.com/wp-content/uploads/2023/10/cropped-tripid-card-ver.-2-1.png" alt=" Logo"
                 class=" img-circle " style=" height:50px;  ">
 
@@ -17,7 +17,7 @@ const authUser = useAuthUserStore();
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
 
-            <div class="user-panel d-flex">
+            <div class="user-panel ">
 
                 <div class="image" style="position:relative; right:10px;">
                     <img src="https://img.freepik.com/free-photo/beautiful-anime-character-cartoon-scene_23-2151035157.jpg"
@@ -449,7 +449,7 @@ const authUser = useAuthUserStore();
 }
 </style>
 
-<!-- <style>
+<style>
 @media (max-width: 667px){
 .input-group label {
     text-align: left;
@@ -510,4 +510,4 @@ const authUser = useAuthUserStore();
 
 
 
-    </style> -->
+    </style>

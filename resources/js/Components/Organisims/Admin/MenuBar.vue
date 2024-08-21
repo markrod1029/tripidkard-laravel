@@ -94,7 +94,6 @@
 
 </template>
 
-<!--
 <style>
 
 
@@ -246,5 +245,11 @@ padding-left: 15px;
 padding-right: 15px;
 }
 
+.main-sidebar, .main-sidebar::before {
+    box-shadow: none !important;
+  }
+  .sidebar-collapse .main-sidebar, .sidebar-collapse .main-sidebar::before {
+    margin-left: -300px !important;
 
-</style> -->
+  }
+</style>
