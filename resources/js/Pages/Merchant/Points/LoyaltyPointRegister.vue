@@ -7,7 +7,7 @@
 
         <section class="content">
             <div class="container mt-5">
-                <div class="bg-white p-4 rounded shadow text-center mx-auto  custom-container">
+                <div class="bg-white p-4 rounded shadow text-center mx-auto  custom-container w-75 mt-5 ">
 
                     <img class="img-fluid mx-auto"
                         src="https://tripidkard.com/wp-content/uploads/2023/10/tripid-card-ver.-2-1.png" width="150"
@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" name="" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="" class="custom-button btn btn-primary btn-block ">Submit</button>
                     </form>
 
                 </div>
@@ -149,3 +149,13 @@ export default {
     }
 }
 </script>
+
+
+
+<style scoped>
+.custom-button {
+    font-size: 1.2rem; /* Adjusts the font size */
+    max-width: 200px; /* Sets a maximum width for the button */
+    margin: 1rem auto 0; /* Centers the button and adds margin */
+}
+</style>
