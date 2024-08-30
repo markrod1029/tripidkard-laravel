@@ -24,6 +24,9 @@ import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue';
 import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue';
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue';
 import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue';
+import Ordes from './Pages/Merchant/Orders/orders.vue';
+import OrdeLists from './Pages/Merchant/Orders/list.vue';
+
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
 import Login from './Pages/Auth/Login.vue';
@@ -82,7 +85,9 @@ const routesMerchant = [
     { path: '/merchant/loyalty-stars/register', name: 'merchant.loyalty-stars.register', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Register', requiresMerchantAuth: false } },
     { path: '/merchant/loyalty-stars/:id/edit', name: 'merchant.loyalty-stars.edit', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Update', requiresMerchantAuth: false } },
     { path: '/merchant/activity-log/', name: 'merchant.activity-log', component: MerchantLogs, meta: { title: 'Activity Logs List', requiresMerchantAuth: false } },
-    { path: '/merchant/profile/', name: 'merchant.profile', component: Profile, meta: { title: 'Merchant Profile Information', requiresMerchantAuth: false } }
+    { path: '/merchant/profile/', name: 'merchant.profile', component: Profile, meta: { title: 'Merchant Profile Information', requiresMerchantAuth: false } },
+    { path: '/merchant/orders/', name: 'merchant.order', component: Ordes, meta: { title: 'Merchant Orders', requiresMerchantAuth: false } },
+    { path: '/merchant/orderlist/', name: 'merchant.orderlist', component: OrdeLists, meta: { title: 'Merchant Orders List', requiresMerchantAuth: false } }
 ];
 
 const routesDefault = [

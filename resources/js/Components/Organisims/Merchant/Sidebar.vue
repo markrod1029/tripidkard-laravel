@@ -19,7 +19,7 @@ const authUser = useAuthUserStore();
       <div class="user-panel d-flex">
 
         <div class="image" style="position:relative; right:10px;">
-          <img 
+          <img
           :src="authUser.users.avatar ? authUser.users.avatar : 'https://via.placeholder.com/640x360'"
             class="img-circle elevation-2" alt="User Image" style="height:55px; width:55px; margin-top:10px">
         </div>
@@ -54,6 +54,34 @@ const authUser = useAuthUserStore();
               <i class="nav-icon fa fa-qrcode"></i>
               <p>QR Code Scanner</p>
             </router-link>
+          </li>
+
+
+
+
+
+          <li class="nav-item has-treeview ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-coins"></i>
+              <p>
+                Order Card
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/merchant/loyalty-stars" active-class="active" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Order Cards List</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/merchant/orders" active-class="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Order cards</p>
+                </router-link>
+              </li>
+            </ul>
           </li>
 
 
