@@ -1,6 +1,7 @@
 <?php
 
 // use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QrcodeController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StarController;
@@ -93,7 +94,9 @@ Route::post('/merchant/login', [AuthenticatedSessionController::class, 'store'])
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
 
 
-require __DIR__.'/auth.php';
+// routes/api.php
+Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
+// require __DIR__.'/auth.php';
 
 
 

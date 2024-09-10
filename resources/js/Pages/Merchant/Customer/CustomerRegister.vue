@@ -322,11 +322,19 @@ let updateCustomer = (values, actions) => {
 const editCustomerTitle = ref(false);
 
 onMounted(() => {
+
+
     if (route.name === 'merchant.customer.edit') {
         editCustomerTitle.value = true;
         getCustomers();
+    } else if (route.name === 'merchant.customer.scan') {
+        const cardNumber = route.params.card_number;
+        form.customer_card_num = cardNumber;
     }
+
 });
+
+
 
 const handleSubmit = (values, actions) => {
     if (editCustomerTitle.value) {

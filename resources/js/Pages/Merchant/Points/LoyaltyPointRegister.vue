@@ -137,6 +137,9 @@ export default {
             if (route.name === 'merchant.loyalty-points.edit') {
                 editPointsTitle.value = true;
                 getPoints();
+            } else if(route.name === 'merchant.loyalty-stars.scan') {
+                const cardNumber = route.params.card_number;
+                form.card_number = cardNumber;
             }
         });
 
