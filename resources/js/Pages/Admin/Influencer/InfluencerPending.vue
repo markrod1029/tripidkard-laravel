@@ -41,33 +41,66 @@
                             <div class="row">
 
                                 <div class="col-sm-12">
-                                    <table id='tripidkardlist' class='display dataTable table-bordered'
+                                    <table id='influencerlist' class='display dataTable table-bordered'
                                         style="width:100%;">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Business Code</th>
                                                 <th>Card Code</th>
-                                                <th>Validity</th>
+                                                <th>Influencer Code</th>
+                                                <th>Influencer Name</th>
+                                                <th>Blog Name</th>
+                                                <th>Content Name</th>
+                                                <th>Contact No.</th>
+                                                <th>Email Address</th>
+                                                <th>Address</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="tripidkards.length > 0">
+                                        <tbody v-if="merchants.length > 0">
 
-                                            <tr v-for="(tripidkard, index) in tripidkards" :key="tripidkard.id">
+                                            <tr v-for="(merchant, index) in merchants" :key="merchant.id">
                                                 <td>{{ index + 1 }}</td>
-                                                <td>{{ tripidkard.business_name }}</td>
-                                                <td>{{ tripidkard.card_number }}</td>
-                                                <td>{{ tripidkard.validity }}</td>
+                                                <td>{{ merchant.card_code }}</td>
+                                                <td>{{ merchant.business_code }}</td>
+                                                <td>{{ merchant.fname }} {{ merchant.mname }} {{ merchant.lname }}</td>
+                                                <td>{{ merchant.business_name }}</td>
+                                                <td>{{ merchant.business_category }}</td>
+                                                <td>{{ merchant.contact }}</td>
+                                                <td>{{ merchant.email }}</td>
+                                                <td>{{ merchant.zip }} {{ merchant.street }} {{ merchant.city }} {{
+                                            merchant.province }}</td>
+
+                                                <td>
+                                                    <div style="display: flex; justify-content: center;">
+                                                        <router-link
+                                                            to="enterprise-merchant?enterprise_id=<?php echo $row['id']?>"
+                                                            class="btn btn-success btn-sm  "
+                                                            style="margin-right: 5px;"><i class="fa fa-eye"></i>
+                                                        </router-link>
+
+                                                        <router-link :to="`/admin/merchant/${merchant.id}/edit`"
+                                                            class="btn btn-primary btn-sm  "
+                                                            style="margin-right: 5px;"><i class="fa fa-edit"></i>
+                                                        </router-link>
+
+                                                        <router-link
+                                                            to="class/enterprise_crud.php?action=archive&&enterprise_id=<?php echo $row['id']?>"
+                                                            onclick="return confirm('Are you sure you want to remove Archive this Enterprise Account?')"
+                                                            class="btn btn-danger btn-sm  "><i class="fa fa-redo"></i>
+                                                        </router-link>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
-
                                         <tbody v-else>
 
                                             <tr>
-                                                <td colspan="5" class="text-center"> No Tripidkards Found</td>
+                                                <td colspan="10" class="text-center"> No Merchants Found</td>
                                             </tr>
 
                                         </tbody>
+
 
                                     </table>
                                 </div>
@@ -99,65 +132,71 @@ import { ref, onMounted, watch } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 
-const tripidkards = ref([]);
-const searchQuery = ref([]);
 
 const toastr = useToastr();
-const gettripidkards = async () => {
+const merchants = ref([]);
+const searchQuery = ref([]);
+
+const getMerchants = async () => {
     try {
-        const response = await axios.get('/api/tripidkards', {
+        const response = await axios.get('/api/merchants', {
             params: {
                 query: searchQuery.value,
             }
         });
-        tripidkards.value = response.data;
+        merchants.value = response.data;
     } catch (error) {
-        console.error('Error fetching Tripidkards:', error);
+        console.error('Error fetching merchant:', error);
     }
 }
 
 
 
 watch(searchQuery, debounce(() => {
-    gettripidkards();
+    getMerchants();
 }, 100));
 
 
 
 onMounted(() => {
-    gettripidkards();
+    getMerchants();
 
 
 });
 
 // Format rows for export excluding the "Action" column
 const formatRows = (rows) => {
-    return rows.map((tripidkard, index) => [
+    return rows.map((merchant, index) => [
         index + 1,
-        tripidkard.business_name,
-        tripidkard.card_number,
-        tripidkard.validity,
+        merchant.card_code,
+        merchant.business_code,
+        `${merchant.fname} ${merchant.mname} ${merchant.lname}`,
+        merchant.business_name,
+        merchant.business_category,
+        merchant.contact,
+        merchant.email,
+        `${merchant.zip} ${merchant.street} ${merchant.city} ${merchant.province}`,
     ]);
 };
 
 // Export to Excel
 const exportToExcel = () => {
     try {
-        if (tripidkards.value.length === 0) {
+        if (merchants.value.length === 0) {
             return;
         }
         // Define headers and format rows without "Action" column
-        const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Validity'];
-        const formattedRows = formatRows(tripidkards.value);
+        const title = ['Influencer List']; // Title row
+        const headers = ['#', 'Card Code', 'Influencer Code', 'Influencer Name', 'Blog Name', 'Content Name', 'Contact No.', 'Email Address', 'Address'];
+        const formattedRows = formatRows(merchants.value);
 
         // Add title row centered across all columns
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
         //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
 
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Tripidkard');
-        XLSX.writeFile(workbook, 'Tripidkard.xlsx');
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Influencer');
+        XLSX.writeFile(workbook, 'Influencer.xlsx');
     } catch (error) {
         console.error('Error exporting to Excel:', error);
         toastr.error('Failed to export to Excel.');
@@ -167,17 +206,17 @@ const exportToExcel = () => {
 // Export to CSV
 const exportToCSV = () => {
     try {
-        if (tripidkards.value.length === 0) {
+        if (merchants.value.length === 0) {
             toastr.info('No data to export.');
             return;
         }
         // Define title and headers for the CSV
-        const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Validity'];
-        const formattedRows = formatRows(tripidkards.value);
+        const title = ['Influencer List']; // Title row
+        const headers = ['#', 'Card Code', 'Influencer Code', 'Influencer Name', 'Blog Name', 'Content Name', 'Contact No.', 'Email Address', 'Address'];
+        const formattedRows = formatRows(merchants.value);
 
         // Create worksheet with a centered title row
-        const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
+        const worksheet = XLSX.utils.aoa_to_sheet([[], title, columnHeaders, ...formattedRows]);
         //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: columnHeaders.length - 1 } }]; // Merge title row cells
 
         const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
@@ -185,7 +224,7 @@ const exportToCSV = () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.setAttribute('href', url);
-        a.setAttribute('download', 'Tripidkard.csv');
+        a.setAttribute('download', 'Influencer.csv');
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -198,7 +237,10 @@ const exportToCSV = () => {
 // Print Table with a styled design excluding the "Action" column
 const printTable = () => {
     try {
-        const tableClone = document.getElementById('tripidkardlist').cloneNode(true);
+        const tableClone = document.getElementById('influencerlist').cloneNode(true);
+
+        // Remove the "Action" column from the cloned table
+        tableClone.querySelectorAll('th:nth-child(10), td:nth-child(10)').forEach(el => el.remove());
 
         const printContents = tableClone.outerHTML;
         if (!printContents) {
@@ -210,7 +252,7 @@ const printTable = () => {
         printWindow.document.write(`
         <html>
           <head>
-            <title>Print Tripidkard List</title>
+            <title>Print Influencer List</title>
             <style>
               body {
                 font-family: Arial, sans-serif;
@@ -238,7 +280,7 @@ const printTable = () => {
             </style>
           </head>
           <body>
-            <h2>Tripidkard List</h2>
+            <h2>Influencer List</h2>
             ${printContents}
           </body>
         </html>
@@ -250,6 +292,4 @@ const printTable = () => {
         toastr.error('Failed to print.');
     }
 };
-
-
 </script>

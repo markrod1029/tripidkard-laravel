@@ -11,9 +11,8 @@
                     <!-- title -->
                     <div class="box-header with-border" style="background-color:#367FA9;">
                         <div class="card-header">
-                            <h4 class="card-title text-white title" v-if="enterprisettitle">Update Enterprise Account
-                            </h4>
-                            <h4 class="card-title text-white title" v-else>Add New Enterprise Account </h4>
+                            <h4 class="card-title text-white title" v-if="merchanttitle">Update Merchant</h4>
+                            <h4 class="card-title text-white title" v-else>Add New Merchant</h4>
                         </div>
                     </div>
 
@@ -137,7 +136,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- <div class="input-group mb-3">
+                                    <div class="input-group mb-3">
                                         <label for="business_sub_category"
                                             class="col-sm-2 text-right control-label col-form-label text-muted">Business
                                             Sub Category
@@ -151,7 +150,7 @@
                                                 id="business_sub_category" name="business_sub_category" value=""
                                                 required="">
                                         </div>
-                                    </div> -->
+                                    </div>
 
 
 
@@ -275,7 +274,6 @@ function nextStep() {
         currentStep.value++;
     }
 }
-
 function backStep() {
     if (currentStep.value > 1) {
         currentStep.value--;
@@ -286,7 +284,9 @@ const route = useRoute();
 const router = useRouter();
 const toastr = useToastr();
 
-const enterprisettitle = ref(false);
+const merchanttitle = ref(false);
+
+
 const form = reactive({
     fname: '',
     mname: '',
@@ -295,6 +295,7 @@ const form = reactive({
     email: '',
     business_name: '',
     business_category: '',
+    business_sub_category: '',
     zip: '',
     street: '',
     city: '',
@@ -303,36 +304,12 @@ const form = reactive({
 });
 
 
-// handdle store and update
-
-const handleSubmit = (values, actions) => {
-    if(enterprisettitle.value) {
-        updateEnterprises(values, actions);
-    } else {
-        createEnterprises(values, actions);
-    }
-}
 
 
-// create Enterprise
 
-const createEnterprises = async (values, actions) => {
+const getMerchants = async () => {
     try {
-        await axios.post('/api/enterprises/create', form);
-        router.push('/admin/enterprise');
-        toastr.success('Enterprises Added Successfully');
-    } catch (error) {
-        actions.setErrors(error.response.data.errors);
-    }
-}
-
-
-// edit fetch Enterprises
-
-
-const getEnterprises = async () => {
-    try {
-        const response = await axios.get(`/api/enterprises/${route.params.id}/edit`);
+        const response = await axios.get(`/api/merchants/${route.params.id}/edit`);
         const data = response.data; // makuha mo ang data mula sa response
         form.fname = data.user.fname;
         form.mname = data.user.mname;
@@ -354,24 +331,40 @@ const getEnterprises = async () => {
 
 }
 
-// update Enterprises
-
-const updateEnterprises = async () => {
+const updateMerchants = async () => {
     try {
-        const response = await axios.post(`/api/enterprises/${route.params.id}/edit`, form);
-        toastr.success('Enterprises Updated Successfully');
-        router.push('/admin/enterprise');
+        const response = await axios.post(`/api/merchants/${route.params.id}/edit`, form);
+        toastr.success('Merchant Updated Successfully');
+        router.push('/admin/merchant');
     } catch (error) {
         console.log(error);
-        toastr.error('Failed to update Enterprises', error);
+        toastr.error('Failed to update merchant', error);
+    }
+}
+
+
+const createMerchants = async (values, actions) => {
+    try {
+        await axios.post('/api/merchants/create', form);
+        router.push('/admin/merchant');
+        toastr.success('Merchant Added Successfully');
+    } catch (error) {
+        actions.setErrors(error.response.data.errors);
+    }
+}
+
+const handleSubmit = (values, actions) => {
+    if(merchanttitle.value) {
+        updateMerchants(values, actions);
+    } else {
+        createMerchants(values, actions);
     }
 }
 
 onMounted(() => {
-
-    if (route.name === 'admin.enterprise.edit') {
-        enterprisettitle.value = true;
-        getEnterprises();
+    if (route.name === 'admin.merchant.edit') {
+        merchanttitle.value = true;
+        getMerchants();
     }
 
 });

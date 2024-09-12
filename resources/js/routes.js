@@ -1,12 +1,17 @@
 // Import components
 import AdminDashboard from './Pages/Admin/Dashboard/Dashboard.vue';
-import AdminEnterprise from './Pages/Admin/Enterprise/EnterpriseList.vue';
-import AdminEnterpriseForm from './Pages/Admin/Enterprise/EnterpriseRegister.vue';
-import AdminEnterpriseArchive from './Pages/Admin/Enterprise/EnterpriseArchive.vue';
+
 import AdminMerchant from './Pages/Admin/Merchant/MerchantList.vue';
 import AdminMerchantPending from './Pages/Admin/Merchant/MerchantPending.vue';
 import AdminMerchantForm from './Pages/Admin/Merchant/MerchantRegister.vue';
 import AdminMerchantArchive from './Pages/Admin/Merchant/MerchantArchive.vue';
+
+import AdminInfluencer from './Pages/Admin/Influencer/InfluencerList.vue';
+import AdminInfluencerPending from './Pages/Admin/Influencer/InfluencerPending.vue';
+import AdminInfluencerForm from './Pages/Admin/Influencer/InfluencerRegister.vue';
+import AdminInfluencerArchive from './Pages/Admin/Influencer/InfluencerArchive.vue';
+
+
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue';
 import AdminTripidkardForm from './Pages/Admin/Tripidkard/TripidkardRegister.vue';
 import AdminCustomer from './Pages/Admin/Customer/CustomerList.vue';
@@ -52,15 +57,19 @@ import Events from './Pages/Home/JoinTheFun/Events.vue';
 const routesAdmin = [
     { path: '/admin/login/', name: 'admin.login', component: Login, meta: { title: 'Admin Login', requiresAdminAuth: true } },
     { path: '/admin/dashboard/', name: 'admin.dashboard', component: AdminDashboard, meta: { title: 'Admin Dashboard', requiresAdminAuth: false } },
-    { path: '/admin/enterprise/', name: 'admin.enterprise', component: AdminEnterprise, meta: { title: 'Enterprise List', requiresAdminAuth: false } },
-    { path: '/admin/enterprise/register', name: 'admin.enterprise.register', component: AdminEnterpriseForm, meta: { title: 'Enterprise Register', requiresAdminAuth: false } },
-    { path: '/admin/enterprise/:id/edit', name: 'admin.enterprise.edit', component: AdminEnterpriseForm, meta: { title: 'Enterprise Update', requiresAdminAuth: false } },
-    { path: '/admin/enterprise/archive', name: 'admin.enterprise.archive', component: AdminEnterpriseArchive, meta: { title: 'Enterprise Archive', requiresAdminAuth: false } },
     { path: '/admin/merchant/', name: 'admin.merchant', component: AdminMerchant, meta: { title: 'Merchant Listing', requiresAdminAuth: false } },
     { path: '/admin/merchant-pending/', name: 'admin.merchant-pending', component: AdminMerchantPending, meta: { title: 'Merchant Pending', requiresAdminAuth: false } },
     { path: '/admin/merchant/register', name: 'admin.merchant.register', component: AdminMerchantForm, meta: { title: 'Merchant Register', requiresAdminAuth: false } },
     { path: '/admin/merchant/:id/edit', name: 'admin.merchant.edit', component: AdminMerchantForm, meta: { title: 'Merchant Update', requiresAdminAuth: false } },
     { path: '/admin/merchant/archive', name: 'admin.merchant.archive', component: AdminMerchantArchive, meta: { title: 'Merchant Archive', requiresAdminAuth: false } },
+    
+
+    { path: '/admin/influencer/', name: 'admin.influencer', component: AdminInfluencer, meta: { title: 'Influencer List', requiresAdminAuth: false } },
+    { path: '/admin/influencer-pending/', name: 'admin.influencer-pending', component: AdminInfluencerPending, meta: { title: 'Influencer Pending', requiresAdminAuth: false } },
+    { path: '/admin/influencer/register', name: 'admin.influencer.register', component: AdminInfluencerForm, meta: { title: 'Influencer Register', requiresAdminAuth: false } },
+    { path: '/admin/influencer/:id/edit', name: 'admin.influencer.edit', component: AdminInfluencerForm, meta: { title: 'Influencer Update', requiresAdminAuth: false } },
+    { path: '/admin/influencer/archive', name: 'admin.influencer.archive', component: AdminInfluencerArchive, meta: { title: 'Influencer Archive', requiresAdminAuth: false } },
+    
     { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: false } },
     { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: false } },
     { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: false } },
