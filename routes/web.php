@@ -1,12 +1,11 @@
 <?php
 
-// use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\QrcodeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QrcodeController;
 
 use App\Http\Controllers\StarController;
 use App\Http\Controllers\EmailController;
-// use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
@@ -14,23 +13,20 @@ use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
-use App\Http\Controllers\admin\ProfileController;
+// use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-Route::get('/register', function () {
-    return view('auth.register');
+
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
-
-Route::get('/user', function () {
-    return view('auth.login');
-});
-
-Route::get('/csrf-token', function () {
-    return response()->json(['csrfToken' => csrf_token()]);
-});
-
 
 
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);
@@ -93,15 +89,8 @@ Route::post('/merchant/login', [AuthenticatedSessionController::class, 'store'])
 
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
 
-
-// routes/api.php
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
-// require __DIR__.'/auth.php';
 
 
 
-// Enterprise Route
-// Route::get('/api/enterprises', [EnterpriseController::class, 'index']);
-// Route::post('/api/enterprises/create', [EnterpriseController::class, 'store']);
-// Route::get('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'edit']);
-// Route::post('/api/enterprises/{enterprise}/edit', [EnterpriseController::class, 'update']);
+require __DIR__.'/auth.php';

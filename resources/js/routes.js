@@ -10,6 +10,7 @@ import AdminInfluencer from './Pages/Admin/Influencer/InfluencerList.vue';
 import AdminInfluencerPending from './Pages/Admin/Influencer/InfluencerPending.vue';
 import AdminInfluencerForm from './Pages/Admin/Influencer/InfluencerRegister.vue';
 import AdminInfluencerArchive from './Pages/Admin/Influencer/InfluencerArchive.vue';
+import AdminScanner from './Pages/Admin/Scanner/Qr-Code.vue';
 
 
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue';
@@ -70,6 +71,9 @@ const routesAdmin = [
     { path: '/admin/influencer/:id/edit', name: 'admin.influencer.edit', component: AdminInfluencerForm, meta: { title: 'Influencer Update', requiresAdminAuth: false } },
     { path: '/admin/influencer/archive', name: 'admin.influencer.archive', component: AdminInfluencerArchive, meta: { title: 'Influencer Archive', requiresAdminAuth: false } },
     
+    { path: '/admin/scanner', name: 'admin.scanner', component: AdminScanner, meta: { title: 'Admin Scanner', requiresAdminAuth: false } },
+
+
     { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: false } },
     { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: false } },
     { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: false } },
