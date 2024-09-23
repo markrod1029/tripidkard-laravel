@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrcodeController;
 
@@ -13,20 +12,27 @@ use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
-// use App\Http\Controllers\admin\ProfileController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ProfileController;
 
+
+Route::get('/user', function () {
+    return view('auth.login');
+});
+
+Route::get('/user-register', function () {
+    return view('auth.register');
+});
 
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);
@@ -79,12 +85,6 @@ Route::post('/api/customers/register', [CustomerController::class, 'store']);
 Route::get('/api/customers', [CustomerController::class, 'index']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 
-Route::middleware('auth')->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-Route::post('/merchant/login', [AuthenticatedSessionController::class, 'store']);
 
 
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);

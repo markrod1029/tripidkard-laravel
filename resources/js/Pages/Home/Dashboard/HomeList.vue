@@ -1,11 +1,9 @@
 <template>
-
-<MenuBar/>
-<Banner/>
-<!-- <Search/> -->
-<Raffle/>
-<Footer />
-
+    <MenuBar />
+    <Banner />
+    <!-- <Search /> -->
+    <Raffle />
+    <Footer />
 </template>
 
 <script>
@@ -14,8 +12,11 @@ import Banner from '@//Pages/Home/Dashboard/Banner.vue';
 // import Search from '@//Pages/Home/Dashboard/Search.vue';
 import Raffle from '@//Pages/Home/Dashboard/Raffle.vue';
 import Footer from '@/Components/Organisims/Home/Footer.vue';
-export default {
+import { useAuthStore } from '@/Stores/auth';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
+export default {
     components: {
         MenuBar,
         // Search,
@@ -24,9 +25,17 @@ export default {
         Footer,
     },
 
-    setup () {
+    setup() {
+        const authStore = useAuthStore();
+        const router = useRouter();
 
-    }
+        onMounted(async() => {
+            await authStore.getUser();
+            console.log(authStore.isAuthenticated);
+            if (!authStore.isAuthenticated) {
+                router.push('merchant/dashboard');
+            }
+        });
+    },
 }
-
 </script>

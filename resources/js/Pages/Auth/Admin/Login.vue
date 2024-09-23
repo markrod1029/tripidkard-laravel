@@ -61,9 +61,6 @@ const errors = reactive({
 
 const loading = ref(false);
 
-
-
-
 const handleSubmit = async () => {
     loading.value = true;
     errors.email = '';
@@ -80,9 +77,9 @@ const handleSubmit = async () => {
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
             // Redirect if the user is successfully authenticated
-            if (authStore.user) {
-        router.push('/merchant/dashboard'); // Redirect to dashboard upon successful login
-      }
+            if (authStore.isAuthenticated) {
+                router.push('/admin/dashboard');
+            }
         }
     } catch (error) {
         errors.general = 'An unexpected error occurred. Please try again.';
@@ -94,7 +91,7 @@ const handleSubmit = async () => {
 onMounted(async () => {
     await authStore.getUser();
     if (authStore.user) {
-        router.push('/merchant/dashboard'); // Redirect to dashboard if user is already logged in
+        router.push('/admin/dashboard'); // Redirect to dashboard if user is already logged in
     }
 });
 </script>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
-        authUser: null,  // Initialize with null
+        authUser: null,
     }),
     getters: {
         user: (state) => state.authUser,
@@ -17,7 +17,7 @@ export const useAuthStore = defineStore("auth", {
                     this.authUser = JSON.parse(storedUser);
                 } catch (error) {
                     console.error("Error parsing authUser from localStorage:", error);
-                    localStorage.removeItem("authUser"); // Remove invalid data
+                    localStorage.removeItem("authUser");
                     this.authUser = null;
                 }
             }
@@ -32,8 +32,8 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async getUser() {
+            await this.getToken();
             try {
-                await this.getToken();
                 const response = await axios.get("/api/profile");
                 this.authUser = response.data;
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
@@ -45,29 +45,28 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async loginForm(data) {
+            await this.getToken();
             try {
-                await this.getToken();
-                const response = await axios.post("/merchant/login", {
+                const response = await axios.post("/login", {
                     email: data.email,
                     password: data.password,
                 });
                 this.authUser = response.data.user;
-                console.log(this.authUser);
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
-                return null;
+                return null; // No errors
             } catch (error) {
+                console.error("Error logging in:", error);
                 if (error.response && error.response.data.errors) {
                     return error.response.data.errors;
                 } else {
-                    console.error("Error logging in:", error);
                     return { general: "An error occurred during login." };
                 }
             }
         },
 
         async logout() {
+            await this.getToken();
             try {
-                await this.getToken();
                 await axios.post("/logout");
                 this.authUser = null;
                 localStorage.removeItem("authUser");
@@ -75,14 +74,5 @@ export const useAuthStore = defineStore("auth", {
                 console.error("Error logging out:", error);
             }
         },
-    },
-    persist: {
-        enabled: true,
-        strategies: [
-            {
-                key: "authUser",
-                storage: localStorage,
-            },
-        ],
     },
 });
