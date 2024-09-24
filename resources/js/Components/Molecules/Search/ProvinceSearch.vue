@@ -9,7 +9,7 @@
         <div class="col-md-3 mb-3">
           <div class="form-group">
             <select v-model="province" class="form-control province-select">
-              <option disabled selected>Select Province</option>
+              <option disabled selected style>Select Province</option>
               <option v-for="province in region1Provinces" :value="province">{{ province }}</option>
             </select>
           </div>

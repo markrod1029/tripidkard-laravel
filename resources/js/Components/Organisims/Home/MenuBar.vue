@@ -14,7 +14,7 @@
               width="100"
             />
           </router-link>
-  
+
           <!-- Toggle button aligned to the right -->
           <button
             class="navbar-toggler"
@@ -27,7 +27,7 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-  
+
           <!-- Navigation links aligned to the right -->
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
@@ -35,6 +35,7 @@
               <NavItem to="/tripidkard" label="Tripidkard" />
               <NavItem to="/join" label="How To Join" />
               <NavItem to="/scanner" label="Scanner" />
+              <NavItem to="/merchants" label="Merchants" />
               <NavItem to="/contact-us" label="Contact" />
               <NavItem
                 to="/login"
@@ -47,11 +48,11 @@
       </nav>
     </div>
   </template>
-  
+
   <script setup>
   // Define a reusable NavItem component within the same file
   import { defineComponent, defineProps } from 'vue';
-  
+
   // Local NavItem component definition
   const NavItem = defineComponent({
     props: {
@@ -75,14 +76,13 @@
     `,
   });
   </script>
-  
+
   <style scoped>
   .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
   }
-  
+
   .navbar-nav .nav-item {
     margin-left: 10px;
   }
   </style>
-  
