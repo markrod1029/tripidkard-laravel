@@ -528,3 +528,161 @@ const authUser = useAuthUserStore();
 
 
     </style> -->
+
+
+
+    <!-- Menubar Style -->
+    <!--
+<style>
+
+
+body {
+
+display: block;
+margin: 0 !important;
+}
+/*
+@media screen and (min-width: 0px) and (max-width: 700px) {
+  .hide {
+
+
+}
+} */
+
+@media screen and (min-width: 701px) {
+.fa-bars {
+position: absolute;
+top: 30px;
+display: block;
+}
+}
+
+@media screen and (max-width: 1024px) {
+.fa-bars {
+position: absolute;
+top: 100px;
+display: block;
+}
+}
+
+
+.navbar-nav1 {
+  float:right;
+display: -ms-flexbox;
+display: flex;
+-ms-flex-direction: column;
+flex-direction: column;
+padding-left: 0;
+margin-bottom: 0;
+margin-top: -30px;
+list-style: none;
+}
+
+.hide {
+display: -ms-flexbox;
+display: flex;
+-ms-flex-direction: column;
+flex-direction: column;
+padding-left: 0;
+margin-bottom: 0;
+list-style: none;
+
+}
+.content-header {
+position: relative;
+padding-top: 30px;
+padding-bottom:30px;
+margin-bottom:80px;
+
+}
+.content-header > h1 {
+margin: 0;
+font-size: 15px;
+}
+.content-header > h1 > small {
+display: inline-block;
+font-weight: 300;
+padding-left: 110px;
+
+}
+.content-header > .breadcrumb {
+padding-left: 10px;
+background: transparent;
+margin-top: 0;
+margin-bottom: 0;
+font-size: 12px;
+padding: 7px 5px;
+position: absolute;
+right: 10px;
+border-radius: 2px;
+top:0;
+}
+.breadcrumb {
+list-style: none;
+border-radius: 4px;
+background-color:white;
+margin-left:20px;
+}
+
+
+.add{
+position:absolute;
+top:1120px;
+right: 60px;
+}
+.dashboard{
+padding-left: 20px;
+font-size:24px;
+}
+.content-header > .breadcrumb > li > a {
+text-decoration: none;
+display: inline-block;
+}
+.content-header > .breadcrumb > li > a > .fa,
+.content-header > .breadcrumb > li > a > .glyphicon,
+.content-header > .breadcrumb > li > a > .ion {
+margin-right: 5px;
+}
+.content-header > .breadcrumb > li + li:before {
+content: '>\00a0';
+}
+@media (max-width: 691px) {
+.content-header {
+position: relative;
+padding-top: 110px;
+padding-left: 0;
+padding-right: 0;
+
+
+}
+.content-header > .breadcrumb {
+position: relative;
+margin-top: 5px;
+top: 0;
+right: 0;
+float: none;
+background: #d2d6de;
+padding-left: 10px;
+}
+.content-header > .breadcrumb li:before {
+color: #97a0b3;
+}
+
+.content-wrapper>.content {
+position: relative;
+top:-36px;
+}
+
+}
+
+.content {
+min-height: 420px;
+padding: 15px;
+margin-right: auto;
+margin-left: auto;
+padding-left: 15px;
+padding-right: 15px;
+}
+
+
+</style> -->
