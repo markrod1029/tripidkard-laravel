@@ -2,36 +2,43 @@
 
 <template>
     <div>
-      <MenuBar/>
-      <Banner/>
-      <Search/>
-      <Merchant/>
-      <Footer/>
+        <MenuBar />
+        <Banner />
+        <Search />
+        <Merchant />
+        <Footer />
 
-      <!-- Include the modal subscription component -->
+        <!-- Include the modal subscription component -->
     </div>
-  </template>
+</template>
 
-  <script>
-  import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
-  import Banner from '@//Pages/Home/Result/Banner.vue';
-  import Merchant from '@/Pages/Home/Merchant/Merchant.vue';
+<script>
+import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
+import Banner from '@//Pages/Home/Result/Banner.vue';
+import Merchant from '@/Pages/Home/Merchant/Merchant.vue';
 import Search from '@/Components/Molecules/Search/CitySearch.vue';
 
-  import Footer from '@/Components/Organisims/Home/Footer.vue';
+import Footer from '@/Components/Organisims/Home/Footer.vue';
+import { useAuthStore } from '@/Stores/auth';
+import { onMounted } from 'vue';
 
-
-  export default {
+export default {
     components: {
-      MenuBar,
-      Banner,
-      Search,
-      Merchant,
-      Footer,
+        MenuBar,
+        Banner,
+        Search,
+        Merchant,
+        Footer,
     },
-  };
-  </script>
+    setup() {
+        const authStore = useAuthStore();
+        onMounted(async () => {
+            await authStore.getUser();
+        });
+    }
+};
+</script>
 
-  <style scoped>
-  /* Add your component-specific styles here */
-  </style>
+<style scoped>
+/* Add your component-specific styles here */
+</style>

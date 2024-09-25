@@ -15,7 +15,6 @@ import Raffle from '@//Pages/Home/Dashboard/Raffle.vue';
 import Footer from '@/Components/Organisims/Home/Footer.vue';
 import { useAuthStore } from '@/Stores/auth';
 import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 export default {
     components: {
@@ -27,16 +26,10 @@ export default {
     },
 
     setup() {
-        // const authStore = useAuthStore();
-        // const router = useRouter();
-
-        // onMounted(async() => {
-        //     await authStore.getUser();
-        //     console.log(authStore.isAuthenticated);
-        //     if (!authStore.isAuthenticated) {
-        //         router.push('merchant/dashboard');
-        //     }
-        // });
+        const authStore = useAuthStore();
+        onMounted(async() => {
+            await authStore.getUser();
+        });
     },
 }
 </script>

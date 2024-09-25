@@ -1,31 +1,37 @@
 <template>
 
-    <MenuBar/>
-    <Banner/>
+    <MenuBar />
+    <Banner />
 
-    <Scanner/>
+    <Scanner />
 
     <Footer />
 
-    </template>
+</template>
 
-    <script>
-    import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
-    import Banner from '@//Pages/Home/Scanner/Banner.vue';
-    import Scanner from '@//Pages/Home/Scanner/Scanner.vue';
-    import Footer from '@/Components/Organisims/Home/Footer.vue';
-    export default {
+<script>
+import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
+import Banner from '@//Pages/Home/Scanner/Banner.vue';
+import Scanner from '@//Pages/Home/Scanner/Scanner.vue';
+import Footer from '@/Components/Organisims/Home/Footer.vue';
+import { useAuthStore } from '@/Stores/auth';
+import { onMounted } from 'vue';
 
-        components: {
-            MenuBar,
-            Banner,
-            Scanner,
-            Footer,
-        },
+export default {
 
-        setup () {
+    components: {
+        MenuBar,
+        Banner,
+        Scanner,
+        Footer,
+    },
 
-        }
+    setup() {
+        const authStore = useAuthStore();
+        onMounted(async () => {
+            await authStore.getUser();
+        });
     }
+}
 
-    </script>
+</script>

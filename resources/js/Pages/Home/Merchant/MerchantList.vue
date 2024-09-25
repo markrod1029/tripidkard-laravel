@@ -22,6 +22,8 @@ import Footer from '@/Components/Organisims/Home/Footer.vue';
 
 // Import the modal subscription component
 import ModalSubscription from '@/Pages/Home/Merchant/ModalSubscription.vue';
+import { useAuthStore } from '@/Stores/auth';
+import { onMounted } from 'vue';
 
 export default {
     components: {
@@ -33,7 +35,17 @@ export default {
         // Register the modal subscription component
         ModalSubscription,
     },
+
+    setup() {
+        const authStore = useAuthStore();
+        onMounted(async () => {
+            await authStore.getUser();
+        });
+    },
 };
+
+
+
 </script>
 
 <style scoped>

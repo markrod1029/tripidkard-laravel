@@ -19,6 +19,7 @@
   import Img from '@/Pages/Home/Websites/Images.vue';
   import Map from '@/Pages/Home/Websites/Map.vue';
   import Footer from '@/Components/Organisims/Home/Footer.vue';
+  import { useAuthStore } from '@/Stores/auth';
 
   export default {
     components: {
@@ -84,7 +85,13 @@
       // Fetch merchant data when the component is mounted
       onMounted(() => {
         getMerchants();
+        const authStore = useAuthStore();
+        onMounted(async () => {
+            await authStore.getUser();
+        });
       });
+
+
 
       return {
         merchants,
