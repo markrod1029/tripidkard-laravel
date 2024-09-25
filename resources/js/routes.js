@@ -96,7 +96,7 @@ const routesAdmin = [
 ];
 
 const routesMerchant = [
-    { path: '/merchant/dashboard', name: 'merchant.dashboard', component: MerchantDashboard, meta: { title: 'Merchant Dashboard', requiresMerchantAuth: false } },
+    { path: '/merchant/dashboard', name: 'merchant.dashboard', component: MerchantDashboard, meta: { title: 'Merchant Dashboard', requiresMerchantAuth: true } },
     { path: '/merchant/scanner', name: 'merchant.scanner', component: MerchantScanner, meta: { title: 'Merchant QR', requiresMerchantAuth: true } },
     { path: '/merchant/tripidkard/', name: 'merchant.tripidkard', component: MerchantTripidkard, meta: { title: 'Tripidkard List', requiresMerchantAuth: true } },
     { path: '/merchant/customer/', name: 'merchant.customer', component: MerchantCustomer, meta: { title: 'Customer List', requiresMerchantAuth: true } },

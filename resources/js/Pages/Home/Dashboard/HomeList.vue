@@ -27,6 +27,16 @@ export default {
     },
 
     setup() {
+        // const authStore = useAuthStore();
+        // const router = useRouter();
+
+        // onMounted(async() => {
+        //     await authStore.getUser();
+        //     console.log(authStore.isAuthenticated);
+        //     if (!authStore.isAuthenticated) {
+        //         router.push('merchant/dashboard');
+        //     }
+        // });
     },
 }
 </script>
