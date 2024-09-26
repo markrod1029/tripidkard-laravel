@@ -73,16 +73,23 @@ const handleSubmit = async () => {
     try {
         const responseErrors = await authStore.loginForm(form);
 
-    console.log(authStore.isAuthenticated);
         if (responseErrors) {
             errors.email = responseErrors.email ? responseErrors.email[0] : '';
             errors.password = responseErrors.password ? responseErrors.password[0] : '';
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
-            // Redirect if the user is successfully authenticated
-            if (authStore.user) {
-        router.push('/merchant/dashboard'); // Redirect to dashboard upon successful login
-      }
+            // Redirect based on user role
+            const userRole = authStore.user.role; // Assuming user has a role property
+            if (userRole === 'Admin') {
+                router.push('/admin/dashboard'); // Redirect to admin dashboard
+            } else if (userRole === 'Merchant') {
+                router.push('/merchant/dashboard'); // Redirect to merchant dashboard
+            } else if (userRole === 'Influencer'){
+                // Handle other roles or provide a default dashboard
+                router.push('/influencer/dashboard');
+            } else {
+                router.push('/');
+            }
         }
     } catch (error) {
         errors.general = 'An unexpected error occurred. Please try again.';
@@ -90,6 +97,7 @@ const handleSubmit = async () => {
         loading.value = false;
     }
 };
+
 
 onMounted(async () => {
     await authStore.getUser();

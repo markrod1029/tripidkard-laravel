@@ -126,4 +126,10 @@ class CardCodeController extends Controller
         }
         return $currentYear . '-0C-' . str_pad($lastSerialNumber, 7, '0', STR_PAD_LEFT);
     }
+
+    public function count()
+    {
+        $cardCount = CardCode::count();
+        return response()->json(['count' => $cardCount]);
+    }
 }

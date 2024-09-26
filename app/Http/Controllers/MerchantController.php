@@ -10,96 +10,97 @@ use Illuminate\Support\Facades\DB;
 class MerchantController extends Controller
 {
     public function index()
-{
-    $searchFields = [
-        'card_code',
-        'dti',
-        'business_code',
-        'business_name',
-        'dti',
-        'business_category',
-        'discount',
-        'zip',
-        'street',
-        'city',
-        'province',
-        'stars_points',
-        'users.fname',
-        'users.mname',
-        'users.lname',
-        'users.contact',
-        'users.email'
-    ];
+    {
+        $searchFields = [
+            'card_code',
+            'dti',
+            'business_code',
+            'business_name',
+            'dti',
+            'business_category',
+            'discount',
+            'zip',
+            'street',
+            'city',
+            'province',
+            'stars_points',
+            'users.fname',
+            'users.mname',
+            'users.lname',
+            'users.contact',
+            'users.email'
+        ];
 
-    $merchants = Merchant::query()
-        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
-        ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
-        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-            $query->where(function ($query) use ($searchFields, $searchQuery) {
-                foreach ($searchFields as $field) {
-                    $query->orWhere($field, 'like', "%{$searchQuery}%");
-                }
-            });
-        })
-        ->when(request('category'), function ($query, $category) {
-            $query->where('business_category', 'like', "%{$category}%");
-        })
+        $merchants = Merchant::query()
+            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+            ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->when(request('category'), function ($query, $category) {
+                $query->where('business_category', 'like', "%{$category}%");
+            })
 
 
-        ->when(request("city") , function ($query, $city) {
-            $query->where("city", "like","%{$city}%");
-        })
+            ->when(request("city"), function ($query, $city) {
+                $query->where("city", "like", "%{$city}%");
+            })
 
-        ->when(request("province"), function ($query, $province) {
-            $query->where("province", "like","%{$province}%");
-        })
-        ->where('users.status', '!=', '0')
-        ->orderBy('stars_points', 'desc')
-        ->orderBy('discount', 'desc')
-        ->get();
+            ->when(request("province"), function ($query, $province) {
+                $query->where("province", "like", "%{$province}%");
+            })
+            ->where('users.status', '!=', '0')
+            ->orderBy('stars_points', 'desc')
+            ->orderBy('discount', 'desc')
+            ->get();
 
-    return response()->json($merchants);
-}
+        return response()->json($merchants);
+    }
 
-public function indexPending() {
-    $searchFields = [
-        'card_code',
-        'dti',
-        'business_code',
-        'business_name',
-        'dti',
-        'business_category',
-        'discount',
-        'zip',
-        'street',
-        'city',
-        'province',
-        'stars_points',
-        'users.fname',
-        'users.mname',
-        'users.lname',
-        'users.contact',
-        'users.email'
-    ];
+    public function indexPending()
+    {
+        $searchFields = [
+            'card_code',
+            'dti',
+            'business_code',
+            'business_name',
+            'dti',
+            'business_category',
+            'discount',
+            'zip',
+            'street',
+            'city',
+            'province',
+            'stars_points',
+            'users.fname',
+            'users.mname',
+            'users.lname',
+            'users.contact',
+            'users.email'
+        ];
 
-    $merchants = Merchant::query()
-        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
-        ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
-        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-            $query->where(function ($query) use ($searchFields, $searchQuery) {
-                foreach ($searchFields as $field) {
-                    $query->orWhere($field, 'like', "%{$searchQuery}%");
-                }
-            });
-        })
-        ->where('users.status', '=', '0')
-        ->orderBy('stars_points', 'desc')
-        ->orderBy('discount', 'desc')
-        ->get();
+        $merchants = Merchant::query()
+            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+            ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->where('users.status', '=', '0')
+            ->orderBy('stars_points', 'desc')
+            ->orderBy('discount', 'desc')
+            ->get();
 
-    return response()->json($merchants);
+        return response()->json($merchants);
 
-}
+    }
 
 
 
@@ -283,13 +284,20 @@ public function indexPending() {
     }
 
     public function archive(Request $request, $id)
-{
-    $user = User::findOrFail($id);
-    $status = $request->input('status');
+    {
+        $user = User::findOrFail($id);
+        $status = $request->input('status');
 
-    $user->update(['status' => $status]);
-    return response()->json(['message' => 'Merchant status updated successfully.']);
-}
+        $user->update(['status' => $status]);
+        return response()->json(['message' => 'Merchant status updated successfully.']);
+    }
+
+    public function count()
+    {
+        $merchantCount = User::where('role', 'Merchant')
+            ->where('status', 1)->count();
+        return response()->json(['count' => $merchantCount]);
+    }
 
 
 }

@@ -109,4 +109,11 @@ class CustomerController extends Controller
         return response()->json(['success' => true]);
 
     }
+
+    public function count()
+    {
+        $customerCount = Customer::where('status', 1)->count();
+        return response()->json(['count' => $customerCount]);
+    }
+
 }

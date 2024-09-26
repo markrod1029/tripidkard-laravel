@@ -67,6 +67,7 @@ Route::get('/api/tripidkards', [CardCodeController::class, 'index']);
 Route::get('/api/merchant/tripidkards', [CardCodeController::class, 'merchantIndex']);
 
 Route::post('/api/tripidkards/create', [CardCodeController::class, 'store']);
+Route::get('/api/tripidkards/count', [CardCodeController::class, 'count']);
 
 
 // Merchant Route
@@ -76,11 +77,13 @@ Route::post('/api/merchants/create', [MerchantController::class, 'store']);
 Route::put('/api/merchants/{id}', [MerchantController::class, 'archive']);
 Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);
 Route::post('/api/merchants/{merchant}/edit', [MerchantController::class, 'update']);
+Route::get('/api/merchants/count', [MerchantController::class, 'count']);
 
 // Customer Route
 Route::post('/api/customers/{customer}/edit', [CustomerController::class, 'update']);
 Route::get('/api/customers/{customer}/edit', [CustomerController::class, 'edit']);
 Route::post('/api/customers/register', [CustomerController::class, 'store']);
+Route::get('/api/customers/count', [CustomerController::class, 'count']);
 
 Route::get('/api/customers', [CustomerController::class, 'index']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
@@ -90,6 +93,7 @@ Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
 
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
+
 
 
 
