@@ -1,2 +1,2 @@
-customer_card_num,fname,mname,lname,contact,bdate,email,zip,street,city,province,status
-2024-0C-00000001,Mark Rod, P., Cadayong,0942318814,2000-10-29,mark@gmail.com,2024,lilimasan, San Carlos, Pangasinan,1
+customer_card_num,user_id,fname,mname,lname,contact,bdate,email,zip,street,city,province,status
+2024-0C-00000001,3,Mark Rod, P., Cadayong,0942318814,2000-10-29,mark@gmail.com,2024,lilimasan, San Carlos, Pangasinan,1

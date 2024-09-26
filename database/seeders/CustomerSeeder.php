@@ -22,17 +22,18 @@ class CustomerSeeder extends Seeder
         while ($data = fgetcsv($file)):
             Customer::create([
                 "customer_card_num"=> $data[0],
-                "fname"=> $data[1],
-                "mname"=> $data[2],
-                "lname"=> $data[3],
-                "contact"=> $data[4],
-                "bdate"=> $data[5],
-                "email"=> $data[6],
-                "zip"=> $data[7],
-                "street"=> $data[8],
-                "city"=> $data[9],
-                "province"=> $data[10],
-                "status"=> $data[11],
+                "user_id"=> $data[1],
+                "fname"=> $data[2],
+                "mname"=> $data[3],
+                "lname"=> $data[4],
+                "contact"=> $data[5],
+                "bdate"=> $data[6],
+                "email"=> $data[7],
+                "zip"=> $data[8],
+                "street"=> $data[9],
+                "city"=> $data[10],
+                "province"=> $data[11],
+                "status"=> $data[12],
             ]);
 
         endwhile;
