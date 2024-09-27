@@ -7,29 +7,24 @@
 
         <section class="container">
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-success"><i class="far fa-users"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Merchant List</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="info-box">
                         <span class="info-box-icon bg-primary"><i class="far fa-users"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Customer List</span>
+                            <span class="info-box-number">{{ customerCount }}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="far fa-coins"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Tripidkard List</span>
+                            <span class="info-box-number">{{ cardCount }}</span>
+
                         </div>
                     </div>
                 </div>
@@ -74,16 +69,32 @@ export default {
     setup() {
         const authStore = useAuthStore();
         const userAddress = ref('');
+        const customerCount = ref(0);
+        const cardCount = ref(0);
+
+        const fetchCounts = async () => {
+            try {
+                const customerResponse = await axios.get('/api/customers/count');
+                customerCount.value = customerResponse.data.count;
+
+                const cardResponse = await axios.get('/api/tripidkards/count');
+                cardCount.value = cardResponse.data.count;
+            } catch (error) {
+                console.error('Error fetching counts:', error);
+            }
+        };
 
         onMounted(async () => {
             await authStore.getUser();
-
             // Assuming the user's address is available as `authStore.user.address`
             userAddress.value = authStore.user?.zip + ' ' + authStore.user?.street + ' ' + authStore.user?.city + ' ' + authStore.user?.province || 'Dagupan City Pangasinan';
+            await fetchCounts();
         });
 
         return {
             userAddress,
+            customerCount,
+            cardCount,
         };
     },
 };
