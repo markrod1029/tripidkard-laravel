@@ -17,62 +17,79 @@
 
                     <div class="box-body">
                         <div class="card-body">
-                            <form class="form-horizontal" @submit.prevent="createMerchants" method="POST"
-                                enctype="multipart/form-data">
+                            <form class="form-horizontal" @submit.prevent="createMerchants" method="POST" enctype="multipart/form-data">
 
-
-                                <!-- Customer Information -->
+                                <!-- TripidKard Information -->
                                 <h4 class="card-title text-dark mb-3">TripidKard Information</h4><br>
 
+                                <!-- Role Selection: Merchant or Influencer -->
                                 <div class="input-group mb-3">
-                                    <label for="fname"
-                                        class="col-sm-2 text-right control-label col-form-label text-muted">Enterprise
+                                    <label for="role"
+                                        class="col-sm-2 text-right control-label col-form-label text-muted">Role
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group col-sm-8 col-xs-11">
-                                        <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="fa fa-credit-card"></i></span></div>
-                                        <select class="form-control" id="enterprise_dropdown" name="enterprise_code"
-                                            v-model="form.enterprise_id">
-                                            <option value="" disabled selected>Select Enterprise Name</option>
-                                            <option v-for="enterprise in enterprises" :value="enterprise.id"
-                                                :key="enterprise.id"> {{ enterprise.business_name }}</option>
-                                            <option value="None">None</option>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                        </div>
+                                        <select class="form-control" name="role" v-model="form.role">
+                                            <option value="" disabled selected>Select Role</option>
+                                            <option value="merchant">Merchant</option>
+                                            <option value="influencer">Influencer</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="input-group mb-3" id="merchant_dropdown"
-                                    v-if="form.enterprise_id !== '' && form.enterprise_id === 'None'">
-                                    <label for="fname"
-                                        class="col-sm-2 text-right control-label col-form-label text-muted">Merchant
+                                <!-- Merchant Input Field (Shown only if 'Merchant' is selected) -->
+                                <div class="input-group mb-3" v-if="form.role === 'merchant'">
+                                    <label for="merchant"
+                                        class="col-sm-2 text-right control-label col-form-label text-muted">Merchant Name
                                         <span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group col-sm-8 col-xs-11">
-                                        <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="fa fa-credit-card"></i></span></div>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                        </div>
                                         <select class="form-control" name="merchant_code" v-model="form.merchant_id">
                                             <option value="" disabled selected>Select Merchant Name</option>
-                                            <option v-for="merchant in merchants" :value="merchant.id"
-                                                :key="merchant.id"> {{ merchant.business_name }}</option>
+                                            <option v-for="merchant in merchants" :value="merchant.id" :key="merchant.id">
+                                                {{ merchant.business_name }}
+                                            </option>
                                         </select>
                                     </div>
-                                    <span class="text-danger">*</span>
                                 </div>
 
+                                <!-- Influencer Input Field (Shown only if 'Influencer' is selected) -->
+                                <div class="input-group mb-3" v-if="form.role === 'influencer'">
+                                    <label for="influencer"
+                                        class="col-sm-2 text-right control-label col-form-label text-muted">Influencer Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group col-sm-8 col-xs-11">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                        </div>
+                                        <select class="form-control" name="merchant_code" v-model="form.merchant_id">
+                                            <option value="" disabled selected>Select Influencer Name</option>
+                                            <option v-for="influencer in influencers" :value="influencer.id" :key="influencer.id">
+                                                {{ influencer.business_name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
 
-
-
+                                <!-- Total Cards -->
                                 <div class="input-group mb-3">
-                                    <label for="lname"
-                                        class="col-sm-2 text-right control-label col-form-label text-muted">total Of
+                                    <label for="tripidkard_number"
+                                        class="col-sm-2 text-right control-label col-form-label text-muted">Total Of
                                         Card</label>
 
                                     <div class="input-group col-sm-8 col-xs-11">
-                                        <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="fa fa-list-ol"></i></span></div>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-list-ol"></i></span>
+                                        </div>
                                         <input v-model="form.tripidkard_number" type="number" class="form-control"
-                                            id="number" name="number" required="">
+                                            id="tripidkard_number" name="number" required="">
                                     </div>
                                     <span class="text-danger">*</span>
                                 </div>
@@ -80,9 +97,9 @@
                                 <!-- Navigation buttons -->
                                 <div class="box-footer text-right">
                                     <button type="reset"
-                                        class="btn btn-dark waves-effect waves-light ml- text-white ">Reset</button>
+                                        class="btn btn-dark waves-effect waves-light ml- text-white">Reset</button>
 
-                                    <button type="submit" class="btn btn-primary  ml-1" name="">Save</button>
+                                    <button type="submit" class="btn btn-primary ml-1" name="">Save</button>
                                 </div>
 
                             </form>
@@ -104,55 +121,42 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useToastr } from '@/toastr.js';
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
-import { useRouter, useRoute } from 'vue-router';
-
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const toastr = useToastr();
 
-const enterprises = ref([]);
 const merchants = ref([]);
+const influencers = ref([]); // Separate list for influencers
 
 const form = reactive({
-    enterprise_id: '',
     merchant_id: '',
+    role: '', // Field for role (Merchant or Influencer)
     tripidkard_number: '',
-
-
 });
 
-const createMerchants = async (values, actions) => {
+// Get merchants and influencers separately
+const getMerchants = async () => {
+    try {
+        const response = await axios.get('/api/merchants');
+        console.log(response.data); // Debugging: Check if the data is coming in correctly
+        merchants.value = response.data;
+    } catch (error) {
+        console.error('Error fetching Merchants:', error);
+    }
+};
+
+const createMerchants = async () => {
     try {
         await axios.post('/api/tripidkards/create', form);
         router.push('/admin/tripidkard');
         toastr.success('Tripidkard Added Successfully');
     } catch (error) {
-        actions.setErrors(error.response.data.errors);
-    }
-}
-
-
-const getMerchants = async () => {
-    try {
-        const response = await axios.get('/api/merchants');
-        merchants.value = response.data; // Assuming your API response contains an array of merchants
-    } catch (error) {
-        console.error('Error fetching Merchants:', error);
-    }
-}
-
-
-const getEnterprises = async () => {
-    try {
-        const response = await axios.get('/api/enterprises');
-        enterprises.value = response.data; // Assuming your API response contains an array of merchants
-    } catch (error) {
-        console.error('Error fetching Enterprises:', error);
+        console.error('Error:', error.response.data.errors);
     }
 }
 
 onMounted(() => {
     getMerchants();
-    getEnterprises();
 });
 </script>
