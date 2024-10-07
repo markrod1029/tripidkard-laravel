@@ -19,7 +19,7 @@ class CreateCardCodesTable extends Migration
             $table->string('store_code')->nullable();
             $table->string('card_number');
             $table->tinyInteger('status');
-            $table->date('validity');
+            $table->date('validity')->nullable();
             $table->timestamps();
         });
     }

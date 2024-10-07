@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('influencers', function (Blueprint $table) {
             $table->id();
+                $table->foreignId('user_id')->constrained()->unique();
+                $table->string('Influencer_code')->unique()->nullable();
+                $table->string('card_code')->unique()->nullable();
+                $table->string('blog_name');
+                $table->string('blog_category');
+                $table->string('zip')->nullable();
+                $table->string('street');
+                $table->string('city');
+                $table->string('province');
+                $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

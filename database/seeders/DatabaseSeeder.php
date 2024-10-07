@@ -6,7 +6,6 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MerchantSeeder;
-use Database\Seeders\EnterpriseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,11 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             MerchantSeeder::class,
-            EnterpriseSeeder::class,
             CardCodeSeeder::class,
             CustomerSeeder::class,
             StarSeeder::class,
             LocationSeeder::class,
+            InfluencerSeeder::class,
         ]);
     }
 }

@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\QrcodeController;
-
 use App\Http\Controllers\StarController;
+
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\QrcodeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
+use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
-use App\Http\Controllers\ProfileController;
 
 
 Route::get('/user', function () {
@@ -78,6 +79,11 @@ Route::put('/api/merchants/{id}', [MerchantController::class, 'archive']);
 Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);
 Route::post('/api/merchants/{merchant}/edit', [MerchantController::class, 'update']);
 Route::get('/api/merchants/count', [MerchantController::class, 'count']);
+
+
+// Influencer Route
+
+Route::get('/api/influencers', [InfluencerController::class, 'index']);
 
 // Customer Route
 Route::post('/api/customers/{customer}/edit', [CustomerController::class, 'update']);

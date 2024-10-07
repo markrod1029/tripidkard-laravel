@@ -67,7 +67,7 @@ class User extends Authenticatable
     }
 
 
-    public function enterprise()
+    public function influencer()
     {
         return $this->hasOne(Enterprise::class);
     }

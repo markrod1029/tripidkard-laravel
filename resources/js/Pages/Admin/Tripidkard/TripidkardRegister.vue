@@ -50,7 +50,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
                                         </div>
-                                        <select class="form-control" name="merchant_code" v-model="form.merchant_id">
+                                        <select class="form-control" name="merchant_code" v-model="form.user_id">
                                             <option value="" disabled selected>Select Merchant Name</option>
                                             <option v-for="merchant in merchants" :value="merchant.id" :key="merchant.id">
                                                 {{ merchant.business_name }}
@@ -69,10 +69,10 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
                                         </div>
-                                        <select class="form-control" name="merchant_code" v-model="form.merchant_id">
+                                        <select class="form-control" name="influencer_code" v-model="form.user_id">
                                             <option value="" disabled selected>Select Influencer Name</option>
                                             <option v-for="influencer in influencers" :value="influencer.id" :key="influencer.id">
-                                                {{ influencer.business_name }}
+                                                {{ influencer.blog_name }} <!-- Corrected name property -->
                                             </option>
                                         </select>
                                     </div>
@@ -130,7 +130,7 @@ const merchants = ref([]);
 const influencers = ref([]); // Separate list for influencers
 
 const form = reactive({
-    merchant_id: '',
+    user_id: '',
     role: '', // Field for role (Merchant or Influencer)
     tripidkard_number: '',
 });
@@ -146,6 +146,16 @@ const getMerchants = async () => {
     }
 };
 
+const getInfluencers = async () => {
+    try {
+        const response = await axios.get('/api/influencers');
+        console.log(response.data); // Debugging: Check if the data is coming in correctly
+        influencers.value = response.data;
+    } catch (error) {
+        console.error('Error fetching Influencers:', error);
+    }
+};
+
 const createMerchants = async () => {
     try {
         await axios.post('/api/tripidkards/create', form);
@@ -156,7 +166,8 @@ const createMerchants = async () => {
     }
 }
 
-onMounted(() => {
-    getMerchants();
+onMounted(async() => {
+    await getMerchants();
+    await getInfluencers();
 });
 </script>

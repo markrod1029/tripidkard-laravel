@@ -6,26 +6,30 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\CardCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CardCodeController extends Controller
 {
 
-    // Enterprise Index
     public function index()
     {
         $searchFields = [
-            'enterprises.business_code',
+            'influencers.influencer_code',
             'merchants.business_code',
             'card_codes.card_number',
             'merchants.business_name',
-            'enterprises.business_name',
-            // 'card_codes.validity',
+            'influencers.blog_name',
         ];
 
         $tripidkards = User::query()
             ->leftJoin('card_codes', 'card_codes.user_id', '=', 'users.id')
-            ->leftJoin('enterprises', 'enterprises.user_id', '=', 'users.id')
+            ->leftJoin('influencers', 'influencers.user_id', '=', 'users.id')
             ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
+            ->select(
+                'card_codes.card_number',
+                // Pagsamahin ang business_name o blog_name depende sa kung alin ang meron
+                DB::raw('COALESCE(merchants.business_name, influencers.blog_name) as business_or_blog_name')
+            )
             ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
                 $query->where(function ($query) use ($searchFields, $searchQuery) {
                     foreach ($searchFields as $field) {
@@ -34,37 +38,6 @@ class CardCodeController extends Controller
                 });
             })
             ->where('card_codes.status', '=', 0)
-            ->get();
-
-        return response()->json($tripidkards);
-    }
-
-
-// Merchant Index
-
-    public function merchantIndex()
-    {
-        $user = request()->user();
-
-        $searchFields = [
-            'merchants.business_code',
-            'card_codes.card_number',
-            'card_codes.business_name',
-            'card_codes.user_id',
-        ];
-
-        $tripidkards = User::query()
-            ->leftJoin('card_codes', 'card_codes.user_id', '=', 'users.id')
-            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
-            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-                $query->where(function ($query) use ($searchFields, $searchQuery) {
-                    foreach ($searchFields as $field) {
-                        $query->orWhere($field, 'like', "%{$searchQuery}%");
-                    }
-                });
-            })
-            ->where('card_codes.status', '=', 0)
-            ->where('card_codes.user_id', '=', $user->id)
             ->get();
 
         return response()->json($tripidkards);
@@ -74,10 +47,9 @@ class CardCodeController extends Controller
     public function store(Request $request)
     {
         // Validate incoming request data
-        $request->validate([
+        $validated = $request->validate([
             'tripidkard_number' => 'required|numeric', // Example validation rule, adjust as needed
-            'enterprise_id' => 'required', // Ensure enterprise is selected
-            'merchant_id' => 'required', // Ensure merchant is selected
+            'user_id' => 'required', // Ensure enterprise is selected
             // Add more validation rules as needed
         ]);
 
@@ -85,21 +57,12 @@ class CardCodeController extends Controller
         $user = $request->user();
 
         // Check if the selected enterprise is "None"
-        if ($request->input('enterprise_id') === 'None') {
-            // If enterprise is "None", use merchant_id as user_id
-            $user_id = $request->input('merchant_id');
-        } else {
-            // If enterprise is selected, use enterprise_id as user_id
-            $user_id = $request->input('enterprise_id');
-        }
 
-        // Calculate the expiry date
-        $expiryDate = Carbon::now()->addYear()->addMonths(3); // 1 year and 3 months from now
 
 
         // Retrieve the number of tripidkards to generate
         $numberOfTripidkards = $request->input('tripidkard_number');
-
+        $user_id = $validated['user_id'];
         // Loop to generate multiple customer codes
         for ($i = 0; $i < $numberOfTripidkards; $i++) {
             $cardNumber = $this->generateCardCode();
@@ -108,7 +71,6 @@ class CardCodeController extends Controller
                 'user_id' => $user_id, // Use enterprise_id or merchant_id as user_id
                 'card_number' => $cardNumber,
                 'status' => 0,
-                'validity' => $expiryDate->format('Y-m-d'),
             ]);
         }
 
