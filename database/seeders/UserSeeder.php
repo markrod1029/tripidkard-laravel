@@ -28,9 +28,9 @@ class UserSeeder extends Seeder
                 'email' => $data[4],
                 'password' => $data[5],
                 'role' => $data[6],
-                'status' => 1
+                'status' => $data[7],
             ]);
-        
+
         endwhile;
 
     }

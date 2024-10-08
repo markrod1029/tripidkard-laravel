@@ -32,31 +32,29 @@ class MerchantController extends Controller
         ];
 
         $merchants = Merchant::query()
-            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
-            ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
-            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-                $query->where(function ($query) use ($searchFields, $searchQuery) {
-                    foreach ($searchFields as $field) {
-                        $query->orWhere($field, 'like', "%{$searchQuery}%");
-                    }
-                });
-            })
-            ->when(request('category'), function ($query, $category) {
-                $query->where('business_category', 'like', "%{$category}%");
-            })
-
-
-            ->when(request("city"), function ($query, $city) {
-                $query->where("city", "like", "%{$city}%");
-            })
-
-            ->when(request("province"), function ($query, $province) {
-                $query->where("province", "like", "%{$province}%");
-            })
-            ->where('users.status', '!=', '0')
-            ->orderBy('stars_points', 'desc')
-            ->orderBy('discount', 'desc')
-            ->get();
+        ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+        ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+            $query->where(function ($query) use ($searchFields, $searchQuery) {
+                foreach ($searchFields as $field) {
+                    $query->orWhere($field, 'like', "%{$searchQuery}%");
+                }
+            });
+        })
+        ->when(request('category'), function ($query, $category) {
+            $query->where('business_category', 'like', "%{$category}%");
+        })
+        ->when(request("city"), function ($query, $city) {
+            $query->where("city", "like", "%{$city}%");
+        })
+        ->when(request("province"), function ($query, $province) {
+            $query->where("province", "like", "%{$province}%");
+        })
+        // Explicitly specify users.status to ensure filtering is correct
+        ->where('users.status', '=', '1')
+        ->orderBy('stars_points', 'desc')
+        ->orderBy('discount', 'desc')
+        ->get();
 
         return response()->json($merchants);
     }
@@ -93,7 +91,52 @@ class MerchantController extends Controller
                     }
                 });
             })
+
             ->where('users.status', '=', '0')
+            ->orderBy('stars_points', 'desc')
+            ->orderBy('discount', 'desc')
+            ->get();
+
+        return response()->json($merchants);
+
+    }
+
+
+
+    public function indexArchive()
+    {
+        $searchFields = [
+            'card_code',
+            'dti',
+            'business_code',
+            'business_name',
+            'dti',
+            'business_category',
+            'discount',
+            'zip',
+            'street',
+            'city',
+            'province',
+            'stars_points',
+            'users.fname',
+            'users.mname',
+            'users.lname',
+            'users.contact',
+            'users.email'
+        ];
+
+        $merchants = Merchant::query()
+            ->select('merchants.id AS merchant_id', 'merchants.*', 'users.*')
+            ->leftJoin('users', 'merchants.user_id', '=', 'users.id')
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+
+            ->where('users.status', '=', '5')
             ->orderBy('stars_points', 'desc')
             ->orderBy('discount', 'desc')
             ->get();

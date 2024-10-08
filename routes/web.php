@@ -74,6 +74,7 @@ Route::get('/api/tripidkards/count', [CardCodeController::class, 'count']);
 // Merchant Route
 Route::get('/api/merchants', [MerchantController::class, 'index']);
 Route::get('/api/merchants-pending', [MerchantController::class, 'indexPending']);
+Route::get('/api/merchants-archive', [MerchantController::class, 'indexArchive']);
 Route::post('/api/merchants/create', [MerchantController::class, 'store']);
 Route::put('/api/merchants/{id}', [MerchantController::class, 'archive']);
 Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);

@@ -138,7 +138,7 @@ const searchQuery = ref([]);
 
 const getMerchants = async () => {
     try {
-        const response = await axios.get('/api/merchants', {
+        const response = await axios.get('/api/merchants-archive', {
             params: {
                 query: searchQuery.value,
             }
