@@ -83,8 +83,17 @@ Route::get('/api/merchants/count', [MerchantController::class, 'count']);
 
 
 // Influencer Route
-
 Route::get('/api/influencers', [InfluencerController::class, 'index']);
+Route::get('/api/influencers-pending', [InfluencerController::class, 'indexPending']);
+Route::get('/api/influencers-archive', [InfluencerController::class, 'indexArchive']);
+Route::post('/api/influencers/create', [InfluencerController::class, 'store']);
+Route::get('/api/influencers/{influencer}/edit', [InfluencerController::class, 'edit']);
+Route::post('/api/influencers/{influencer}/edit', [InfluencerController::class, 'update']);
+// In your routes/web.php or routes/api.php
+Route::patch('/api/influencer/{id}/status/approve', [InfluencerController::class, 'approve']);
+Route::patch('/api/influencer/{id}/status/archive', [InfluencerController::class, 'archive']);
+
+Route::get('/api/influencers/count', [InfluencerController::class, 'count']);
 
 // Customer Route
 Route::post('/api/customers/{customer}/edit', [CustomerController::class, 'update']);

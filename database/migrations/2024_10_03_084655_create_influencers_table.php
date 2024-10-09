@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('influencers', function (Blueprint $table) {
             $table->id();
                 $table->foreignId('user_id')->constrained()->unique();
-                $table->string('Influencer_code')->unique()->nullable();
+                $table->string('influencer_code')->unique()->nullable();
                 $table->string('card_code')->unique()->nullable();
                 $table->string('blog_name');
                 $table->string('blog_category');

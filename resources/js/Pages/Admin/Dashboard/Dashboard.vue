@@ -34,7 +34,7 @@
                         <span class="info-box-icon bg-warning"><i class="fa fa-users"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Influencer List</span>
-                            <span class="info-box-number"></span>
+                            <span class="info-box-number">{{ influencerCount }}</span>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ export default {
         const merchantCount = ref(0);
         const customerCount = ref(0);
         const cardCount = ref(0);
-
+        const influencerCount= ref(0);
 
 
         // Function to fetch counts for merchants, customers, and cards
@@ -106,6 +106,9 @@ export default {
 
                 const customerResponse = await axios.get('/api/customers/count');
                 customerCount.value = customerResponse.data.count;
+
+                const influencerResponse = await axios.get('/api/customers/count');
+                influencerCount.value = influencerResponse.data.count;
 
                 const cardResponse = await axios.get('/api/tripidkards/count');
                 cardCount.value = cardResponse.data.count;
@@ -124,6 +127,7 @@ export default {
             userAddress,
             merchantCount,
             customerCount,
+            influencerCount,
             cardCount,
         };
     },

@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Influencer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Auth\User;
-
+use App\Models\User;
 class InfluencerController extends Controller
 {
 
@@ -29,7 +28,7 @@ class InfluencerController extends Controller
         ];
 
         $influencers = Influencer::query()
-            ->select('influencers.id AS influencer_id', 'influencers.*', 'users.*')
+            ->select('influencers.id AS influencer_id', 'users.id AS user_id', 'influencers.*', 'users.*')
             ->leftJoin('users', 'influencers.user_id', '=', 'users.id')
             ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
                 $query->where(function ($query) use ($searchFields, $searchQuery) {
@@ -38,7 +37,7 @@ class InfluencerController extends Controller
                     }
                 });
             })
-            ->where('users.status', '!=', '0')
+            ->where('users.status', '=', '1')
             ->get();
 
         return response()->json($influencers);
@@ -73,6 +72,41 @@ class InfluencerController extends Controller
                 });
             })
             ->where('users.status', '=', '0')
+            ->get();
+
+        return response()->json($influencers);
+    }
+
+
+    public function indexArchive()
+    {
+        $searchFields = [
+            'card_code',
+            'Influencer_code',
+            'blog_name',
+            'blog_category',
+            'zip',
+            'street',
+            'city',
+            'province',
+            'users.fname',
+            'users.mname',
+            'users.lname',
+            'users.contact',
+            'users.email'
+        ];
+
+        $influencers = Influencer::query()
+            ->select('influencers.id AS influencer_id', 'influencers.*', 'users.*')
+            ->leftJoin('users', 'influencers.user_id', '=', 'users.id')
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->where('users.status', '=', '5')
             ->get();
 
         return response()->json($influencers);
@@ -120,17 +154,15 @@ class InfluencerController extends Controller
         if ($lastCardCode) {
             $lastSerialNumber = intval(substr($lastCardCode, -7)) + 1;
         }
-        return $currentYear . '-0M-' . str_pad($lastSerialNumber, 7, '0', STR_PAD_LEFT);
+        return $currentYear . '-0I-' . str_pad($lastSerialNumber, 7, '0', STR_PAD_LEFT);
     }
 
     public function store(Request $request)
     {
         // Separate validation for Influencer
         $influencerValidation = $request->validate([
-            'dtiNo' => 'required',
-            'business_name' => 'required',
-            'business_category' => 'required',
-            'business_sub_category' => 'required',
+            'blog_name' => 'required',
+            'blog_category' => 'required',
             'zip' => '',
             'street' => 'required',
             'city' => 'required',
@@ -150,7 +182,7 @@ class InfluencerController extends Controller
             ]);
 
             // Generate business code and card code
-            $businessCode = $this->generateBusinessCode($influencerValidation['business_name']);
+            $businessCode = $this->generateBusinessCode($influencerValidation['blog_name']);
             $cardCode = $this->generateCardCode();
 
             // Create User
@@ -165,15 +197,14 @@ class InfluencerController extends Controller
                 'status' => 0,
             ]);
 
+
             // Create Influencer
             Influencer::create([
                 'user_id' => $user->id,
-                'business_code' => $businessCode,
+                'influencer_code' => $businessCode,
                 'card_code' => $cardCode,
-                'dti' => $influencerValidation['dtiNo'],
-                'business_name' => $influencerValidation['business_name'],
-                'business_category' => $influencerValidation['business_category'],
-                'business_sub_category' => $influencerValidation['business_sub_category'],
+                'blog_name' => $influencerValidation['blog_name'],
+                'blog_category' => $influencerValidation['blog_category'],
                 'zip' => request('zip'),
                 'street' => request('street'),
                 'city' => request('city'),
@@ -212,9 +243,8 @@ class InfluencerController extends Controller
             'lname' => 'required',
             'contact' => 'required',
             'email' => 'required|unique:users,email,' . $influencer->user->id,
-            'business_name' => 'required',
-            'business_category' => 'required',
-            'business_sub_category' => 'required',
+            'blog_name' => 'required',
+            'blog_category' => 'required',
             'zip' => 'required',
             'street' => 'required',
             'city' => 'required',
@@ -238,9 +268,8 @@ class InfluencerController extends Controller
 
             // I-update ang impormasyon ng influencer
             $influencer->update([
-                'business_name' => $validate['business_name'],
-                'business_category' => $validate['business_category'],
-                'business_sub_category' => $validate['business_sub_category'],
+                'blog_name' => $validate['blog_name'],
+                'blog_category' => $validate['blog_category'],
                 'zip' => $validate['zip'],
                 'street' => $validate['street'],
                 'city' => $validate['city'],
@@ -257,15 +286,22 @@ class InfluencerController extends Controller
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
+    public function approve(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $status = $request->input('status');
+        $user->update(['status' => $status]);
+        return response()->json(['message' => 'Influencer status updated successfully.']);
+    }
 
     public function archive(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $status = $request->input('status');
-
         $user->update(['status' => $status]);
         return response()->json(['message' => 'Influencer status updated successfully.']);
     }
+
 
     public function count()
     {

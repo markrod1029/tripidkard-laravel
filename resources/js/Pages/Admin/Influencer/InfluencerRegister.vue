@@ -11,8 +11,8 @@
                     <!-- title -->
                     <div class="box-header with-border" style="background-color:#367FA9;">
                         <div class="card-header">
-                            <h4 class="card-title text-white title" v-if="merchanttitle">Update Merchant</h4>
-                            <h4 class="card-title text-white title" v-else>Add New Merchant</h4>
+                            <h4 class="card-title text-white title" v-if="influencertitle">Update Influencer</h4>
+                            <h4 class="card-title text-white title" v-else>Add New Influencer</h4>
                         </div>
                     </div>
 
@@ -23,7 +23,7 @@
 
 
                                 <!-- Customer Information -->
-                                <h4 class="card-title text-dark mb-3">Merchant Information</h4><br>
+                                <h4 class="card-title text-dark mb-3">Influencer Information</h4><br>
 
                                 <div v-show="currentStep === 1">
                                     <!-- Step 1: Personal Information -->
@@ -107,7 +107,7 @@
 
                                     <div class="input-group mb-3">
                                         <label for="business_name"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Busine
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">Blog
                                             Name
                                             <span class="text-danger">*</span>
                                         </label>
@@ -115,7 +115,7 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text"><i
                                                         class="fa fa-store"></i></span></div>
-                                            <input v-model="form.business_name" type="text" class="form-control"
+                                            <input v-model="form.blog_name" type="text" class="form-control"
                                                 id="business_name" name="business_name" value="" required="">
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
 
                                     <div class="input-group mb-3">
                                         <label for="business_category"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Business
+                                            class="col-sm-2 text-right control-label col-form-label text-muted">BLog
                                             Category
                                             <span class="text-danger">*</span>
                                         </label>
@@ -131,26 +131,12 @@
                                         <div class="input-group col-sm-8 col-xs-11">
                                             <div class="input-group-prepend"><span class="input-group-text"><i
                                                         class="fa fa-store"></i></span></div>
-                                            <input v-model="form.business_category" type="text" class="form-control"
+                                            <input v-model="form.blog_category" type="text" class="form-control"
                                                 id="business_category" name="business_category" value="" required="">
                                         </div>
                                     </div>
 
-                                    <div class="input-group mb-3">
-                                        <label for="business_sub_category"
-                                            class="col-sm-2 text-right control-label col-form-label text-muted">Business
-                                            Sub Category
-                                            <span class="text-danger">*</span>
-                                        </label>
 
-                                        <div class="input-group col-sm-8 col-xs-11">
-                                            <div class="input-group-prepend"><span class="input-group-text"><i
-                                                        class="fa fa-store"></i></span></div>
-                                            <input v-model="form.business_sub_category" type="text" class="form-control"
-                                                id="business_sub_category" name="business_sub_category" value=""
-                                                required="">
-                                        </div>
-                                    </div>
 
 
 
@@ -284,7 +270,7 @@ const route = useRoute();
 const router = useRouter();
 const toastr = useToastr();
 
-const merchanttitle = ref(false);
+const influencertitle = ref(false);
 
 
 const form = reactive({
@@ -293,9 +279,8 @@ const form = reactive({
     lname: '',
     contact: '',
     email: '',
-    business_name: '',
-    business_category: '',
-    business_sub_category: '',
+    blog_name: '',
+    blog_category: '',
     zip: '',
     street: '',
     city: '',
@@ -307,19 +292,17 @@ const form = reactive({
 
 
 
-const getMerchants = async () => {
+const getInfluencers = async () => {
     try {
-        const response = await axios.get(`/api/merchants/${route.params.id}/edit`);
+        const response = await axios.get(`/api/influencers/${route.params.id}/edit`);
         const data = response.data; // makuha mo ang data mula sa response
         form.fname = data.user.fname;
         form.mname = data.user.mname;
         form.lname = data.user.lname;
         form.contact = data.user.contact;
         form.email = data.user.email;
-        form.business_name = data.business_name;
-        form.business_name = data.business_name;
-        form.business_category = data.business_category;
-        form.business_sub_category = data.business_sub_category;
+        form.blog_name = data.blog_name;
+        form.blog_category = data.blog_category;
         form.zip = data.zip;
         form.street = data.street;
         form.city = data.city;
@@ -331,11 +314,11 @@ const getMerchants = async () => {
 
 }
 
-const updateMerchants = async () => {
+const updateInfluencers = async () => {
     try {
-        const response = await axios.post(`/api/merchants/${route.params.id}/edit`, form);
-        toastr.success('Merchant Updated Successfully');
-        router.push('/admin/merchant');
+        const response = await axios.post(`/api/influencers/${route.params.id}/edit`, form);
+        toastr.success('Influencers Updated Successfully');
+        router.push('/admin/influencer');
     } catch (error) {
         console.log(error);
         toastr.error('Failed to update merchant', error);
@@ -343,28 +326,28 @@ const updateMerchants = async () => {
 }
 
 
-const createMerchants = async (values, actions) => {
+const createInfluencers = async (values, actions) => {
     try {
-        await axios.post('/api/merchants/create', form);
-        router.push('/admin/merchant');
-        toastr.success('Merchant Added Successfully');
+        await axios.post('/api/influencers/create', form);
+        router.push('/admin/influencer');
+        toastr.success('Influencers Added Successfully');
     } catch (error) {
         actions.setErrors(error.response.data.errors);
     }
 }
 
 const handleSubmit = (values, actions) => {
-    if(merchanttitle.value) {
-        updateMerchants(values, actions);
+    if(influencertitle.value) {
+        updateInfluencers(values, actions);
     } else {
-        createMerchants(values, actions);
+        createInfluencers(values, actions);
     }
 }
 
 onMounted(() => {
-    if (route.name === 'admin.merchant.edit') {
-        merchanttitle.value = true;
-        getMerchants();
+    if (route.name === 'admin.influencer.edit') {
+        influencertitle.value = true;
+        getInfluencers();
     }
 
 });
