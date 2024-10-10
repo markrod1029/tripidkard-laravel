@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Merchant;
 use App\Models\Enterprise;
+use App\Models\Influencer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Exceptions\InvalidPasswordException;
@@ -15,12 +16,13 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $user = request()->user();
-        $profileDetails = $user->only(['id', 'fname', 'mname', 'lname', 'contact', 'email', 'role', 'avatar', 'photo1', 'photo2', 'photo3']);
+        $profileDetails = $user->only(['id','fname', 'mname', 'lname', 'contact', 'email', 'role', 'avatar', 'photo1', 'photo2', 'photo3']);
 
         if ($user->role === 'Merchant') {
 
             $merchant = Merchant::where('user_id', $user->id)->first();
 
+            $profileDetails['user_id'] = $merchant->user_id;
             $profileDetails['business_code'] = $merchant->business_code;
             $profileDetails['card_code'] = $merchant->card_code;
             $profileDetails['business_name'] = $merchant->business_name;
@@ -36,9 +38,9 @@ class ProfileController extends Controller
             $profileDetails['tagline'] = $merchant->tagline;
 
 
-        } else if ($user->role === 'Enterprise') {
+        } else if ($user->role === 'Influencer') {
 
-            $enterprise = Enterprise::where('user_id', $user->id)->first();
+            $enterprise = Influencer::where('user_id', $user->id)->first();
 
             $profileDetails['business_name'] = $enterprise->business_name;
             $profileDetails['business_category'] = $enterprise->business_category;

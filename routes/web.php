@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StarController;
 
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\ProfileController;
@@ -16,24 +17,11 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
 
 
-Route::get('/user', function () {
-    return view('auth.login');
-});
+// Merchant Account
+Route::get('/api/card/lists', [OrderController::class, 'index']);
 
-Route::get('/user-register', function () {
-    return view('auth.register');
-});
+Route::post('/api/card/orders', [OrderController::class, 'store']);
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
 
 
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);
@@ -112,6 +100,7 @@ Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
 
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
+
 
 
 

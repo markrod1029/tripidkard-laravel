@@ -24,7 +24,7 @@ const menuItems = ref([
         title: "Order Card",
         icon: "fas fa-coins",
         children: [
-          { title: "Order Cards List", icon: "far fa-circle", route: "/merchant/loyalty-stars" },
+          { title: "Order Cards List", icon: "far fa-circle", route: "/merchant/orderlist/" },
           { title: "Order cards", icon: "far fa-circle", route: "/merchant/orders" },
         ],
       },
