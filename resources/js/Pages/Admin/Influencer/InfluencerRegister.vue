@@ -256,7 +256,26 @@ const currentStep = ref(1);
 const totalSteps = 3;
 
 function nextStep() {
-    if (currentStep.value < totalSteps) {
+    let isValid = true;
+
+    if (currentStep.value === 1) {
+        isValid = form.fname && form.lname && form.contact && form.email;
+        if (!isValid) {
+            toastr.error('Please fill all required fields in Step 1.');
+        }
+    } else if (currentStep.value === 2) {
+        isValid = form.blog_name && form.blog_category;
+        if (!isValid) {
+            toastr.error('Please fill all required fields in Step 2.');
+        }
+    } else if (currentStep.value === 3) {
+        isValid = form.zip && form.street && form.city && form.province;
+        if (!isValid) {
+            toastr.error('Please fill all required fields in Step 3.');
+        }
+    }
+
+    if (isValid) {
         currentStep.value++;
     }
 }
