@@ -32,6 +32,7 @@ class CreateCustomersTable extends Migration
             $table->string('province')->nullable();
             $table->string('avatar')->nullable();
             $table->tinyInteger('status');
+            $table->date('validity')->nullable();
             $table->timestamps();
         });
     }

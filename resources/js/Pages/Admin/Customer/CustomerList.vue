@@ -51,6 +51,7 @@
                           <th>Contact No.</th>
                           <th>Email Address</th>
                           <th>Address</th>
+                          <th>Validity</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -64,6 +65,9 @@
                           <td>
                             {{ customer.zip }} {{ customer.street }} {{ customer.city }} {{ customer.province }}
                           </td>
+
+                          <td>{{ customer.validity }}</td>
+
                           <td>
                             <div style="display: flex; justify-content: center;">
                               <router-link
@@ -75,7 +79,7 @@
 
                               <a
                                 class="btn btn-danger btn-sm text-white"
-                                @click.prevent="deleteCustomer(customer.id)"
+                                @click="showArchiveModal(customer.id)"
                                 style="margin-right: 5px;"
                                 ><i class="fa fa-redo"></i
                               ></a>
@@ -111,6 +115,7 @@
   import { ref, onMounted, watch } from 'vue';
   import { debounce } from 'lodash';
   import * as XLSX from 'xlsx'; // Import XLSX for Excel/CSV export
+  import Swal from 'sweetalert2';
 
   const toastr = useToastr();
   const customers = ref([]);
@@ -129,6 +134,21 @@
     }
   };
 
+
+  const showArchiveModal = (customerId) => {
+    Swal.fire({
+        title: 'Approve Influencer',
+        text: `Are you sure you want to Archive this Customer?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Archive',
+        cancelButtonText: 'Cancel'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            await updateCustomerStatus(customerId, 5);
+        }
+    });
+  }
   watch(
     searchQuery,
     debounce(() => {
@@ -149,6 +169,7 @@
       customer.contact,
       customer.email,
       `${customer.zip} ${customer.street} ${customer.city} ${customer.province}`,
+      customer.validity,
     ]);
   };
 
@@ -160,7 +181,7 @@
       }
       // Define headers and format rows without "Action" column
       const title = ['Customer List']; // Title row
-      const headers = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address'];
+      const headers = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
       const formattedRows = formatRows(customers.value);
 
       // Add title row centered across all columns
@@ -185,7 +206,7 @@
       }
       // Define title and headers for the CSV
       const title = ['Customer List']; // Title for the CSV file
-      const columnHeaders = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address'];
+      const columnHeaders = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
       const formattedRows = formatRows(customers.value);
 
       // Create worksheet with a centered title row
@@ -213,7 +234,7 @@
       const tableClone = document.getElementById('customerlist').cloneNode(true);
 
       // Remove the "Action" column from the cloned table
-      tableClone.querySelectorAll('th:nth-child(7), td:nth-child(7)').forEach(el => el.remove());
+      tableClone.querySelectorAll('th:nth-child(8), td:nth-child(8)').forEach(el => el.remove());
 
       const printContents = tableClone.outerHTML;
       if (!printContents) {

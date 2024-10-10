@@ -38,7 +38,7 @@
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-credit-card"></i></span></div>
                                             <input type="text" v-model="form.customer_card_num" class="form-control"
-                                                id="customer_code" name="customer_code" value="" required="">
+                                                id="customer_code" name="customer_code" value="" required="" :readonly="editCustomerTitle" >
 
                                             </div>
 
@@ -294,16 +294,28 @@ const createCustomer = (values, actions) => {
     axios.post('/api/customers/register', form)
         .then((response) => {
             router.push('/admin/customer');
-            toastr.success('Customer Added Successfuly');
+            toastr.success('Customer Added Successfully');
         })
         .catch((error) => {
-            if (actions && actions.setErrors) {
-                actions.setErrors(error.response.data.errors);
+            if (error.response) {
+                // Check if there are validation errors
+                if (error.response.data.errors) {
+                    const errors = error.response.data.errors;
+                    if (actions && actions.setErrors) {
+                        actions.setErrors(errors); // Set form errors if using formik or similar
+                    }
+                } else {
+                    // Handle other errors (e.g., server error, not found)
+                    const errorMessage = error.response.data.error || 'An unexpected error occurred.';
+                    toastr.error(errorMessage); // Display general error message
+                }
+            } else {
+                // If no response from server, display a general error
+                toastr.error('Network error: Please try again later.');
             }
-            error.value = error.response.data.error;
-            console.log(error.response.data);
-        })
+        });
 };
+
 
 let updateCustomer = (values, actions) => {
     axios.post(`/api/customers/${route.params.id}/edit`, form)
