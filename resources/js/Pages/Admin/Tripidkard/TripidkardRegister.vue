@@ -78,6 +78,23 @@
                                     </div>
                                 </div>
 
+                                <div class="input-group mb-3">
+                                    <label for="influencer"
+                                        class="col-sm-2 text-right control-label col-form-label text-muted">Influencer Name
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group col-sm-8 col-xs-11">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                        </div>
+                                        <select class="form-control" name="influencer_code" v-model="form.card_types">
+                                            <option value="" disabled selected>Select Card Types</option>
+                                            <option value="VIP">VIP</option>
+                                            <option value="Common">Common</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <!-- Total Cards -->
                                 <div class="input-group mb-3">
                                     <label for="tripidkard_number"
@@ -131,7 +148,8 @@ const influencers = ref([]); // Separate list for influencers
 
 const form = reactive({
     user_id: '',
-    role: '', // Field for role (Merchant or Influencer)
+    role: '', // Field for role (Merchant or Influencer)\
+    card_types: '',
     tripidkard_number: '',
 });
 

@@ -17,6 +17,7 @@ class CardCodeController extends Controller
             'influencers.influencer_code',
             'merchants.business_code',
             'card_codes.card_number',
+            'card_codes.card_types',
             'merchants.business_name',
             'influencers.blog_name',
         ];
@@ -63,6 +64,7 @@ class CardCodeController extends Controller
         // Retrieve the number of tripidkards to generate
         $numberOfTripidkards = $request->input('tripidkard_number');
         $user_id = $validated['user_id'];
+        $card_types = $validated['card_types'];
         // Loop to generate multiple customer codes
         for ($i = 0; $i < $numberOfTripidkards; $i++) {
             $cardNumber = $this->generateCardCode();
@@ -70,6 +72,7 @@ class CardCodeController extends Controller
             CardCode::create([
                 'user_id' => $user_id, // Use enterprise_id or merchant_id as user_id
                 'card_number' => $cardNumber,
+                'card_types' => $card_types,
                 'status' => 0,
             ]);
         }

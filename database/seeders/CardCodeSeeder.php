@@ -22,9 +22,10 @@ class CardCodeSeeder extends Seeder
         while (($data = fgetcsv($file)) !== false):
             CardCode::create([
                 'user_id' => $data[0],
-                'card_number'=> $data[1],
-                'status'=> $data[2],
-                'validity'=> $data[3],
+                'card_types' => $data[1],
+                'card_number'=> $data[2],
+                'status'=> $data[3],
+                'validity'=> $data[4],
             ]);
         endwhile;
     }
