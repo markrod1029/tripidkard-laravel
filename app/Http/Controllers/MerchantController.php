@@ -66,7 +66,6 @@ class MerchantController extends Controller
             'dti',
             'business_code',
             'business_name',
-            'dti',
             'business_category',
             'discount',
             'zip',
@@ -110,7 +109,6 @@ class MerchantController extends Controller
             'dti',
             'business_code',
             'business_name',
-            'dti',
             'business_category',
             'discount',
             'zip',
@@ -280,6 +278,7 @@ class MerchantController extends Controller
             'lname' => 'required',
             'contact' => 'required',
             'email' => 'required|unique:users,email,' . $merchant->user->id,
+            'dtiNo' => 'required',
             'business_name' => 'required',
             'business_category' => 'required',
             'business_sub_category' => 'required',
@@ -302,10 +301,12 @@ class MerchantController extends Controller
                 'lname' => $validate['lname'],
                 'contact' => $validate['contact'],
                 'email' => $validate['email'],
+
             ]);
 
             // I-update ang impormasyon ng merchant
             $merchant->update([
+                'dti' => $validate['dtiNo'],
                 'business_name' => $validate['business_name'],
                 'business_category' => $validate['business_category'],
                 'business_sub_category' => $validate['business_sub_category'],
@@ -326,14 +327,23 @@ class MerchantController extends Controller
         }
     }
 
+
+    public function approve(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $status = $request->input('status');
+        $user->update(['status' => $status]);
+        return response()->json(['message' => 'Merchant status updated successfully.']);
+    }
+
     public function archive(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $status = $request->input('status');
-
         $user->update(['status' => $status]);
         return response()->json(['message' => 'Merchant status updated successfully.']);
     }
+
 
     public function count()
     {

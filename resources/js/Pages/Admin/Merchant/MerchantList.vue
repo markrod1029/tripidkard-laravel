@@ -6,7 +6,6 @@
 
         <Breadcrumb />
 
-
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
@@ -14,7 +13,7 @@
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
                         <div class="d-flex justify-content-between">
 
-                            <div class=" mb-2 d-flex">
+                            <div class="mb-2 d-flex">
 
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
@@ -30,11 +29,9 @@
                                 </div>
                             </div>
 
-
                             <div class="col-3">
-                                <input type="text" name="" v-model="searchQuery" class="form-control"
-                                    placeholder="Search..." id="">
-
+                                <input type="text" v-model="searchQuery" class="form-control"
+                                    placeholder="Search..." />
                             </div>
                         </div>
                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -85,9 +82,11 @@
                                                         </router-link>
 
                                                         <router-link
-                                                            to="class/enterprise_crud.php?action=archive&&enterprise_id=<?php echo $row['id']?>"
-                                                            onclick="return confirm('Are you sure you want to remove Archive this Enterprise Account?')"
-                                                            class="btn btn-danger btn-sm  "><i class="fa fa-redo"></i>
+                                                            to="#"
+                                                            @click.prevent="confirmArchive(merchant.id)"
+                                                            class="btn btn-danger btn-sm"
+                                                        >
+                                                            <i class="fa fa-redo"></i>
                                                         </router-link>
                                                     </div>
                                                 </td>
@@ -100,8 +99,6 @@
                                             </tr>
 
                                         </tbody>
-
-
                                     </table>
                                 </div>
                             </div>
@@ -110,9 +107,6 @@
                 </div>
             </div>
         </section>
-
-
-
 
     </div>
     <Footer />
@@ -126,17 +120,17 @@ import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 import { useToastr } from '@/toastr.js';
-
 import axios from 'axios';
 import { ref, onMounted, watch } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
-
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const toastr = useToastr();
 const merchants = ref([]);
 const searchQuery = ref([]);
 
+// Fetch merchants from the API
 const getMerchants = async () => {
     try {
         const response = await axios.get('/api/merchants', {
@@ -146,22 +140,18 @@ const getMerchants = async () => {
         });
         merchants.value = response.data;
     } catch (error) {
-        console.error('Error fetching merchant:', error);
+        console.error('Error fetching merchants:', error);
     }
 }
 
-
-
+// Watch for searchQuery changes and debounce the API calls
 watch(searchQuery, debounce(() => {
     getMerchants();
 }, 100));
 
-
-
+// On component mount, fetch the merchants
 onMounted(() => {
     getMerchants();
-
-
 });
 
 // Format rows for export excluding the "Action" column
@@ -185,15 +175,11 @@ const exportToExcel = () => {
         if (merchants.value.length === 0) {
             return;
         }
-        // Define headers and format rows without "Action" column
-        const title = ['Merchant List']; // Title row
+        const title = ['Merchant List'];
         const headers = ['#', 'Card Code', 'Store Code', 'Merchant Name', 'Business Name', 'Business Category', 'Contact No.', 'Email Address', 'Address'];
         const formattedRows = formatRows(merchants.value);
 
-        // Add title row centered across all columns
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
-        //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
-
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Merchants');
         XLSX.writeFile(workbook, 'Merchants.xlsx');
@@ -210,15 +196,11 @@ const exportToCSV = () => {
             toastr.info('No data to export.');
             return;
         }
-        // Define title and headers for the CSV
-        const title = ['Merchant List']; // Title row
+        const title = ['Merchant List'];
         const columnHeaders = ['#', 'Card Code', 'Store Code', 'Merchant Name', 'Business Name', 'Business Category', 'Contact No.', 'Email Address', 'Address'];
         const formattedRows = formatRows(merchants.value);
 
-        // Create worksheet with a centered title row
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, columnHeaders, ...formattedRows]);
-        //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: columnHeaders.length - 1 } }]; // Merge title row cells
-
         const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
         const blob = new Blob([csvOutput], { type: 'text/csv' });
         const url = window.URL.createObjectURL(blob);
@@ -238,8 +220,6 @@ const exportToCSV = () => {
 const printTable = () => {
     try {
         const tableClone = document.getElementById('merchantlist').cloneNode(true);
-
-        // Remove the "Action" column from the cloned table
         tableClone.querySelectorAll('th:nth-child(10), td:nth-child(10)').forEach(el => el.remove());
 
         const printContents = tableClone.outerHTML;
@@ -292,4 +272,41 @@ const printTable = () => {
         toastr.error('Failed to print.');
     }
 };
+
+// Confirm archive action with SweetAlert2
+const confirmArchive = async (merchantId) => {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to archive this merchant!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, archive it!',
+        cancelButtonText: 'Cancel'
+    });
+
+    if (result.isConfirmed) {
+        // Call the function to archive the merchant
+        await archiveMerchant(merchantId, 5);
+    }
+};
+
+// Archive merchant
+const archiveMerchant = async (merchantId, status) => {
+    try {
+        // Make your API call to archive the merchant
+        await axios.patch(`/api/merchant/${merchantId}/status/archive`, { status }); // Adjust the API endpoint as necessary
+        toastr.success('Merchant archived successfully.');
+        // Refresh the merchants list after archiving
+        getMerchants();
+    } catch (error) {
+        console.error('Error archiving merchant:', error);
+        toastr.error('Failed to archive merchant.');
+    }
+};
 </script>
+
+<style scoped>
+/* Add any specific styles here */
+</style>

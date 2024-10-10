@@ -78,7 +78,10 @@ Route::get('/api/merchants-archive', [MerchantController::class, 'indexArchive']
 Route::post('/api/merchants/create', [MerchantController::class, 'store']);
 Route::put('/api/merchants/{id}', [MerchantController::class, 'archive']);
 Route::get('/api/merchants/{merchant}/edit', [MerchantController::class, 'edit']);
-Route::post('/api/merchants/{merchant}/edit', [MerchantController::class, 'update']);
+Route::put('/api/merchants/{merchant}/update', [MerchantController::class, 'update']);
+Route::patch('/api/merchant/{id}/status/approve', [MerchantController::class, 'approve']);
+Route::patch('/api/merchant/{id}/status/archive', [MerchantController::class, 'archive']);
+
 Route::get('/api/merchants/count', [MerchantController::class, 'count']);
 
 
