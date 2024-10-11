@@ -11,7 +11,14 @@
                     <div class=" overflow-hidden">
                         <form action="#" @submit.prevent="submit">
                             <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
+
                                 <div class="col-12">
+                                       <!-- Success message -->
+                                <div class="col-12" v-if="successMessage">
+                                    <div class="alert alert-success">
+                                        {{ successMessage }}
+                                    </div>
+                                </div>
                                     <h2 class="mb-4 font-weight-bold">We're Ready, Let's Talk.</h2>
 
                                     <label for="fullname" class="form-label">Full Name <span
@@ -45,7 +52,8 @@
                                 </div>
                                 <div class="col-12 mt-3">
                                     <div class="d-grid">
-                                        <button class="btn btn-primary btn-lg" type="submit">Send Message</button>
+                                        <input class="btn btn-primary btn-lg" type="submit" :disabled="loading"
+                                        :value="loading ? 'Loading...' : 'Sign In'"/>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +173,7 @@
 
 <script setup>
 import axios from "axios";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useToastr } from '@/toastr.js';
 
 const toastr = useToastr();
@@ -176,13 +184,20 @@ const form = reactive({
     message: '',
 });
 
+const loading = ref(false);
+const successMessage = ref('');
+
 const submit = async () => {
+    loading.value = true;
+    successMessage.value = '';
     try {
         await axios.post('/contact/send-email', form);
         toastr.success('Email sent successfully');
-
+        successMessage.value = 'Your message has been sent successfully!';
     } catch (error) {
         console.log(error);
+    } finally {
+        loading.value = false;
     }
 }
 </script>

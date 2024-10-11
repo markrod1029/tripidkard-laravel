@@ -9,9 +9,8 @@
             <div class="container mt-5">
                 <div class="bg-white p-4 rounded shadow text-center mx-auto custom-container">
                     <img class="img-fluid mx-auto"
-                    src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
-                    width="150" height="100" />
-
+                        src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
+                        width="150" height="100" />
                     <h3 v-if="updatestarts">Update Merchant Loyalty Stars</h3>
                     <h3 v-else>Register Merchant Loyalty Stars</h3>
                     <form method="POST" @submit.prevent="handdleSubmit">
@@ -19,8 +18,7 @@
 
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
-                                <input class="form-control" v-for="star in stars" :key="star.id"
-                                    :value="star.stars + ' ' + star.newProperty" readonly>
+                                <input class="form-control"  :value="(authUser.users.stars_points || 0) + ' Star Points'" readonly>
                                 <input class="form-control" v-model="form.id" hidden>
 
                             </div>
@@ -28,17 +26,7 @@
 
 
 
-                        <div class="form-group mt-3">
-                            <div class="col-md-12 d-flex align-items-center">
-                                <select class="form-control" name="merchants" v-model="form.merchant" id="merchants">
-                                    <option value=""  selected>Select Merchant Name</option>
-                                    <option v-for="merchant in merchants" :key="merchant.id"
-                                        :value="merchant.merchant_id">{{
-                        merchant.business_name }}</option>
-                                </select>
-                                <span class="ml-2 text-danger">*</span>
-                            </div>
-                        </div>
+
 
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
@@ -77,6 +65,7 @@ import Sidebar from '@/Components/Organisims/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import axios from 'axios';
+import { useAuthUserStore } from '../../../Stores/AuthUser';
 
 import { useRouter, useRoute } from 'vue-router';
 import { useToastr } from '@/toastr';
@@ -84,26 +73,17 @@ const showOtherInput = ref(false);
 const router = useRouter();
 const route = useRoute();
 const toastr = useToastr();
+const authUser = useAuthUserStore();
 
 const stars = ref([]);
-const merchants = ref([]);
 
 const updatestarts = ref(false);
 const form = reactive({
     id: '',
     merchant: '',
-    starsPoints: '',
     otherStarsPoints: ''
 });
 
-const getMerchants = async () => {
-    try {
-        const response = await axios.get('/api/merchants');
-        merchants.value = response.data;
-    } catch (error) {
-        console.error('Error fetching merchants:', error);
-    }
-}
 
 
 const getStars = async () => {

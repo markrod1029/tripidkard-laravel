@@ -32,7 +32,8 @@ import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue';
 import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue';
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue';
 import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue';
-import Ordes from './Pages/Merchant/Orders/orders.vue';
+import OrderCard from './Pages/Merchant/Orders/orderCards.vue';
+import OrderPoint from './Pages/Merchant/Orders/orderpoints.vue';
 import OrdeLists from './Pages/Merchant/Orders/list.vue';
 
 // Import influencer
@@ -97,7 +98,7 @@ const routesAdmin = [
 
 const routesMerchant = [
     { path: '/merchant/dashboard', name: 'merchant.dashboard', component: MerchantDashboard, meta: { title: 'Merchant Dashboard', requiresMerchantAuth: true } },
-    { path: '/merchant/scanner', name: 'merchant.scanner', component: MerchantScanner, meta: { title: 'Merchant QR', requiresMerchantAuth: true } },
+    { path: '/merchant/scanner', name: 'merchant.scanner', component: MerchantScanner, meta: { title: 'QR Code Scanner', requiresMerchantAuth: true } },
     { path: '/merchant/tripidkard/', name: 'merchant.tripidkard', component: MerchantTripidkard, meta: { title: 'Tripidkard List', requiresMerchantAuth: true } },
     { path: '/merchant/customer/', name: 'merchant.customer', component: MerchantCustomer, meta: { title: 'Customer List', requiresMerchantAuth: true } },
     { path: '/merchant/customer/register', name: 'merchant.customer.register', component: MerchantCustomerForm, meta: { title: 'Customer Register', requiresMerchantAuth: true } },
@@ -108,9 +109,10 @@ const routesMerchant = [
     { path: '/merchant/loyalty-stars/:card_number/register', name: 'merchant.loyalty-stars.scan', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Register', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars/:id/edit', name: 'merchant.loyalty-stars.edit', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Update', requiresMerchantAuth: true } },
     { path: '/merchant/activity-log/', name: 'merchant.activity-log', component: MerchantLogs, meta: { title: 'Activity Logs List', requiresMerchantAuth: true } },
-    { path: '/merchant/profile/', name: 'merchant.profile', component: Profile, meta: { title: 'Merchant Profile Information', requiresMerchantAuth: true } },
-    { path: '/merchant/orders/', name: 'merchant.order', component: Ordes, meta: { title: 'Merchant Orders', requiresMerchantAuth: true } },
-    { path: '/merchant/orderlist/', name: 'merchant.orderlist', component: OrdeLists, meta: { title: 'Merchant Orders List', requiresMerchantAuth: true } }
+    { path: '/merchant/profile/', name: 'merchant.profile', component: Profile, meta: { title: 'Profile Information', requiresMerchantAuth: true } },
+    { path: '/merchant/order/cards', name: 'merchant.order.cards', component: OrderCard, meta: { title: 'Order Card', requiresMerchantAuth: true } },
+    { path: '/merchant/order/points', name: 'merchant.order.poimts', component: OrderPoint, meta: { title: 'Order Star Points', requiresMerchantAuth: true } },
+    { path: '/merchant/orderlist/', name: 'merchant.orderlist', component: OrdeLists, meta: { title: 'Orders List', requiresMerchantAuth: true } }
 ];
 
 const routesInfluencer = [

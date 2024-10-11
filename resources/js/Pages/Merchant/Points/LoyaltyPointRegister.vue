@@ -10,8 +10,8 @@
                 <div class="bg-white p-4 rounded shadow text-center mx-auto  custom-container w-75 mt-5 ">
 
                     <img class="img-fluid mx-auto"
-                        src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC" width="150"
-                        height="100" />
+                        src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
+                        width="150" height="100" />
                     <h3 v-if="editPointsTitle">Register Loyalty Stars</h3>
                     <h3 v-else>Update Loyalty Stars</h3>
                     <form method="POST" @submit.prevent="handdleSubmit">
@@ -137,7 +137,7 @@ export default {
             if (route.name === 'merchant.loyalty-points.edit') {
                 editPointsTitle.value = true;
                 getPoints();
-            } else if(route.name === 'merchant.loyalty-stars.scan') {
+            } else if (route.name === 'merchant.loyalty-stars.scan') {
                 const cardNumber = route.params.card_number;
                 form.card_number = cardNumber;
             }
@@ -157,8 +157,11 @@ export default {
 
 <style scoped>
 .custom-button {
-    font-size: 1.2rem; /* Adjusts the font size */
-    max-width: 200px; /* Sets a maximum width for the button */
-    margin: 1rem auto 0; /* Centers the button and adds margin */
+    font-size: 1.2rem;
+    /* Adjusts the font size */
+    max-width: 200px;
+    /* Sets a maximum width for the button */
+    margin: 1rem auto 0;
+    /* Centers the button and adds margin */
 }
 </style>

@@ -22,7 +22,7 @@
 
 
                                 <!-- Customer Information -->
-                                <h4 class="card-title text-dark mb-3">Order Cards Information</h4><br>
+                                <h4 class="card-title text-dark mb-3">Order  Information</h4><br>
 
 
                                 <div class="input-group mb-3">
