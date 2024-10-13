@@ -320,7 +320,7 @@ const createCustomer = (values, actions) => {
 let updateCustomer = (values, actions) => {
     axios.post(`/api/customers/${route.params.id}/edit`, form)
         .then((response) => {
-            router.push('/admin/customer');
+            router.push('/merchant/customer');
             toastr.success('Customer Updated Successfuly');
         })
         .catch((error) => {
@@ -334,7 +334,7 @@ let updateCustomer = (values, actions) => {
 const editCustomerTitle = ref(false);
 
 onMounted(() => {
-    if (route.name === 'admin.customer.edit') {
+    if (route.name === 'merchant.customer.edit') {
         editCustomerTitle.value = true;
         getCustomers();
     }

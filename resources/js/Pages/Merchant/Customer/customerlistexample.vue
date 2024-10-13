@@ -42,25 +42,21 @@
               <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                   <div class="col-sm-12">
-                    <table id="enterpriselist" class="display dataTable table-bordered" style="width:100%;">
+                    <table id="customerlist" class="display dataTable table-bordered" style="width:100%;">
                       <thead>
                         <tr>
-                          <th>Select</th>
                           <th>#</th>
                           <th>Card Number</th>
                           <th>Customer Name</th>
                           <th>Contact No.</th>
                           <th>Email Address</th>
                           <th>Address</th>
-                          <!-- Excluded Action from export -->
+                          <th>Validity</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody v-if="customers.length > 0">
                         <tr v-for="(customer, index) in customers" :key="customer.id">
-                          <td>
-                            <input type="checkbox" v-model="selectedRows" :value="customer" />
-                          </td>
                           <td>{{ index + 1 }}</td>
                           <td>{{ customer.customer_card_num }}</td>
                           <td>{{ customer.fname }} {{ customer.mname }} {{ customer.lname }}</td>
@@ -69,10 +65,13 @@
                           <td>
                             {{ customer.zip }} {{ customer.street }} {{ customer.city }} {{ customer.province }}
                           </td>
+
+                          <td>{{ customer.validity }}</td>
+
                           <td>
                             <div style="display: flex; justify-content: center;">
                               <router-link
-                                :to="`/admin/customer/${customer.id}/edit`"
+                                :to="`/merchant/customer/${customer.id}/edit`"
                                 class="btn btn-primary btn-sm"
                                 style="margin-right: 5px;"
                                 ><i class="fa fa-edit"></i
@@ -80,7 +79,7 @@
 
                               <a
                                 class="btn btn-danger btn-sm text-white"
-                                @click.prevent="deleteCustomer(customer.id)"
+                                @click="showArchiveModal(customer.id)"
                                 style="margin-right: 5px;"
                                 ><i class="fa fa-redo"></i
                               ></a>
@@ -90,7 +89,7 @@
                       </tbody>
                       <tbody v-else>
                         <tr>
-                          <td colspan="8" class="text-center">No Customer Found</td>
+                          <td colspan="7" class="text-center">No Customer Found</td>
                         </tr>
                       </tbody>
                     </table>
@@ -116,11 +115,11 @@
   import { ref, onMounted, watch } from 'vue';
   import { debounce } from 'lodash';
   import * as XLSX from 'xlsx'; // Import XLSX for Excel/CSV export
+  import Swal from 'sweetalert2';
 
   const toastr = useToastr();
   const customers = ref([]);
   const searchQuery = ref('');
-  const selectedRows = ref([]); // Track selected rows
 
   const getCustomers = async () => {
     try {
@@ -135,6 +134,21 @@
     }
   };
 
+
+  const showArchiveModal = (customerId) => {
+    Swal.fire({
+        title: 'Approve Influencer',
+        text: `Are you sure you want to Archive this Customer?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Archive',
+        cancelButtonText: 'Cancel'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            await updateCustomerStatus(customerId, 5);
+        }
+    });
+  }
   watch(
     searchQuery,
     debounce(() => {
@@ -146,7 +160,7 @@
     getCustomers();
   });
 
-  // Function to format rows excluding the "Action" column
+  // Format rows for export excluding the "Action" column
   const formatRows = (rows) => {
     return rows.map((customer, index) => [
       index + 1,
@@ -155,22 +169,28 @@
       customer.contact,
       customer.email,
       `${customer.zip} ${customer.street} ${customer.city} ${customer.province}`,
+      customer.validity,
     ]);
   };
 
   // Export to Excel
   const exportToExcel = () => {
     try {
-      if (selectedRows.value.length === 0) {
-        toastr.info('Please select rows to export.');
+      if (customers.value.length === 0) {
         return;
       }
-      const formattedRows = [['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address']];
-      formattedRows.push(...formatRows(selectedRows.value));
-      const worksheet = XLSX.utils.aoa_to_sheet(formattedRows);
+      // Define headers and format rows without "Action" column
+      const title = ['Customer List']; // Title row
+      const headers = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
+      const formattedRows = formatRows(customers.value);
+
+      // Add title row centered across all columns
+      const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
+    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
+
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
-      XLSX.writeFile(workbook, 'customers.xlsx');
+      XLSX.writeFile(workbook, 'Customers.xlsx');
     } catch (error) {
       console.error('Error exporting to Excel:', error);
       toastr.error('Failed to export to Excel.');
@@ -180,19 +200,25 @@
   // Export to CSV
   const exportToCSV = () => {
     try {
-      if (selectedRows.value.length === 0) {
-        toastr.info('Please select rows to export.');
+      if (customers.value.length === 0) {
+        toastr.info('No data to export.');
         return;
       }
-      const formattedRows = [['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address']];
-      formattedRows.push(...formatRows(selectedRows.value));
-      const worksheet = XLSX.utils.aoa_to_sheet(formattedRows);
+      // Define title and headers for the CSV
+      const title = ['Customer List']; // Title for the CSV file
+      const columnHeaders = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
+      const formattedRows = formatRows(customers.value);
+
+      // Create worksheet with a centered title row
+      const worksheet = XLSX.utils.aoa_to_sheet([[], title,  columnHeaders, ...formattedRows]);
+    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: columnHeaders.length - 1 } }]; // Merge title row cells
+
       const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
       const blob = new Blob([csvOutput], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.setAttribute('href', url);
-      a.setAttribute('download', 'customers.csv');
+      a.setAttribute('download', 'Customers.csv');
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -202,18 +228,57 @@
     }
   };
 
-  // Print Table
+  // Print Table with a styled design excluding the "Action" column
   const printTable = () => {
     try {
-      const printContents = document.getElementById('enterpriselist').outerHTML;
+      const tableClone = document.getElementById('customerlist').cloneNode(true);
+
+      // Remove the "Action" column from the cloned table
+      tableClone.querySelectorAll('th:nth-child(8), td:nth-child(8)').forEach(el => el.remove());
+
+      const printContents = tableClone.outerHTML;
       if (!printContents) {
         toastr.info('No data to print.');
         return;
       }
+
       const printWindow = window.open('', '', 'width=800,height=600');
-      printWindow.document.write('<html><head><title>Print</title><style>table { width: 100%; border-collapse: collapse; } th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }</style></head><body>');
-      printWindow.document.write(printContents);
-      printWindow.document.write('</body></html>');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Customer List</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+              }
+              h2 {
+                text-align: center;
+                margin-bottom: 20px;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+              }
+              th, td {
+                padding: 8px;
+                text-align: left;
+                border: 1px solid #ddd;
+              }
+              th {
+                background-color: #f2f2f2;
+              }
+              tr:nth-child(even) {
+                background-color: #f9f9f9;
+              }
+            </style>
+          </head>
+          <body>
+            <h2>Customer List</h2>
+            ${printContents}
+          </body>
+        </html>
+      `);
       printWindow.document.close();
       printWindow.print();
     } catch (error) {
@@ -224,5 +289,5 @@
   </script>
 
   <style scoped>
-  /* Add custom styles if needed */
+  /* Add any additional styling here if needed */
   </style>

@@ -70,7 +70,16 @@
 
                           <td>
                             <div style="display: flex; justify-content: center;">
-                              <router-link
+
+                                <router-link
+                                :to="`/admin/customer/${customer.id}/points`"
+                                class="btn btn-success btn-sm"
+                                style="margin-right: 5px;"
+                                ><i class="fa fa-eye"></i
+                              ></router-link>
+
+
+                                <router-link
                                 :to="`/admin/customer/${customer.id}/edit`"
                                 class="btn btn-primary btn-sm"
                                 style="margin-right: 5px;"
@@ -106,7 +115,7 @@
 
   <script setup>
   import MenuBar from '@/Components/Organisims/MenuBar.vue';
-  import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
+  import Sidebar from '@/Components/Organisims/Sidebar.vue';
   import Footer from '@/Components/Organisims/Footer.vue';
   import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 

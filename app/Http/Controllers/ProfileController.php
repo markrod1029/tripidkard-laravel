@@ -82,7 +82,6 @@ class ProfileController extends Controller
             ->where('users.id', $request->user()->id)
             ->select('merchants.*')
             ->first();
-
         // Kumpirmahin kung mayroong negosyo na nauugnay sa user
         if (!$business) {
             return response()->json(['message' => 'User does not have associated business'], 404);
@@ -97,10 +96,8 @@ class ProfileController extends Controller
                 'tagline' => 'required',
             ]);
             $validatedData = $request->only(['discount', 'description', 'tagline']);
-
             // I-update ang impormasyon ng negosyo
             $business->update($validatedData);
-
             return response()->json(['message' => 'Business Description updated successfully'], 200);
         } else {
 

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Point;
 use App\Models\Customer;
-use App\Models\CardCode; // Import ng CardCode model
-use App\Http\Controllers\CardCodesController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CardCodesController;
+use App\Models\CardCode; // Import ng CardCode model
 
 class CustomerController extends Controller
 {
@@ -13,7 +14,6 @@ class CustomerController extends Controller
     public function index()
     {
 
-        // return Customer::latest()->get();
         $searchFields = ['customer_card_num', 'fname', 'mname', 'lname', 'contact', 'email', 'zip', 'street', 'city', 'province', 'validity'];
         $customer = Customer::query()
             ->where('status', 1)
@@ -24,13 +24,32 @@ class CustomerController extends Controller
                     }
                 });
             })
-            // ->when(request('query'), function ($query, $searchQuery) {
-            //     $query->where('fname', 'like', "%{$searchQuery}%");
-            // })
+
             ->latest()->get();
 
         return response()->json($customer);
 
+    }
+
+    public function points($id) {
+        $searchFields = ['customer_card_num', 'fname', 'mname', 'lname', 'points', 'points.created_at'];
+
+        $points = Point::query() // Use Point::query() as the primary model
+            ->select('customers.id as customer_id', 'customers.*', 'points.created_at as point_created_at',  'points.*') // Alias 'customers.id' as 'customer_id'
+            ->leftJoin('customers', 'customers.customer_card_num', '=', 'points.card_number') // Join with customers table
+            ->where('customers.status', 1) // Check status on customers table
+            ->where('customers.id', $id) // Filter by customer_id in points table
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->orderBy('points.created_at', 'desc') // Order by points.created_at
+            ->get();
+
+        return response()->json($points);
     }
 
     public function store(Request $request)

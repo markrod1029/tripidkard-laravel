@@ -48,11 +48,8 @@
                           <th>#</th>
                           <th>Card Number</th>
                           <th>Customer Name</th>
-                          <th>Contact No.</th>
-                          <th>Email Address</th>
-                          <th>Address</th>
-                          <th>Validity</th>
-                          <th>Action</th>
+                          <th>Star Points</th>
+                          <th>Date</th>
                         </tr>
                       </thead>
                       <tbody v-if="customers.length > 0">
@@ -60,45 +57,17 @@
                           <td>{{ index + 1 }}</td>
                           <td>{{ customer.customer_card_num }}</td>
                           <td>{{ customer.fname }} {{ customer.mname }} {{ customer.lname }}</td>
-                          <td>{{ customer.contact }}</td>
-                          <td>{{ customer.email }}</td>
-                          <td>
-                            {{ customer.zip }} {{ customer.street }} {{ customer.city }} {{ customer.province }}
-                          </td>
-
-                          <td>{{ customer.validity }}</td>
-
-                          <td>
-                            <div style="display: flex; justify-content: center;">
-
-                                <router-link
-                                :to="`/merchant/customer/${customer.id}/points`"
-                                class="btn btn-success btn-sm"
-                                style="margin-right: 5px;"
-                                ><i class="fa fa-eye"></i
-                              ></router-link>
-
-
-                                <router-link
-                                :to="`/merchant/customer/${customer.id}/edit`"
-                                class="btn btn-primary btn-sm"
-                                style="margin-right: 5px;"
-                                ><i class="fa fa-edit"></i
-                              ></router-link>
-
-                              <a
-                                class="btn btn-danger btn-sm text-white"
-                                @click="showArchiveModal(customer.id)"
-                                style="margin-right: 5px;"
-                                ><i class="fa fa-redo"></i
-                              ></a>
-                            </div>
-                          </td>
+                          <td>{{ customer.points }} Star Points</td>
+                          <td>{{ formatDate(customer.point_created_at) }}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" class="text-right font-weight-bold">Total Star Points:</td>
+                          <td colspan="2" class="font-weight-bold">{{ totalStarPoints }} Star Points</td>
                         </tr>
                       </tbody>
                       <tbody v-else>
                         <tr>
-                          <td colspan="7" class="text-center">No Customer Found</td>
+                          <td colspan="5" class="text-center">No Customer Found</td>
                         </tr>
                       </tbody>
                     </table>
@@ -115,24 +84,26 @@
 
   <script setup>
   import MenuBar from '@/Components/Organisims/MenuBar.vue';
-  import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
+  import Sidebar from '@/Components/Organisims/Sidebar.vue';
   import Footer from '@/Components/Organisims/Footer.vue';
   import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
   import { useToastr } from '@/toastr.js';
   import axios from 'axios';
-  import { ref, onMounted, watch } from 'vue';
+  import { ref, onMounted, watch, computed } from 'vue';
   import { debounce } from 'lodash';
   import * as XLSX from 'xlsx'; // Import XLSX for Excel/CSV export
   import Swal from 'sweetalert2';
+  import { useRoute } from 'vue-router';
 
   const toastr = useToastr();
   const customers = ref([]);
   const searchQuery = ref('');
+  const route = useRoute();
 
   const getCustomers = async () => {
     try {
-      const response = await axios.get('/api/customers', {
+      const response = await axios.get(`/api/customer/${route.params.id}/points`, {
         params: {
           query: searchQuery.value,
         },
@@ -143,21 +114,25 @@
     }
   };
 
+  // Calculate total star points
+  const totalStarPoints = computed(() => {
+    return customers.value.reduce((total, customer) => total + (customer.points || 0), 0);
+  });
 
-  const showArchiveModal = (customerId) => {
-    Swal.fire({
-        title: 'Approve Influencer',
-        text: `Are you sure you want to Archive this Customer?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Archive',
-        cancelButtonText: 'Cancel'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            await updateCustomerStatus(customerId, 5);
-        }
+  // Format date and time
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
     });
-  }
+  };
+
   watch(
     searchQuery,
     debounce(() => {
@@ -193,9 +168,8 @@
       const headers = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
       const formattedRows = formatRows(customers.value);
 
-      // Add title row centered across all columns
+      // Create worksheet with a centered title row
       const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
-    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
 
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
@@ -219,8 +193,7 @@
       const formattedRows = formatRows(customers.value);
 
       // Create worksheet with a centered title row
-      const worksheet = XLSX.utils.aoa_to_sheet([[], title,  columnHeaders, ...formattedRows]);
-    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: columnHeaders.length - 1 } }]; // Merge title row cells
+      const worksheet = XLSX.utils.aoa_to_sheet([[], title, columnHeaders, ...formattedRows]);
 
       const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
       const blob = new Blob([csvOutput], { type: 'text/csv' });

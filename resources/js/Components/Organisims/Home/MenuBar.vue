@@ -9,7 +9,7 @@
           <!-- Logo aligned to the left -->
           <router-link class="navbar-brand" to="/">
             <img
-            src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=fIS2l5CxTpwQ7kNvgH9L8SL&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AUjxSbhVWXS-o7UA-ODF9u2&oh=00_AYASz3J_BFL74bIZIoz4YhnNKxkZDcSMkj_D-5XtefAskQ&oe=6702BB2C"
+            src="/storage/img/logo.jpg"
               alt="Tripidkard"
               width="100"
             />

@@ -16,6 +16,7 @@ import AdminScanner from './Pages/Admin/Scanner/Qr-Code.vue';
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue';
 import AdminTripidkardForm from './Pages/Admin/Tripidkard/TripidkardRegister.vue';
 import AdminCustomer from './Pages/Admin/Customer/CustomerList.vue';
+import AdminCustomerPoints from './Pages/Admin/Customer/CustomerPoints.vue';
 import AdminCustomerForm from './Pages/Admin/Customer/CustomerRegister.vue';
 import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue';
 import AdminLoyaltyStarForm from './Pages/Admin/Points/LoyaltyPointRegister.vue';
@@ -30,6 +31,7 @@ import MerchantScanner from './Pages/Merchant/Scanner/Qr-Code.vue';
 import MerchantTripidkard from './Pages/Merchant/Tripidkard/TripidkardList.vue';
 import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue';
 import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue';
+import MerchantCustomerPoints from './Pages/Merchant/Customer/CustomerPoints.vue';
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue';
 import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue';
 import OrderCard from './Pages/Merchant/Orders/orderCards.vue';
@@ -86,6 +88,7 @@ const routesAdmin = [
     { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: true } },
     { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: true } },
     { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: true } },
+    { path: '/admin/customer/:id/points', name: 'admin.customer.points', component: AdminCustomerPoints, meta: { title: 'Customer Points', requiresAdminAuth: true } },
     { path: '/admin/customer/register', name: 'admin.customer.register', component: AdminCustomerForm, meta: { title: 'Customer Register', requiresAdminAuth: true } },
     { path: '/admin/customer/:id/edit', name: 'admin.customer.edit', component: AdminCustomerForm, meta: { title: 'Customer Update', requiresAdminAuth: true } },
     { path: '/admin/loyalty-stars', name: 'admin.loyalty-stars', component: AdminLoyaltyPoint, meta: { title: 'Loyalty Stars List', requiresAdminAuth: true } },
@@ -103,6 +106,8 @@ const routesMerchant = [
     { path: '/merchant/customer/', name: 'merchant.customer', component: MerchantCustomer, meta: { title: 'Customer List', requiresMerchantAuth: true } },
     { path: '/merchant/customer/register', name: 'merchant.customer.register', component: MerchantCustomerForm, meta: { title: 'Customer Register', requiresMerchantAuth: true } },
     { path: '/merchant/customer/:id/edit', name: 'merchant.customer.edit', component: MerchantCustomerForm, meta: { title: 'Customer Update', requiresMerchantAuth: true } },
+    { path: '/merchant/customer/:id/points', name: 'merchant.customer.points', component: MerchantCustomerPoints, meta: { title: 'Customer Points', requiresMerchantAuth: true } },
+
     { path: '/merchant/customer/:card_number/scan', name: 'merchant.customer.scan', component: MerchantCustomerForm, meta: { title: 'Customer Register', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars', name: 'merchant.loyalty-stars', component: MerchantLoyaltyPoint, meta: { title: 'Loyalty Stars List', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars/register', name: 'merchant.loyalty-stars.register', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Register', requiresMerchantAuth: true } },
