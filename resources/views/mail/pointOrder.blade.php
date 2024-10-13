@@ -2,10 +2,8 @@
 <html>
 
 <head>
-  <!-- Compiled with Bootstrap Email version: 1.3.1 -->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="x-apple-disable-message-reformatting">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
   <style type="text/css">
@@ -15,289 +13,66 @@
       font-family: Helvetica, Arial, sans-serif !important;
     }
 
-    .ExternalClass {
-      width: 100%;
-    }
-
-    .ExternalClass,
-    .ExternalClass p,
-    .ExternalClass span,
-    .ExternalClass font,
-    .ExternalClass td,
-    .ExternalClass div {
-      line-height: 150%;
-    }
-
     a {
       text-decoration: none;
     }
 
-    * {
-      color: inherit;
-    }
-
-    a[x-apple-data-detectors],
-    u+#body a,
-    #MessageViewBody a {
-      color: inherit;
-      text-decoration: none;
-      font-size: inherit;
-      font-family: inherit;
-      font-weight: inherit;
-      line-height: inherit;
-    }
-
     img {
       -ms-interpolation-mode: bicubic;
+      width: 100%;
+      height: auto;
     }
 
-    table:not([class^=s-]) {
-      font-family: Helvetica, Arial, sans-serif;
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-      border-spacing: 0px;
-      border-collapse: collapse;
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    table:not([class^=s-]) td {
-      border-spacing: 0px;
-      border-collapse: collapse;
+    .header {
+      text-align: center;
+      padding: 20px;
     }
 
-    @media screen and (max-width: 600px) {
+    .card {
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      padding: 40px;
+      background-color: #ffffff;
+    }
 
-      .w-full,
-      .w-full>tbody>tr>td {
-        width: 100% !important;
-      }
+    .footer {
+      text-align: center;
+      color: #718096;
+      padding: 20px;
+    }
 
-      .w-24,
-      .w-24>tbody>tr>td {
-        width: 96px !important;
-      }
-
-      .w-40,
-      .w-40>tbody>tr>td {
-        width: 160px !important;
-      }
-
-      .p-lg-10:not(table),
-      .p-lg-10:not(.btn)>tbody>tr>td,
-      .p-lg-10.btn td a {
-        padding: 0 !important;
-      }
-
-      .p-3:not(table),
-      .p-3:not(.btn)>tbody>tr>td,
-      .p-3.btn td a {
-        padding: 12px !important;
-      }
-
-      .p-6:not(table),
-      .p-6:not(.btn)>tbody>tr>td,
-      .p-6.btn td a {
-        padding: 24px !important;
-      }
-
-      *[class*=s-lg-]>tbody>tr>td {
-        font-size: 0 !important;
-        line-height: 0 !important;
-        height: 0 !important;
-      }
-
-      .s-4>tbody>tr>td {
-        font-size: 16px !important;
-        line-height: 16px !important;
-        height: 16px !important;
-      }
-
-      .s-6>tbody>tr>td {
-        font-size: 24px !important;
-        line-height: 24px !important;
-        height: 24px !important;
-      }
-
-      .s-10>tbody>tr>td {
-        font-size: 40px !important;
-        line-height: 40px !important;
-        height: 40px !important;
-      }
+    .message {
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 10px;
+      background-color: #f9f9f9;
     }
   </style>
 </head>
 
-<body class="bg-light"
-  style="outline: 0; width: 100%; min-width: 100%; height: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: Helvetica, Arial, sans-serif; line-height: 24px; font-weight: normal; font-size: 16px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #000000; margin: 0; padding: 0; border-width: 0;"
-  bgcolor="#f7fafc">
-  <table class="bg-light body" valign="top" role="presentation" border="0" cellpadding="0" cellspacing="0"
-    style="outline: 0; width: 100%; min-width: 100%; height: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: Helvetica, Arial, sans-serif; line-height: 24px; font-weight: normal; font-size: 16px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #000000; margin: 0; padding: 0; border-width: 0;"
-    bgcolor="#f7fafc">
-    <tbody>
-      <tr>
-        <td valign="top" style="line-height: 24px; font-size: 16px; margin: 0;" align="left" bgcolor="#f7fafc">
-          <table class="container" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-            <tbody>
-              <tr>
-                <td align="center" style="line-height: 24px; font-size: 16px; margin: 0; padding: 0 16px;">
-                  <!--[if (gte mso 9)|(IE)]>
-                      <table align="center" role="presentation">
-                        <tbody>
-                          <tr>
-                            <td width="600">
-                    <![endif]-->
-                  <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                    style="width: 100%; max-width: 600px; margin: 0 auto;">
-                    <tbody>
-                      <tr>
-                        <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
-                          <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                            style="width: 100%;" width="100%">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;"
-                                  align="left" width="100%" height="40">
-                                  &#160;
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <table class="ax-center" role="presentation" align="center" border="0" cellpadding="0"
-                            cellspacing="0" style="margin: 0 auto;">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
-                                  <img class="w-24" src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t39.30808-6/395230712_122118591386063246_3069262199382701706_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF3TvLcqEu0luHCExtftUoiC13derB72XoLXd16sHvZeldH_biMSyB-5DaMdbzZSMXoGtFEEt3DU4qrO390bF5j&_nc_ohc=xHjDiQ0_jNkQ7kNvgE-Hxy-&_nc_ht=scontent.fmnl17-1.fna&oh=00_AYBTBpQnrO0xHh4mGsc6CbG0VHHKExHGcJ59F0Mkd-GHGA&oe=66BB9D0F"
-                                    style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 150px; border-style: none; border-width: 0;"
-                                    width="96">
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                            style="width: 100%;" width="100%">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;"
-                                  align="left" width="100%" height="40">
-                                  &#160;
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <table class="card p-6 p-lg-10 space-y-4" role="presentation" border="0" cellpadding="0"
-                            cellspacing="0"
-                            style="border-radius: 6px; border-collapse: separate !important; width: 100%; overflow: hidden; border: 1px solid #e2e8f0;"
-                            bgcolor="#ffffff">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 24px; font-size: 16px; width: 100%; margin: 0; padding: 40px;"
-                                  align="left" bgcolor="#ffffff">
-                                  <h1 class="h3 fw-700"
-                                    style="padding-top: 0; padding-bottom: 0; font-weight: 700 !important; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;"
-                                    align="left">
-                                    Notification
-                                  </h1>
-
-                                  <table class="s-4 w-full" role="presentation" border="0" cellpadding="0"
-                                    cellspacing="0" style="width: 100%;" width="100%">
-                                    <tbody>
-                                      <tr>
-                                        <td
-                                          style="line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;"
-                                          align="left" width="100%" height="16">
-                                          &#160;
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;"
-                                    align="left">
-                                    Thank you for reaching out to us. Below is your message:
-                                  </p>
-                                  <br>
-
-                                  <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">
-                                    <div style=" text-align:center; border: 1px solid #e2e8f0; border-radius: 4px; padding: 10px; background-color: #f9f9f9;">
-                                        {{ $mailMessage }}
-                                    </div>
-                                </p>
-
-
-                                  <table class="s-4 w-full" role="presentation" border="0" cellpadding="0"
-                                    cellspacing="0" style="width: 100%;" width="100%">
-                                    <tbody>
-                                      <tr>
-                                        <td
-                                          style="line-height: 16px; font-size: 16px; width: 100%; height: 16px; margin: 0;"
-                                          align="left" width="100%" height="16">
-                                          &#160;
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-
-                                  <div class="text-muted text-center" style="color: #718096;" align="center">
-                                    {{ $email }}<br>
-                                  </div>
-
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                            style="width: 100%;" width="100%">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;"
-                                  align="left" width="100%" height="40">
-                                  &#160;
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                          <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                            style="width: 100%;" width="100%">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;"
-                                  align="left" width="100%" height="24">
-                                  &#160;
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <div class="text-muted text-center" style="color: #718096;" align="center">
-                            Best regards,<br><a href="https://tripidkard.com">Tripidkard</a><br>
-                          </div>
-                          <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0"
-                            style="width: 100%;" width="100%">
-                            <tbody>
-                              <tr>
-                                <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;"
-                                  align="left" width="100%" height="24">
-                                  &#160;
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <!--[if (gte mso 9)|(IE)]>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-                    <![endif]-->
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
+<body style="margin: 0; padding: 0; background-color: #f7fafc;">
+  <table class="container" role="presentation">
+    <tr>
+      <td class="header">
+        <img src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t39.30808-6/395230712_122118591386063246_3069262199382701706_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF3TvLcqEu0luHCExtftUoiC13derB72XoLXd16sHvZeldH_biMSyB-5DaMdbzZSMXoGtFEEt3DU4qrO390bF5j&_nc_ohc=xHjDiQ0_jNkQ7kNvgE-Hxy-&_nc_ht=scontent.fmnl17-1.fna&oh=00_AYBTBpQnrO0xHh4mGsc6CbG0VHHKExHGcJ59F0Mkd-GHGA&oe=66BB9D0F" alt="Logo">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="card">
+          <h1 style="font-size: 28px; font-weight: 700; margin: 0;">Notification</h1>
+          <p>Thank you for reaching out to us. Below is your message:</p>
+          <div class="message">{{ $mailMessage }}<b>Total Start Points:  {{ $totalStarPoints }}</b></div>
+          <div class="footer">{{ $email }}<br>Best regards,<br><a href="https://tripidkard.com">Tripidkard</a></div>
+        </div>
+      </td>
+    </tr>
   </table>
 </body>
 

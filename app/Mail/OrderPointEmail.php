@@ -13,12 +13,19 @@ class OrderPointEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $mailMessage;
+    public $subject;
+    public $email;
+    public $totalStarPoints;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($mailMessage, $subject, $email, $totalStarPoints)
     {
-        //
+        $this->mailMessage = $mailMessage;
+        $this->subject = $subject;
+        $this->email = $email;
+        $this->totalStarPoints = $totalStarPoints;
     }
 
     /**
@@ -27,7 +34,7 @@ class OrderPointEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Point Email',
+            subject: $this->subject,
         );
     }
 
@@ -37,7 +44,7 @@ class OrderPointEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.pointOrder',
         );
     }
 

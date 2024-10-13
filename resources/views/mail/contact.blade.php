@@ -139,12 +139,7 @@
             <tbody>
               <tr>
                 <td align="center" style="line-height: 24px; font-size: 16px; margin: 0; padding: 0 16px;">
-                  <!--[if (gte mso 9)|(IE)]>
-                      <table align="center" role="presentation">
-                        <tbody>
-                          <tr>
-                            <td width="600">
-                    <![endif]-->
+
                   <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0"
                     style="width: 100%; max-width: 600px; margin: 0 auto;">
                     <tbody>
@@ -166,7 +161,7 @@
                             <tbody>
                               <tr>
                                 <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
-                                  <img class="w-24" src="https://scontent.fmnl17-1.fna.fbcdn.net/v/t39.30808-6/395230712_122118591386063246_3069262199382701706_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF3TvLcqEu0luHCExtftUoiC13derB72XoLXd16sHvZeldH_biMSyB-5DaMdbzZSMXoGtFEEt3DU4qrO390bF5j&_nc_ohc=xHjDiQ0_jNkQ7kNvgE-Hxy-&_nc_ht=scontent.fmnl17-1.fna&oh=00_AYBTBpQnrO0xHh4mGsc6CbG0VHHKExHGcJ59F0Mkd-GHGA&oe=66BB9D0F"
+                                  <img class="w-24" src="photo/logo/logo.jpg"
                                     style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 150px; border-style: none; border-width: 0;"
                                     width="96">
                                 </td>

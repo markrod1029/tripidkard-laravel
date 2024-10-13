@@ -11,9 +11,8 @@
                     <img class="img-fluid mx-auto"
                         src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
                         width="150" height="100" />
-                    <h3 v-if="updatestarts">Update Merchant Loyalty Stars</h3>
-                    <h3 v-else>Register Merchant Loyalty Stars</h3>
-                    <form method="POST" @submit.prevent="handdleSubmit">
+                    <h3>Register Merchant Loyalty Stars</h3>
+                    <form method="POST" @submit.prevent="createStars">
 
 
                         <div class="form-group mt-3">
@@ -23,8 +22,6 @@
 
                             </div>
                         </div>
-
-
 
 
 
@@ -43,7 +40,7 @@
                                 </select>
                                 <input v-else type="number" class="form-control" id="loyalty_points"
                                     name="loyalty_points" placeholder="Total Loyalty Stars"
-                                    v-model="form.otherStarsPoints" @blur="handleOtherInputBlur">
+                                    v-model="form.starsPoints" @blur="handleOtherInputBlur">
                                 <span class="ml-2 text-danger">*</span>
                             </div>
                         </div>
@@ -78,10 +75,11 @@ const authUser = useAuthUserStore();
 const stars = ref([]);
 
 const updatestarts = ref(false);
+
 const form = reactive({
     id: '',
-    merchant: '',
-    otherStarsPoints: ''
+    total: '',
+    starsPoints: ''
 });
 
 
@@ -123,8 +121,8 @@ const handleOtherInputBlur = () => {
 
 const createStars = async () => {
     try {
-        const response = await axios.post('/api/loyalty-stars/crete', form);
-        router.push('/admin/loyalty-stars');
+        const response = await axios.post('/api/merchant/stars', form);
+        router.push('/merchant/loyalty-stars');
         toastr.success(response.data.message);
     } catch (error) {
         console.error('Error creating stars:', error);
@@ -137,36 +135,20 @@ const createStars = async () => {
 }
 
 
-const getPoints = async () => {
-    try {
-        const response = await axios.get(`/api/loyalty-stars/${route.params.id}/edit`);
-        const data = response.data;
-        form.merchant = data.id;
-        form.starsPoints = data.stars_points;
-        form.otherStarsPoints = data.stars_points;
-    } catch (error) {
+// const getPoints = async () => {
+//     try {
+//         const response = await axios.get(`/api/loyalty-stars/${route.params.id}/edit`);
+//         const data = response.data;
+//         form.merchant = data.id;
+//         form.starsPoints = data.stars_points;
+//         form.otherStarsPoints = data.stars_points;
+//     } catch (error) {
 
-    }
-}
+//     }
+// }
 
 
-const updatePoints = async () => {
-    try {
-        const response = await axios.put(`/api/loyalty-stars/edit`, form);
-        router.push('/admin/loyalty-stars');
-        toastr.success(response.data.message);
-    } catch (error) {
 
-    }
-}
-
-const handdleSubmit = async () => {
-    if (updatestarts.value) {
-        await updatePoints();
-    } else {
-        await createStars();
-    }
-}
 onMounted(() => {
     const savedAuthUser = localStorage.getItem('authUser');
     if (savedAuthUser) {

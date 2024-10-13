@@ -3,41 +3,54 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class OrderCardEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $messageContent;
+    public $subject;
+    public $email;
+    public $total;
+    public $cardTypes;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($messageContent, $subject, $email, $total, $cardTypes)
     {
-        //
+        $this->messageContent = $messageContent;
+        $this->subject = $subject;
+        $this->email = $email;
+        $this->total = $total;
+        $this->cardTypes = $cardTypes;
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
+    public function envelope()
     {
-        return new Envelope(
-            subject: 'Order Card Email',
+        return new \Illuminate\Mail\Mailables\Envelope(
+            subject: $this->subject,
         );
     }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
+    public function content()
     {
-        return new Content(
-            view: 'view.name',
+        return new \Illuminate\Mail\Mailables\Content(
+            view: 'mail.cardOrder',
+            with: [
+                'messageContent' => $this->messageContent,
+                'email' => $this->email,
+                'total' => $this->total,
+                'cardTypes' => $this->cardTypes,
+            ],
         );
     }
 

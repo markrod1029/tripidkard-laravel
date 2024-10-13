@@ -20,7 +20,6 @@ use App\Http\Controllers\StartPointsController;
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
 
-Route::post('/api/card/orders', [OrderController::class, 'store']);
 
 
 
@@ -38,9 +37,6 @@ Route::post('/api/merchant/points/register', [PointController::class,'store']);
 
 // Admin Route
 
-// stars
-
-Route::get('/api/stars', [StarController::class, 'index']);
 
 // User Profile
 Route::get('/api/profile', [ProfileController::class, 'index']);
@@ -99,6 +95,8 @@ Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 
 
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);
+Route::post('/api/merchant/stars', [EmailController::class, 'sendStarPoint']);
+Route::post('/api/card/orders', [EmailController::class, 'sendCard']);
 
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
 

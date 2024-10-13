@@ -123,22 +123,35 @@ class ProfileController extends Controller
 
     public function uploadImage(Request $request)
     {
-
+        // Ensure the file is present in the request
         if ($request->hasFile('profile_picture')) {
-
+            // Get the current avatar path
             $previousPath = $request->user()->getRawOriginal('avatar');
 
-            $link = Storage::put('/photos/logo', $request->file('profile_picture'));
+            // Define the path for the new image
+            $path = 'photos/logo';
 
+            // Ensure the directory exists
+            if (!Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->makeDirectory($path);
+            }
+
+            // Store the new image
+            $link = Storage::disk('public')->put($path, $request->file('profile_picture'));
+
+            // Update the user's avatar in the database
             $request->user()->update(['avatar' => $link]);
 
-            Storage::delete($previousPath);
+            // Delete the previous image if it exists
+            if ($previousPath) {
+                Storage::disk('public')->delete($previousPath);
+            }
 
-            return response()->json(['message' => 'Profile Picture Uploaded Successfuly']);
-
+            return response()->json(['message' => 'Profile Picture Uploaded Successfully']);
         }
-    }
 
+        return response()->json(['message' => 'No image uploaded'], 400);
+    }
 
     public function uploadBackground(Request $request)
 {

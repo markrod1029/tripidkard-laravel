@@ -67,11 +67,6 @@ class User extends Authenticatable
     }
 
 
-    public function influencer()
-    {
-        return $this->hasOne(Enterprise::class);
-    }
-
 
     public function cardCodes()
     {
@@ -82,7 +77,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
 
-        get: fn ($value) => asset(Storage::url($value) ?? 'noimage.png'),
+        get: fn ($value) => asset(Storage::url($value) ?? 'https://via.placeholder.com/510x360'),
         );
     }
 }
