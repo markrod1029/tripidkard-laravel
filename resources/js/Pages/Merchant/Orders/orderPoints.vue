@@ -167,15 +167,12 @@ const handdleSubmit = async () => {
         await createStars();
     }
 }
-
 onMounted(() => {
-    if (route.name === 'admin.loyalty-stars.edit') {
-        updatestarts.value = true;
-        getPoints();
-        getStars();
+    const savedAuthUser = localStorage.getItem('authUser');
+    if (savedAuthUser) {
+        authUser.users = JSON.parse(savedAuthUser); // I-load ang saved user data
     }
-    getMerchants();
-    getStars();
+});
 
-})
+
 </script>

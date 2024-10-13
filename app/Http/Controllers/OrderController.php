@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Mail\OrderCardEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -44,6 +46,10 @@ class OrderController extends Controller
         $user_id = $user->id;
         $card_types = $validated['card_types'];
         $total = $validated['total'];
+
+
+        $subject = '';
+        Mail::to('aeon.redstone@gmail.com')->send(new OrderCardEmail($subject, $card_types, $total));
 
             Order::create([
                 'user_id' => $user_id,

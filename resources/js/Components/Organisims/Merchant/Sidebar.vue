@@ -76,9 +76,9 @@ const menuItems = ref([
             alt="User Image" style="height:55px; width:55px; margin-top:10px">
         </div>
         <div class="info">
-          <a href="#" class="d-block mt-1 mb-0 text-white text-center">{{ useAuthUserStore.users.fname }} {{ authUser.users.mname
+          <a href="#" class="d-block mt-1 mb-0 text-white text-center">{{ authUser.users.fname }} {{ authUser.users.mname
             }} {{ authUser.users.lname }}</a>
-          <a href="#" class="d-block text-white ml-2 text-center mb-2">{{ useAuthUserStore.users.role }}</a>
+          <a href="#" class="d-block text-white ml-2 text-center mb-2">{{ authUser.users.role }}</a>
         </div>
       </div>
 
