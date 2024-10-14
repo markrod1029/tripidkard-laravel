@@ -9,7 +9,7 @@
           <!-- Logo aligned to the left -->
           <router-link class="navbar-brand" to="/">
             <img
-            src="/storage/img/logo.jpg"
+              src="/storage/img/logo.jpg"
               alt="Tripidkard"
               width="100"
             />
@@ -37,7 +37,16 @@
               <NavItem to="/scanner" label="Scanner" />
               <NavItem to="/merchants" label="Merchants" />
               <NavItem to="/contact-us" label="Contact" />
+
+              <!-- Conditional button for login or dashboard -->
               <NavItem
+                v-if="isLoggedIn"
+                to="/login"
+                label="Dashboard"
+                textClass="btn btn-primary font-weight-bold text-uppercase bg-primary"
+              />
+              <NavItem
+                v-else
                 to="/login"
                 label="Merchant Login"
                 textClass="btn btn-primary font-weight-bold text-uppercase bg-primary"
@@ -51,7 +60,8 @@
 
   <script setup>
   // Define a reusable NavItem component within the same file
-  import { defineComponent, defineProps } from 'vue';
+  import { defineComponent, reactive } from 'vue';
+  import { useAuthStore } from '@/stores/auth'; // Example store to check authentication
 
   // Local NavItem component definition
   const NavItem = defineComponent({
@@ -75,6 +85,11 @@
       </li>
     `,
   });
+
+  // Store or variable to check if the user is logged in
+  const authStore = useAuthStore(); // Example of Pinia store
+  const isLoggedIn = reactive(authStore.isAuthenticated); // Example of auth status
+
   </script>
 
   <style scoped>

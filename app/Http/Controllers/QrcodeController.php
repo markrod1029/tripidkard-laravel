@@ -33,4 +33,26 @@ class QrcodeController extends Controller
             ], 200);
         }
     }
-}
+
+
+    public function homeQrCode(Request $request) {
+        // Fetch the card_number from the request
+        $cardNumber = $request->input('card_number');
+
+        // Retrieve the customer based on the card_number
+        $card = Customer::where('customer_card_num', $cardNumber)->first();
+
+        if ($card !== null) {
+            // If the card is found, return the card details and a success indicator
+            return response()->json([
+                'message' => 'Customer Card found',
+                'card_exists' => true,
+                'card_number' => $cardNumber,
+            ], 200);
+        } else {
+            // If the card is not found, return an error message
+            return response()->json(['error' => 'Card Number Not Found'], 404); // Use 404 for not found
+        }
+    }
+
+    }

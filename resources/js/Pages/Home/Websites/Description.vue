@@ -3,7 +3,7 @@
     <div class="row">
       <!-- Feature Section -->
       <div class="col-md-6 text-center">
-        <img src="/storage/img/FAQs-amico.svg" alt="Feature Image" class="img-fluid rounded" width="400">
+        <img :src="merchant.avatar ? `${merchant.avatar}` : 'https://via.placeholder.com/510x360'" alt="Feature Image" class="img-fluid rounded" width="400">
       </div>
 
       <!-- FAQ Section -->
@@ -46,8 +46,11 @@ export default {
     merchant: {
       type: Object,
       required: true
-    }
-  }
+
+    },
+  },
+
+
 }
 </script>
 

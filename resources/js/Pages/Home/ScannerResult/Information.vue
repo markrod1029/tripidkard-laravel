@@ -15,7 +15,7 @@
                         <div class="information">
                             <div class="info-group">
                                 <label><strong>Name:</strong></label>
-                                <span>{{ name }}</span>
+                                <span>{{ fname }} {{ mname }} {{ lname }}</span>
                             </div>
                             <div class="info-group">
                                 <label><strong>Card Number:</strong></label>
@@ -42,11 +42,44 @@
 </template>
 
 <script setup>
-const name = 'John Doe';
-const cardNumber = '1234 5678 9012 3456';
-const email = 'johndoe@example.com';
-const validity = '12/2025';
-const loyaltyPoints = '1500';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+
+// Reactive variables for customer information
+const fname = ref('');
+const mname = ref('');
+const lname = ref('');
+const cardNumber = ref('');
+const email = ref('');
+const validity = ref('');
+const loyaltyPoints = ref(0);
+
+const route = useRoute();
+
+const getCustomers = async () => {
+    try {
+        const response = await axios.get(`/api/home/customer/${route.params.card_number}/points`);
+
+        // Assuming the response data contains customer information
+        const customerData = response.data;
+
+        // Set the values from the response to the reactive variables
+        fname.value = customerData.fname; // Adjust according to your API response
+        mname.value = customerData.mname; // Adjust according to your API response
+        lname.value = customerData.lname; // Adjust according to your API response
+        cardNumber.value = customerData.customer_card_num; // Adjust according to your API response
+        email.value = customerData.email; // Adjust according to your API response
+        validity.value = customerData.validity; // Adjust according to your API response
+        loyaltyPoints.value = customerData.total_points; // Adjust according to your API response
+    } catch (error) {
+        console.error('Error fetching customers:', error);
+    }
+};
+
+onMounted(() => {
+    getCustomers();
+});
 </script>
 
 <style scoped>

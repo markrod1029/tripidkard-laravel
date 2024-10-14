@@ -37,6 +37,7 @@
         lname: '',
         contact: '',
         email: '',
+        avatar: '',
         business_name: '',
         business_category: '',
         business_sub_category: '',
@@ -63,6 +64,7 @@
           merchants.lname = data.user.lname;
           merchants.contact = data.user.contact;
           merchants.email = data.user.email;
+          merchants.avatar = data.user.avatar;
           merchants.business_name = data.business_name;
           merchants.business_category = data.business_category;
           merchants.business_sub_category = data.business_sub_category;

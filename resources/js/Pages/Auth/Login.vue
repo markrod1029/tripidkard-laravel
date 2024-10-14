@@ -80,8 +80,8 @@ const handleSubmit = async () => {
         } else {
             // Redirect based on user role
             const userRole = authStore.user.role; // Assuming user has a role property
-            if (userRole === 'Admin') {
-                router.push('/admin/dashboard'); // Redirect to admin dashboard
+            if (userRole === 'Influencer') {
+                router.push('/influencer/dashboard'); // Redirect to admin dashboard
             } else if (userRole === 'Merchant') {
                 router.push('/merchant/dashboard'); // Redirect to merchant dashboard
             } else if (userRole === 'Influencer'){
@@ -90,6 +90,7 @@ const handleSubmit = async () => {
             } else {
                 router.push('/');
             }
+
         }
     } catch (error) {
         errors.general = 'An unexpected error occurred. Please try again.';

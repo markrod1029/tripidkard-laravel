@@ -26,8 +26,8 @@ router.beforeEach(async (to, from, next) => {
             }
         }
     }
+
     const user = authStore.authUser;
-    console.log(authStore.isAuthenticated)
     if (to.matched.some(record => record.meta.requiresAdminAuth)) {
         if (!authStore.isAuthenticated || user.role !== 'Admin') {
             next({ path: '/admin/login' });

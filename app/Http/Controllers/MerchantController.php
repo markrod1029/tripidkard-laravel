@@ -264,7 +264,7 @@ class MerchantController extends Controller
     {
 
         // Kunin ang merchant kasama ang impormasyon ng user
-        $merchantWithUser = Merchant::with('user:id,fname,mname,lname,contact,email')
+        $merchantWithUser = Merchant::with('user:id,fname,mname,lname,contact,email,avatar')
             ->findOrFail($merchant->id);
 
         return $merchantWithUser;

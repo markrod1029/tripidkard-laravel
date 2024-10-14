@@ -145,7 +145,7 @@ const routesDefault = [
     { path: '/join-the-fun/points', name: 'points', component: Points, meta: { title: 'Join The Fun Points'} },
     { path: '/join-the-fun/events', name: 'events', component: Events, meta: { title: 'Join The Fun Events'} },
     { path: '/scanner/', name: 'scanner', component: Scanner, meta: { title: 'Card Scanner' } },
-    { path: '/customer/information/:cardNumber', name: 'customer.information', component: ScannerResult, meta: { title: 'Customer Information' } },
+    { path: '/customer/information/:card_number', name: 'customer.information', component: ScannerResult, meta: { title: 'Customer Information' } },
 
     { path: '/admin/login/', name: 'admin.login', component: Login, meta: { title: 'Admin Login', requiresGuest: true } },
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Point;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\CardCodesController;
 use App\Models\CardCode; // Import ng CardCode model
 
@@ -51,6 +52,39 @@ class CustomerController extends Controller
 
         return response()->json($points);
     }
+
+public function customerResult($cardNumber) {
+    // Fetch the card_number from the request
+    $cardNumber = request('card_number');
+
+    // Retrieve the customer's details and total points
+    $customerData = Customer::query()
+        ->select(
+            'customers.id as customer_id',
+            'customers.fname', // Include necessary fields from customers
+            'customers.mname', // Include necessary fields from customers
+            'customers.lname', // Include necessary fields from customers
+            'customers.email', // Include necessary fields from customers
+            'customers.validity', // Include necessary fields from customers
+            'customers.customer_card_num',
+            // Add all other necessary fields from the customers table
+            DB::raw('IFNULL(SUM(points.points), 0) as total_points')
+        )
+        ->leftJoin('points', 'customers.customer_card_num', '=', 'points.card_number') // Join with points table
+        ->where('customers.status', 1) // Check status on customers table
+        ->where('customers.customer_card_num', $cardNumber) // Filter by customer card number
+        ->groupBy('customers.id', 'customers.fname',  'customers.mname',  'customers.lname', 'customers.email', 'customers.validity', 'customers.customer_card_num') // Group by all selected columns
+        ->first(); // Get the first result
+
+    // Check if customer exists
+    if (!$customerData) {
+        return response()->json(['error' => 'Customer not found'], 404);
+    }
+
+    return response()->json($customerData);
+}
+
+
 
     public function store(Request $request)
     {

@@ -20,6 +20,7 @@ use App\Http\Controllers\StartPointsController;
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
 
+Route::get('/api/home/customer/{card_number}/points', [CustomerController::class, 'customerResult']);
 
 
 
@@ -99,6 +100,8 @@ Route::post('/api/merchant/stars', [EmailController::class, 'sendStarPoint']);
 Route::post('/api/card/orders', [EmailController::class, 'sendCard']);
 
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
+Route::post('/api/home/qrcode', [QrcodeController::class, 'homeQrCode']);
+
 
 
 
