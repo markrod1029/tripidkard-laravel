@@ -28,6 +28,8 @@ class CardCodeController extends Controller
             ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
             ->select(
                 'card_codes.card_number',
+                'card_codes.card_types',
+
                 // Pagsamahin ang business_name o blog_name depende sa kung alin ang meron
                 DB::raw('COALESCE(merchants.business_name, influencers.blog_name) as business_or_blog_name')
             )
@@ -39,6 +41,43 @@ class CardCodeController extends Controller
                 });
             })
             ->where('card_codes.status', '=', 0)
+            ->get();
+
+        return response()->json($tripidkards);
+    }
+
+    public function merchantIndex() {
+
+        $user = auth()->user();
+
+        $searchFields = [
+            'influencers.influencer_code',
+            'merchants.business_code',
+            'card_codes.card_number',
+            'card_codes.card_types',
+            'merchants.business_name',
+            'influencers.blog_name',
+        ];
+
+        $tripidkards = User::query()
+            ->leftJoin('card_codes', 'card_codes.user_id', '=', 'users.id')
+            ->leftJoin('influencers', 'influencers.user_id', '=', 'users.id')
+            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id')
+            ->select(
+                'card_codes.card_number',
+                'card_codes.card_types',
+                // Pagsamahin ang business_name o blog_name depende sa kung alin ang meron
+                DB::raw('COALESCE(merchants.business_name, influencers.blog_name) as business_or_blog_name')
+            )
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->where('card_codes.status', '=', 0)
+            ->where('card_codes.user_id', $user->id)
             ->get();
 
         return response()->json($tripidkards);
@@ -94,7 +133,28 @@ class CardCodeController extends Controller
 
     public function count()
     {
-        $cardCount = CardCode::count();
+        $user = auth()->user(); // Get the authenticated user
+
+        if ($user->role === 'Admin') {
+            // Admin counts all customers
+            $cardCount = CardCode::where('status', 0)
+            ->count();
+
+        } elseif ($user->role === 'Merchant') {
+            // Merchant counts only their own customers
+            $cardCount = CardCode::where('status', 0)
+            ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
+            ->count();
+
+        } elseif ($user->role === 'Influe  ncer') {
+            // Influencer counts only their own customers
+            $cardCount = CardCode::where('status', 0)
+            ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
+            ->count();
+        } else {
+            // If the role doesn't match, return 0 or an appropriate message
+            $cardCount = 0; // or return response()->json(['error' => 'Unauthorized'], 403);
+        }
         return response()->json(['count' => $cardCount]);
     }
 }

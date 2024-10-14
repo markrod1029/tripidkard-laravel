@@ -47,6 +47,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Business Name/Blog Name</th> <!-- Updated heading -->
+                                                <th>Card Types</th>
                                                 <th>Card Code</th>
                                             </tr>
                                         </thead>
@@ -55,6 +56,7 @@
                                             <tr v-for="(tripidkard, index) in tripidkards" :key="tripidkard.id">
                                                 <td>{{ index + 1 }}</td>
                                                 <td>{{ tripidkard.business_or_blog_name }}</td> <!-- Updated field -->
+                                                <td>{{ tripidkard.card-types }}</td> <!-- Updated field -->
                                                 <td>{{ tripidkard.card_number }}</td>
                                             </tr>
                                         </tbody>
@@ -130,7 +132,7 @@ const formatRows = (rows) => {
         index + 1,
         tripidkard.business_name,
         tripidkard.card_number,
-        tripidkard.validity,
+        tripidkard.card_types,
     ]);
 };
 
@@ -142,7 +144,7 @@ const exportToExcel = () => {
         }
         // Define headers and format rows without "Action" column
         const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Validity'];
+        const headers = ['#', 'Business Code', 'Card Code', 'Card Types'];
         const formattedRows = formatRows(tripidkards.value);
 
         // Add title row centered across all columns
@@ -167,7 +169,7 @@ const exportToCSV = () => {
         }
         // Define title and headers for the CSV
         const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Validity'];
+        const headers = ['#', 'Business Code', 'Card Code','Card Types'];
         const formattedRows = formatRows(tripidkards.value);
 
         // Create worksheet with a centered title row

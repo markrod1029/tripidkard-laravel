@@ -182,6 +182,7 @@ public function customerResult($cardNumber) {
             $customerCount = Customer::where('status', 1)
                 ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
                 ->count();
+
         } elseif ($user->role === 'Influe  ncer') {
             // Influencer counts only their own customers
             $customerCount = Customer::where('status', 1)
@@ -191,6 +192,7 @@ public function customerResult($cardNumber) {
             // If the role doesn't match, return 0 or an appropriate message
             $customerCount = 0; // or return response()->json(['error' => 'Unauthorized'], 403);
         }
+
 
         return response()->json(['count' => $customerCount]);
     }
