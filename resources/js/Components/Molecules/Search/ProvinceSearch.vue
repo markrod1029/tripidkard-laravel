@@ -38,7 +38,7 @@ export default {
       if (this.province) {
         // Pass selected province to citySearch component
         this.$router.push({
-          name: 'MerchantResultProvince',
+          name: 'merchant-result-province',
           query: {
             province: this.province
           }

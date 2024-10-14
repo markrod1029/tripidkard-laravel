@@ -101,7 +101,7 @@
       searchByCity() {
           // Redirect to the search result page with selected city
           this.$router.push({
-            name: 'MerchantResultCity',
+            name: 'merchant-result-city',
             query: {
               province: this.province,
               city: this.city,
