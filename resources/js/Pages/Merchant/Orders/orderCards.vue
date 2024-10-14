@@ -94,7 +94,7 @@ const form = reactive({
 const createOrders = async () => {
     try {
         const response = await axios.post('/api/card/orders', form);
-        router.push('/merchant/order/list');
+        router.push('/merchant/dashboard');
         toastr.success('Orders Added Successfully');
     } catch (error) {
         console.error('Error fetching services:', error);

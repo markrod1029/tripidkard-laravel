@@ -23,6 +23,7 @@ import AdminLoyaltyStarForm from './Pages/Admin/Points/LoyaltyPointRegister.vue'
 import AdminStarForm from './Pages/Admin/Points/StarsForm.vue';
 import AdminCustomerStars from './Pages/Admin/Points/CustomerStars.vue';
 import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue';
+import AdminProfile from './Pages/Admin/Profile/ProfileList.vue';
 
 // Import Merchant
 
@@ -44,6 +45,7 @@ import InfluencerScanner from './Pages/Influencer/Scanner/Qr-Code.vue';
 import InfluencerTripidkard from './Pages/Influencer/Tripidkard/TripidkardList.vue';
 import InfluencerCustomer from './Pages/Influencer/Customer/CustomerList.vue';
 import InfluencerCustomerForm from './Pages/Influencer/Customer/CustomerRegister.vue';
+import InfluencerProfile from './Pages/Influencer/Profile/ProfileList.vue';
 
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
@@ -98,7 +100,8 @@ const routesAdmin = [
     { path: '/admin/loyalty-stars/:id/edit', name: 'admin.loyalty-stars.edit', component: AdminLoyaltyStarForm, meta: { title: 'Loyalty Stars Update', requiresAdminAuth: true } },
     { path: '/admin/stars/register', name: 'admin.stars.register', component: AdminStarForm, meta: { title: 'Total of Loyalty Stars', requiresAdminAuth: true } },
     { path: '/admin/loyalty-stars/:id/customer', name: 'admin.loyalty-stars.customer', component: AdminCustomerStars, meta: { title: 'Customer Loyalty Stars List', requiresAdminAuth: true } },
-    { path: '/admin/activity-log/', name: 'admin.activity-log', component: AdminLogs, meta: { title: 'Activity Logs List', requiresAdminAuth:true } }
+    { path: '/admin/activity-log/', name: 'admin.activity-log', component: AdminLogs, meta: { title: 'Activity Logs List', requiresAdminAuth:true } },
+    { path: '/admin/profile/', name: 'admin.profile', component: AdminProfile, meta: { title: 'Profile Information', requiresAdminAuth: true } },
 ];
 
 const routesMerchant = [
@@ -130,6 +133,8 @@ const routesInfluencer = [
     { path: '/influencer/customer/register', name: 'influencer.customer.register', component: InfluencerCustomerForm, meta: { title: 'Customer Register', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/:id/edit', name: 'influencer.customer.edit', component: InfluencerCustomerForm, meta: { title: 'Customer Update', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/:card_number/scan', name: 'influencer.customer.scan', component: InfluencerCustomerForm, meta: { title: 'Customer Register', requiresInfluencerAuth: true } },
+    { path: '/influencer/profile/', name: 'influencer.profile', component: InfluencerProfile, meta: { title: 'Profile Information', requiresInfluencerAuth: true } },
+
 ]
 
 const routesDefault = [

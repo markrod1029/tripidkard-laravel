@@ -58,7 +58,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
-import Sidebar from '@/Components/Organisims/Sidebar.vue';
+import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import axios from 'axios';
@@ -122,7 +122,7 @@ const handleOtherInputBlur = () => {
 const createStars = async () => {
     try {
         const response = await axios.post('/api/merchant/stars', form);
-        router.push('/merchant/loyalty-stars');
+        router.push('/merchant/dashboard');
         toastr.success(response.data.message);
     } catch (error) {
         console.error('Error creating stars:', error);

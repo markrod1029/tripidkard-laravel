@@ -90,10 +90,12 @@ const menuItems = ref([
         <div class="sidebar">
             <div class="user-panel d-flex">
                 <div class="image" style="position:relative; right:10px;">
-                    <!-- <img :src="authUser.users.avatar || 'https://via.placeholder.com/640x360'" -->
-                    <img src="https://via.placeholder.com/640x360"
-                        class="img-circle elevation-2" alt="User Image"
-                        style="height:55px; width:55px; margin-top:10px">
+                    <img
+            :src="authUser.users.avatar || 'https://via.placeholder.com/640x360'"
+            class="img-circle elevation-2"
+            alt="User Image"
+            style="height:55px; width:55px; margin-top:10px"
+        />
                 </div>
                 <div class="info">
                     <a href="#" class="d-block mt-1 mb-0 text-white text-center">{{ authUser.users.fname }} {{

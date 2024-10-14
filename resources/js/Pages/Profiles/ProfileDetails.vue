@@ -19,9 +19,20 @@
         <hr>
         <div class="card-body" style="margin-left:30px;">
             <!-- User details -->
-            <small class="text-muted">Business Code</small>
-            <h6>{{ authUser.users.business_code }}</h6>
-            <!-- Add other user details here -->
+            <small class="text-muted">Contact</small>
+    <h6>
+      <a :href="'tel:' + authUser.users.contact" class="text-decoration-none">
+        {{ authUser.users.contact }}
+      </a>
+    </h6>
+    <small class="text-muted">Email</small>
+    <h6>
+      <a :href="'mailto:' + authUser.users.email" class="text-decoration-none">
+        {{ authUser.users.email }}
+      </a>
+    </h6>
+
+
         </div>
     </div>
 </template>
