@@ -178,3 +178,7 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
+[2024-10-17 07:55:26] local.ERROR: Cannot declare class App\Models\User, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\User, because the name is already in use at C:\\xampp\\htdocs\\laravel-project\\tripikard-breeze\\app\\Models\\User1.php:10)
+[stacktrace]
+#0 {main}
+"} 
