@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
             next();
         }
     } else if (to.matched.some(record => record.meta.requiresInfluencerAuth)) {
-        if (authStore.isAuthenticated || user.role !== 'Influencer') {
+        if (!authStore.isAuthenticated || user.role !== 'Influencer') {
             next({ path: '/login' });
         } else {
             next();

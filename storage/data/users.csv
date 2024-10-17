@@ -1,0 +1,10 @@
+fname,mname,lname,contact,email,password,role,status
+Mark Rod,P.,cadayong,09452318814,markrod@tripidkard.com,Pa$$w0rd!,Admin,1
+Edmundo,C.,Casulla,09234544535,ed@tripidkard.com,Pa$$w0rd!,Admin,1
+Edmundo,C.,Casulla,09234544335,aeon@tripidkard.com,Pa$$w0rd!,Merchant,1
+Lie,,Casulla,09234546533,sqyzy@tripidkard.com,Pa$$w0rd!,Merchant,1
+S&R Printworks,,,09134546531,printwork@tripidkard.com,Pa$$w0rd!,Merchant,1
+Villa Leonida Family Resort,,,01234546532,villa@tripidkard.com,Pa$$w0rd!,Merchant,5
+Edmundo,C.,Casulla,09234544235,ambro@tripidkard.com,Pa$$w0rd!,Merchant,0
+CB,,Mall,09234546532,cbmall@tripidkard.com,Pa$$w0rd!,Influencer,1
+Goldilocks,,,09234546531,goldilocks@tripidkard.com,Pa$$w0rd!,Influencer,0

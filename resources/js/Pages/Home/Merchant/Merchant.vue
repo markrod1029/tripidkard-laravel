@@ -22,7 +22,7 @@
                         <div class="col-md-4 mb-4" style="overflow: hidden;" v-for="merchant in filteredMerchants" :key="merchant.id">
                             <div class="card float-left">
 
-                                <img :src="merchant.avatar ? `storage/${merchant.avatar}` : 'https://via.placeholder.com/510x360'" height="310" class="card-img-top" alt="Merchant Avatar">
+                                <img :src="merchant.avatar ? `storage/${merchant.avatar}` : '/storage/img/logo.jpg'" height="310" class="card-img-top" alt="Merchant Avatar">
                                 <!-- <img :src="'storage/photos/logo/rJ4hgBJNQe6J3gYXNYtkgmGjlfm02x9lpUx2VjHR.jpg'" class="card-img-top" alt="Merchant Avatar"> -->
                                 <div class="card-body">
                                     <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
