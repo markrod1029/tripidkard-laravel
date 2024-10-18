@@ -49,6 +49,7 @@ import InfluencerProfile from './Pages/Influencer/Profile/ProfileList.vue';
 
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
+import AdminLogin from './Pages/Auth/Admin/Login.vue';
 import Login from './Pages/Auth/Login.vue';
 import ForgotPassword from './Pages/Auth/Forgot.vue';
 import NotFound from './Pages/Error/404.vue';
@@ -152,7 +153,7 @@ const routesDefault = [
     { path: '/scanner/', name: 'scanner', component: Scanner, meta: { title: 'Card Scanner' } },
     { path: '/customer/information/:card_number', name: 'customer.information', component: ScannerResult, meta: { title: 'Customer Information' } },
 
-    { path: '/admin/login/', name: 'admin.login', component: Login, meta: { title: 'Admin Login', requiresGuest: true } },
+    { path: '/admin/login/', name: 'admin.login', component: AdminLogin, meta: { title: 'Admin Login', requiresGuest: true } },
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
     { path: '/forgot-password/', name: 'forgot-password', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },
     { path: '/tripidkard/', name: 'tripidkard', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true, } },

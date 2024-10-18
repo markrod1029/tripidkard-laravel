@@ -40,13 +40,14 @@ class ProfileController extends Controller
 
         } else if ($user->role === 'Influencer') {
 
-            $enterprise = Influencer::where('user_id', $user->id)->first();
-
-            $profileDetails['business_name'] = $enterprise->business_name;
-            $profileDetails['business_category'] = $enterprise->business_category;
-            $profileDetails['zip'] = $enterprise->zip;
-            $profileDetails['city'] = $enterprise->city;
-            $profileDetails['province'] = $enterprise->province;
+            $influencer = Influencer::where('user_id', $user->id)->first();
+            $profileDetails['influencer_code'] = $influencer->influencer_code;
+            $profileDetails['card_code'] = $influencer->card_code;
+            $profileDetails['blog_name'] = $influencer->blog_name;
+            $profileDetails['blog_category'] = $influencer->business_category;
+            $profileDetails['zip'] = $influencer->zip;
+            $profileDetails['city'] = $influencer->city;
+            $profileDetails['province'] = $influencer->province;
 
         }
 

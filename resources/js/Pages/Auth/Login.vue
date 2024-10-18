@@ -63,7 +63,6 @@ const loading = ref(false);
 
 
 
-
 const handleSubmit = async () => {
     loading.value = true;
     errors.email = '';
@@ -71,29 +70,28 @@ const handleSubmit = async () => {
     errors.general = '';
 
     try {
-        const responseErrors = await authStore.loginForm(form);
+        const responseErrors = await authStore.adminLoginForm(form);
 
         if (responseErrors) {
             errors.email = responseErrors.email ? responseErrors.email[0] : '';
             errors.password = responseErrors.password ? responseErrors.password[0] : '';
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
-            // Redirect based on user role
-            const userRole = authStore.user.role; // Assuming user has a role property
-            if (userRole === 'Influencer') {
-                router.push('/influencer/dashboard'); // Redirect to admin dashboard
+            // Handle successful login and redirect based on role
+            const userRole = authStore.user.role;
+            if (userRole === 'Admin') {
+                router.push('/admin/dashboard');
             } else if (userRole === 'Merchant') {
-                router.push('/merchant/dashboard'); // Redirect to merchant dashboard
-            } else if (userRole === 'Influencer'){
-                // Handle other roles or provide a default dashboard
+                router.push('/merchant/dashboard');
+            } else if (userRole === 'Influencer') {
                 router.push('/influencer/dashboard');
             } else {
                 router.push('/');
             }
-
         }
     } catch (error) {
         errors.general = 'An unexpected error occurred. Please try again.';
+        console.log(error); // Log the error for debugging
     } finally {
         loading.value = false;
     }
@@ -102,9 +100,6 @@ const handleSubmit = async () => {
 
 onMounted(async () => {
     await authStore.getUser();
-    if (authStore.user) {
-        router.push('/merchant/dashboard'); // Redirect to dashboard if user is already logged in
-    }
 });
 </script>
 

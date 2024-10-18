@@ -2,7 +2,7 @@
     <se class="login">
         <div class="container login">
             <div class="login form">
-                <header>Login</header>
+                <header>Admin Login</header>
                 <form @submit.prevent="handleSubmit">
                     <!-- Email Address -->
                     <div>
@@ -61,6 +61,8 @@ const errors = reactive({
 
 const loading = ref(false);
 
+
+
 const handleSubmit = async () => {
     loading.value = true;
     errors.email = '';
@@ -68,31 +70,32 @@ const handleSubmit = async () => {
     errors.general = '';
 
     try {
-        const responseErrors = await authStore.loginForm(form);
+        const responseErrors = await authStore.adminLoginForm(form);
 
-    console.log(authStore.isAuthenticated);
         if (responseErrors) {
             errors.email = responseErrors.email ? responseErrors.email[0] : '';
             errors.password = responseErrors.password ? responseErrors.password[0] : '';
             errors.general = responseErrors.general ? responseErrors.general : '';
         } else {
-            // Redirect if the user is successfully authenticated
-            if (authStore.isAuthenticated) {
+            // Handle successful login and redirect based on role
+            const userRole = authStore.user.role;
+            if (userRole === 'Admin') {
                 router.push('/admin/dashboard');
+            } else {
+                router.push('/'); // Default redirect
             }
         }
     } catch (error) {
         errors.general = 'An unexpected error occurred. Please try again.';
+        console.log(error); // Log the error for debugging
     } finally {
         loading.value = false;
     }
 };
 
+
 onMounted(async () => {
     await authStore.getUser();
-    if (authStore.user) {
-        router.push('/admin/dashboard'); // Redirect to dashboard if user is already logged in
-    }
 });
 </script>
 
