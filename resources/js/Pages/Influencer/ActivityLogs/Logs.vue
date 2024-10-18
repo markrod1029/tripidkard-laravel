@@ -3,7 +3,7 @@
     <Sidebar/>
 
     <div class="content-wrapper">
-        
+
       <Breadcrumb/>
 
 
@@ -45,7 +45,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    
+
                                     <td>
                                         <div style="display: flex; justify-content: center;">
                                             <a href="enterprise-merchant?enterprise_id=<?php echo $row['id']?>"
@@ -80,7 +80,7 @@
 
 <script setup>
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
-import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
+import Sidebar from '@/Components/Organisims/Influencer/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 

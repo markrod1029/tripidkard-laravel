@@ -5355,3 +5355,57 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
+[2024-10-18 07:11:09] local.ERROR: Cannot declare class App\Models\User, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\User, because the name is already in use at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\app\\Models\\User1.php:10)
+[stacktrace]
+#0 {main}
+"} 
+[2024-10-18 07:12:09] local.ERROR: Cannot declare class App\Models\User, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\User, because the name is already in use at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\app\\Models\\User1.php:10)
+[stacktrace]
+#0 {main}
+"} 
+[2024-10-18 07:13:09] local.ERROR: Cannot declare class App\Models\User, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Models\\User, because the name is already in use at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\app\\Models\\User1.php:10)
+[stacktrace]
+#0 {main}
+"} 
+[2024-10-18 07:14:03] local.ERROR: Call to undefined function Illuminate\Support\php_binary() {"exception":"[object] (Error(code: 0): Call to undefined function Illuminate\\Support\\php_binary() at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php:88)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(109): Illuminate\\Console\\Application::phpBinary()
+#1 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Scheduling\\Schedule.php(143): Illuminate\\Console\\Application::formatCommandString('inspire')
+#2 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(358): Illuminate\\Console\\Scheduling\\Schedule->command('inspire', Array)
+#3 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(105): Illuminate\\Support\\Facades\\Facade::__callStatic('command', Array)
+#4 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(119): Illuminate\\Foundation\\Console\\ClosureCommand->schedule()
+#5 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\routes\\console.php(8): Illuminate\\Foundation\\Console\\ClosureCommand->__call('hourly', Array)
+#6 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(502): require('C:\\\\xampp\\\\htdocs...')
+#7 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(482): Illuminate\\Foundation\\Console\\Kernel->discoverCommands()
+#8 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 {main}
+"} 
+[2024-10-18 07:14:10] local.ERROR: Call to undefined function Illuminate\Support\php_binary() {"exception":"[object] (Error(code: 0): Call to undefined function Illuminate\\Support\\php_binary() at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php:88)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(109): Illuminate\\Console\\Application::phpBinary()
+#1 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Scheduling\\Schedule.php(143): Illuminate\\Console\\Application::formatCommandString('inspire')
+#2 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(358): Illuminate\\Console\\Scheduling\\Schedule->command('inspire', Array)
+#3 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(105): Illuminate\\Support\\Facades\\Facade::__callStatic('command', Array)
+#4 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(119): Illuminate\\Foundation\\Console\\ClosureCommand->schedule()
+#5 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\routes\\console.php(8): Illuminate\\Foundation\\Console\\ClosureCommand->__call('hourly', Array)
+#6 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(502): require('C:\\\\xampp\\\\htdocs...')
+#7 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(482): Illuminate\\Foundation\\Console\\Kernel->discoverCommands()
+#8 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 {main}
+"} 
+[2024-10-18 07:14:10] local.ERROR: Call to undefined function Illuminate\Support\php_binary() {"exception":"[object] (Error(code: 0): Call to undefined function Illuminate\\Support\\php_binary() at C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php:88)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(109): Illuminate\\Console\\Application::phpBinary()
+#1 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Scheduling\\Schedule.php(143): Illuminate\\Console\\Application::formatCommandString('inspire')
+#2 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(358): Illuminate\\Console\\Scheduling\\Schedule->command('inspire', Array)
+#3 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(105): Illuminate\\Support\\Facades\\Facade::__callStatic('command', Array)
+#4 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\ClosureCommand.php(119): Illuminate\\Foundation\\Console\\ClosureCommand->schedule()
+#5 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\routes\\console.php(8): Illuminate\\Foundation\\Console\\ClosureCommand->__call('hourly', Array)
+#6 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(502): require('C:\\\\xampp\\\\htdocs...')
+#7 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(482): Illuminate\\Foundation\\Console\\Kernel->discoverCommands()
+#8 C:\\xampp\\htdocs\\laravel-project\\tripidkard-laravel\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 {main}
+"} 

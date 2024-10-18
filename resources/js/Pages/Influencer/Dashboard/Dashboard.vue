@@ -53,7 +53,7 @@
 
 <script>
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
-import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
+import Sidebar from '@/Components/Organisims/Influencer/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useAuthStore } from '@/Stores/auth';

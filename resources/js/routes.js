@@ -46,6 +46,7 @@ import InfluencerTripidkard from './Pages/Influencer/Tripidkard/TripidkardList.v
 import InfluencerCustomer from './Pages/Influencer/Customer/CustomerList.vue';
 import InfluencerCustomerForm from './Pages/Influencer/Customer/CustomerRegister.vue';
 import InfluencerProfile from './Pages/Influencer/Profile/ProfileList.vue';
+import InfluencerOrderCard from './Pages/Influencer/Orders/orderCards.vue';
 
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
@@ -130,6 +131,7 @@ const routesInfluencer = [
     { path: '/influencer/dashboard', name: 'influencer.dashboard', component: InfluencerDashboard, meta: { title: 'Influencer Dashboard', requiresInfluencerAuth: true } },
     { path: '/influencer/scanner', name: 'influencer.scanner', component: InfluencerScanner, meta: { title: 'Influencer QR', requiresInfluencerAuth: true } },
     { path: '/influencer/tripidkard/', name: 'influencer.tripidkard', component: InfluencerTripidkard, meta: { title: 'Tripidkard List', requiresInfluencerAuth: true } },
+    { path: '/influencer/order/cards', name: 'influencer.order.cards', component: InfluencerOrderCard, meta: { title: 'Order Card', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/', name: 'influencer.customer', component: InfluencerCustomer, meta: { title: 'Customer List', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/register', name: 'influencer.customer.register', component: InfluencerCustomerForm, meta: { title: 'Customer Register', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/:id/edit', name: 'influencer.customer.edit', component: InfluencerCustomerForm, meta: { title: 'Customer Update', requiresInfluencerAuth: true } },
