@@ -66,13 +66,6 @@ class AuthenticatedSessionController extends Controller
             ], 403); // 403 Forbidden
         }
 
-        // Prevent Admin from logging in
-        if (Auth::user()->role === 'Admin') {
-            Auth::logout(); // Ensure the user is logged out
-            return response()->json([
-                'message' => 'These credentials do not match our records.',
-            ], 403); // 403 Forbidden
-        }
 
         // Regenerate the session to avoid session fixation
         $request->session()->regenerate();

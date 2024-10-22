@@ -11,7 +11,8 @@
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
                         <div class="d-flex justify-content-between mb-2">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                     Export
                                 </button>
                                 <div class="dropdown-menu">
@@ -29,7 +30,8 @@
                         <div class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="merchantlist" class="display dataTable table-bordered" style="width:100%;">
+                                    <table id="merchantlist" class="display dataTable table-bordered"
+                                        style="width:100%;">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -44,9 +46,10 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="merchants.length > 0">
-                                            <tr v-for="(merchant, index) in merchants" :key="merchant.id">
-                                                <td>{{ index + 1 }}</td>
+                                        <tbody v-if="paginatedMerchants.length > 0">
+
+                                            <tr v-for="(merchant, index) in paginatedMerchants" :key="merchant.id">
+                                                <td>{{ (currentPage - 1) * merchantsPerPage + index + 1 }}</td>
                                                 <td>{{ merchant.card_code }}</td>
                                                 <td>{{ merchant.business_code }}</td>
                                                 <td>{{ merchant.fname }} {{ merchant.mname }} {{ merchant.lname }}</td>
@@ -57,8 +60,10 @@
                                                 <td>{{ formatAddress(merchant) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <button @click="showApprovalModal(merchant.user_id)" class="btn btn-success btn-sm mr-2">Approve</button>
-                                                        <button @click="showArchiveModal(merchant.user_id)" class="btn btn-danger btn-sm">Archive</button>
+                                                        <button @click="showApprovalModal(merchant.user_id)"
+                                                            class="btn btn-success btn-sm mr-2">Approve</button>
+                                                        <button @click="showArchiveModal(merchant.user_id)"
+                                                            class="btn btn-danger btn-sm">Archive</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -69,6 +74,20 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                      <!-- Pagination Controls -->
+                                      <nav>
+                                        <ul class="pagination justify-content-left">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                            </li>
+                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                                <button class="page-link" @click="goToPage(page)">{{ page }}</button>
+                                            </li>
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +108,7 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
@@ -97,7 +116,8 @@ import Swal from 'sweetalert2';
 const toastr = useToastr();
 const merchants = ref([]);
 const searchQuery = ref('');
-
+const currentPage = ref(1);
+const merchantsPerPage = 10;
 // Fetch merchants from API
 const getMerchants = async () => {
     try {
@@ -111,6 +131,7 @@ const getMerchants = async () => {
 
 // Watch search query and debounce search requests
 watch(searchQuery, debounce(() => {
+    currentPage.value = 1; // Reset to the first page on search
     getMerchants();
 }, 100));
 
@@ -118,6 +139,23 @@ watch(searchQuery, debounce(() => {
 onMounted(() => {
     getMerchants();
 });
+
+// Computed property for paginated Merch
+const paginatedMerchants = computed(() => {
+    const start = (currentPage.value - 1) * merchantsPerPage;
+    return merchants.value.slice(start, start + merchantsPerPage);
+});
+
+// Computed property for total pages
+const totalPages = computed(() => {
+    return Math.ceil(merchants.value.length / merchantsPerPage);
+});
+
+// Function to navigate to a specific page
+const goToPage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
 
 // Show approval modal
 const showApprovalModal = (merchantId) => {

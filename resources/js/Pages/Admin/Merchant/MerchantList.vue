@@ -54,10 +54,10 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="merchants.length > 0">
+                                        <tbody v-if="paginatedMerchants.length > 0">
 
-                                            <tr v-for="(merchant, index) in merchants" :key="merchant.id">
-                                                <td>{{ index + 1 }}</td>
+                                            <tr v-for="(merchant, index) in paginatedMerchants" :key="merchant.id">
+                                                <td>{{ (currentPage - 1) * merchantsPerPage + index + 1 }}</td>
                                                 <td>{{ merchant.card_code }}</td>
                                                 <td>{{ merchant.business_code }}</td>
                                                 <td>{{ merchant.fname }} {{ merchant.mname }} {{ merchant.lname }}</td>
@@ -100,6 +100,20 @@
 
                                         </tbody>
                                     </table>
+                                      <!-- Pagination Controls -->
+                                      <nav>
+                                        <ul class="pagination justify-content-left">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                            </li>
+                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                                <button class="page-link" @click="goToPage(page)">{{ page }}</button>
+                                            </li>
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +135,7 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2'; // Import SweetAlert2
@@ -129,6 +143,8 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 const toastr = useToastr();
 const merchants = ref([]);
 const searchQuery = ref([]);
+const currentPage = ref(1);
+const merchantsPerPage = 10;
 
 // Fetch merchants from the API
 const getMerchants = async () => {
@@ -146,6 +162,7 @@ const getMerchants = async () => {
 
 // Watch for searchQuery changes and debounce the API calls
 watch(searchQuery, debounce(() => {
+    currentPage.value = 1; // Reset to the first page on search
     getMerchants();
 }, 100));
 
@@ -153,6 +170,23 @@ watch(searchQuery, debounce(() => {
 onMounted(() => {
     getMerchants();
 });
+
+// Computed property for paginated Merch
+const paginatedMerchants = computed(() => {
+    const start = (currentPage.value - 1) * merchantsPerPage;
+    return merchants.value.slice(start, start + merchantsPerPage);
+});
+
+// Computed property for total pages
+const totalPages = computed(() => {
+    return Math.ceil(merchants.value.length / merchantsPerPage);
+});
+
+// Function to navigate to a specific page
+const goToPage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
 
 // Format rows for export excluding the "Action" column
 const formatRows = (rows) => {

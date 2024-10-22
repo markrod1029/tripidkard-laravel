@@ -52,9 +52,9 @@
                           <th>Date</th>
                         </tr>
                       </thead>
-                      <tbody v-if="customers.length > 0">
-                        <tr v-for="(customer, index) in customers" :key="customer.id">
-                          <td>{{ index + 1 }}</td>
+                      <tbody v-if="paginatedCustomers.length > 0">
+                        <tr v-for="(customer, index) in paginatedCustomers" :key="customer.id">
+                          <td>{{ index + 1 + (currentPage - 1) * customersPerPage }}</td>
                           <td>{{ customer.customer_card_num }}</td>
                           <td>{{ customer.fname }} {{ customer.mname }} {{ customer.lname }}</td>
                           <td>{{ customer.points }} Star Points</td>
@@ -71,6 +71,20 @@
                         </tr>
                       </tbody>
                     </table>
+                     <!-- Pagination Controls -->
+                     <nav aria-label="Page navigation">
+                      <ul class="pagination">
+                        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                          <a class="page-link" @click="goToPage(currentPage - 1)">Previous</a>
+                        </li>
+                        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                          <a class="page-link" @click="goToPage(page)">{{ page }}</a>
+                        </li>
+                        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                          <a class="page-link" @click="goToPage(currentPage + 1)">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -93,14 +107,14 @@
   import { ref, onMounted, watch, computed } from 'vue';
   import { debounce } from 'lodash';
   import * as XLSX from 'xlsx'; // Import XLSX for Excel/CSV export
-  import Swal from 'sweetalert2';
   import { useRoute } from 'vue-router';
 
   const toastr = useToastr();
   const customers = ref([]);
   const searchQuery = ref('');
   const route = useRoute();
-
+  const currentPage = ref(1);
+  const customersPerPage = 10;
   const getCustomers = async () => {
     try {
       const response = await axios.get(`/api/customer/${route.params.id}/points`, {
@@ -136,6 +150,7 @@
   watch(
     searchQuery,
     debounce(() => {
+      currentPage.value = 1; // Reset to first page on search
       getCustomers();
     }, 100)
   );
@@ -143,6 +158,25 @@
   onMounted(() => {
     getCustomers();
   });
+
+    // Computed property for paginated customers
+    const paginatedCustomers = computed(() => {
+    const start = (currentPage.value - 1) * customersPerPage;
+    return customers.value.slice(start, start + customersPerPage);
+  });
+
+  // Computed property for total pages
+  const totalPages = computed(() => {
+    return Math.ceil(customers.value.length / customersPerPage);
+  });
+
+  // Function to go to a specific page
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+      currentPage.value = page;
+    }
+  };
+
 
   // Format rows for export excluding the "Action" column
   const formatRows = (rows) => {

@@ -44,9 +44,9 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="influencers.length > 0">
-                                            <tr v-for="(influencer, index) in influencers" :key="influencer.id">
-                                                <td>{{ index + 1 }}</td>
+                                        <tbody v-if="paginatedInfluencers.length > 0">
+                                            <tr v-for="(influencer, index) in paginatedInfluencers" :key="influencer.id">
+                                                <td>{{ (currentPage - 1) * influencersPerPage + index + 1 }}</td>
                                                 <td>{{ influencer.card_code }}</td>
                                                 <td>{{ influencer.influencer_code }}</td>
                                                 <td>{{ influencer.fname }} {{ influencer.mname }} {{ influencer.lname }}</td>
@@ -69,6 +69,20 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                      <!-- Pagination Controls -->
+                                      <nav>
+                                        <ul class="pagination justify-content-left">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                            </li>
+                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                                <button class="page-link" @click="goToPage(page)">{{ page }}</button>
+                                            </li>
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +103,7 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
@@ -98,6 +112,8 @@ const toastr = useToastr();
 const influencers = ref([]);
 const searchQuery = ref('');
 
+const currentPage = ref(1);
+const influencersPerPage = 10;
 // Fetch influencers from API
 const getInfluencers = async () => {
     try {
@@ -119,6 +135,25 @@ onMounted(() => {
     getInfluencers();
 });
 
+// Computed property for paginated influencers
+const paginatedInfluencers = computed(() => {
+    const start = (currentPage.value - 1) * influencersPerPage;
+    return influencers.value.slice(start, start + influencersPerPage);
+});
+
+// Computed property for total pages
+const totalPages = computed(() => {
+    return Math.ceil(influencers.value.length / influencersPerPage);
+});
+
+// Function to navigate to a specific page
+const goToPage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
+
+
+
 // Show approval modal
 const showApprovalModal = (influencerId) => {
     Swal.fire({
@@ -134,6 +169,8 @@ const showApprovalModal = (influencerId) => {
         }
     });
 };
+
+
 
 // Show archive modal
 const showArchiveModal = (influencerId) => {

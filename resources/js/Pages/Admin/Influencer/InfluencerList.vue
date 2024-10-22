@@ -10,15 +10,14 @@
                 <div class="card">
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
                         <div class="d-flex justify-content-between">
-                            <div class=" mb-2 d-flex">
+                            <div class="mb-2 d-flex">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         Export
                                     </button>
                                     <div class="dropdown-menu">
-                                        <button class="dropdown-item" @click="exportToExcel"
-                                            type="button">Excel</button>
+                                        <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
                                         <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
                                         <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                     </div>
@@ -26,8 +25,7 @@
                             </div>
 
                             <div class="col-3">
-                                <input type="text" v-model="searchQuery" class="form-control"
-                                    placeholder="Search...">
+                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search...">
                             </div>
                         </div>
 
@@ -49,9 +47,9 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="influencers.length > 0">
-                                            <tr v-for="(influencer, index) in influencers" :key="influencer.id">
-                                                <td>{{ index + 1 }}</td>
+                                        <tbody v-if="paginatedInfluencers.length > 0">
+                                            <tr v-for="(influencer, index) in paginatedInfluencers" :key="influencer.id">
+                                                <td>{{ (currentPage - 1) * influencersPerPage + index + 1 }}</td>
                                                 <td>{{ influencer.card_code }}</td>
                                                 <td>{{ influencer.influencer_code }}</td>
                                                 <td>{{ influencer.fname }} {{ influencer.mname }} {{ influencer.lname }}</td>
@@ -79,6 +77,21 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <!-- Pagination Controls -->
+                                    <nav>
+                                        <ul class="pagination justify-content-left">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                            </li>
+                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                                <button class="page-link" @click="goToPage(page)">{{ page }}</button>
+                                            </li>
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -99,13 +112,16 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
+
 const toastr = useToastr();
 const influencers = ref([]);
 const searchQuery = ref('');
+const currentPage = ref(1);
+const influencersPerPage = 10;
 
 // Fetch influencers from API
 const getInfluencers = async () => {
@@ -115,8 +131,7 @@ const getInfluencers = async () => {
     } catch (error) {
         console.error('Error fetching influencers:', error);
     }
-}
-
+};
 
 const showArchiveModal = (influencerId) => {
     Swal.fire({
@@ -133,17 +148,16 @@ const showArchiveModal = (influencerId) => {
                 await updateInfluencerStatusArchive(influencerId, 5);
             } catch (error) {
                 console.error('Error approving influencer:', error);
+            }
         }
-    }
-    })
-}
-
+    });
+};
 
 const updateInfluencerStatusArchive = async (influencerId, status) => {
     try {
-        console.log('Approving influencer:', influencerId, 'with status:', status); // Log influencer ID and status
+        console.log('Approving influencer:', influencerId, 'with status:', status);
         const response = await axios.patch(`/api/influencer/${influencerId}/status/archive`, { status });
-        console.log('Response from approval:', response.data); // Log response data
+        console.log('Response from approval:', response.data);
         toastr.success('Influencer status updated successfully.');
         getInfluencers(); // Refresh the list
     } catch (error) {
@@ -152,9 +166,9 @@ const updateInfluencerStatusArchive = async (influencerId, status) => {
     }
 };
 
-
 // Watch search query and debounce search requests
 watch(searchQuery, debounce(() => {
+    currentPage.value = 1; // Reset to the first page on search
     getInfluencers();
 }, 100));
 
@@ -163,12 +177,29 @@ onMounted(() => {
     getInfluencers();
 });
 
+// Computed property for paginated influencers
+const paginatedInfluencers = computed(() => {
+    const start = (currentPage.value - 1) * influencersPerPage;
+    return influencers.value.slice(start, start + influencersPerPage);
+});
+
+// Computed property for total pages
+const totalPages = computed(() => {
+    return Math.ceil(influencers.value.length / influencersPerPage);
+});
+
+// Function to navigate to a specific page
+const goToPage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
+
 // Format rows for export excluding the "Action" column
 const formatRows = (rows) => {
     return rows.map((influencer, index) => [
         index + 1,
         influencer.card_code,
-        influencer.influencer_code,  // Ensure Influencer Code is included
+        influencer.influencer_code,
         `${influencer.fname} ${influencer.mname} ${influencer.lname}`,
         influencer.blog_name,
         influencer.blog_category,
@@ -203,18 +234,18 @@ const exportToCSV = () => {
 
     const headers = ['#', 'Card Code', 'Influencer Code', 'Influencer Name', 'Blog Name', 'Content Name', 'Contact No.', 'Email Address', 'Address'];
     const formattedRows = formatRows(influencers.value);
+    const csvContent = [headers, ...formattedRows].map(e => e.join(",")).join("\n");
 
-    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...formattedRows]);
-    const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
-
-    const blob = new Blob([csvOutput], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Influencers.csv';
-    a.click();
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "Influencers.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 };
-
 // Print Table excluding the "Action" column
 const printTable = () => {
     if (influencers.value.length === 0) {
@@ -249,10 +280,5 @@ const printTable = () => {
     printWindow.print();
 };
 
-// Function to handle influencer archive (stub)
-const archiveInfluencer = (influencerId) => {
-    if (confirm('Are you sure you want to archive this influencer?')) {
-        // Add logic to archive influencer
-    }
-};
+
 </script>

@@ -55,9 +55,9 @@
                           <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody v-if="customers.length > 0">
-                        <tr v-for="(customer, index) in customers" :key="customer.id">
-                          <td>{{ index + 1 }}</td>
+                      <tbody v-if="paginatedCustomers.length > 0">
+                        <tr v-for="(customer, index) in paginatedCustomers" :key="customer.id">
+                          <td>{{ index + 1 + (currentPage - 1) * customersPerPage }}</td>
                           <td>{{ customer.customer_card_num }}</td>
                           <td>{{ customer.fname }} {{ customer.mname }} {{ customer.lname }}</td>
                           <td>{{ customer.contact }}</td>
@@ -65,43 +65,49 @@
                           <td>
                             {{ customer.zip }} {{ customer.street }} {{ customer.city }} {{ customer.province }}
                           </td>
-
                           <td>{{ customer.validity }}</td>
-
                           <td>
                             <div style="display: flex; justify-content: center;">
-
-                                <router-link
+                              <router-link
                                 :to="`/admin/customer/${customer.id}/points`"
                                 class="btn btn-success btn-sm"
                                 style="margin-right: 5px;"
-                                ><i class="fa fa-eye"></i
-                              ></router-link>
-
-
-                                <router-link
+                              ><i class="fa fa-eye"></i></router-link>
+                              <router-link
                                 :to="`/admin/customer/${customer.id}/edit`"
                                 class="btn btn-primary btn-sm"
                                 style="margin-right: 5px;"
-                                ><i class="fa fa-edit"></i
-                              ></router-link>
-
+                              ><i class="fa fa-edit"></i></router-link>
                               <a
                                 class="btn btn-danger btn-sm text-white"
                                 @click="showArchiveModal(customer.id)"
                                 style="margin-right: 5px;"
-                                ><i class="fa fa-redo"></i
-                              ></a>
+                              ><i class="fa fa-redo"></i></a>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                       <tbody v-else>
                         <tr>
-                          <td colspan="7" class="text-center">No Customer Found</td>
+                          <td colspan="8" class="text-center">No Customer Found</td>
                         </tr>
                       </tbody>
                     </table>
+
+                    <!-- Pagination Controls -->
+                    <nav aria-label="Page navigation">
+                      <ul class="pagination">
+                        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                          <a class="page-link" @click="goToPage(currentPage - 1)">Previous</a>
+                        </li>
+                        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                          <a class="page-link" @click="goToPage(page)">{{ page }}</a>
+                        </li>
+                        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                          <a class="page-link" @click="goToPage(currentPage + 1)">Next</a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -121,7 +127,7 @@
 
   import { useToastr } from '@/toastr.js';
   import axios from 'axios';
-  import { ref, onMounted, watch } from 'vue';
+  import { ref, onMounted, watch, computed } from 'vue';
   import { debounce } from 'lodash';
   import * as XLSX from 'xlsx'; // Import XLSX for Excel/CSV export
   import Swal from 'sweetalert2';
@@ -129,7 +135,10 @@
   const toastr = useToastr();
   const customers = ref([]);
   const searchQuery = ref('');
+  const currentPage = ref(1);
+  const customersPerPage = 10;
 
+  // Fetch customers from the API
   const getCustomers = async () => {
     try {
       const response = await axios.get('/api/customers', {
@@ -143,31 +152,52 @@
     }
   };
 
-
   const showArchiveModal = (customerId) => {
     Swal.fire({
-        title: 'Approve Influencer',
-        text: `Are you sure you want to Archive this Customer?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Archive',
-        cancelButtonText: 'Cancel'
+      title: 'Approve Influencer',
+      text: `Are you sure you want to Archive this Customer?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Archive',
+      cancelButtonText: 'Cancel',
     }).then(async (result) => {
-        if (result.isConfirmed) {
-            await updateCustomerStatus(customerId, 5);
-        }
+      if (result.isConfirmed) {
+        await updateCustomerStatus(customerId, 5);
+      }
     });
-  }
+  };
+
+  // Watch for search query changes and fetch customers
   watch(
     searchQuery,
     debounce(() => {
+      currentPage.value = 1; // Reset to first page on search
       getCustomers();
     }, 100)
   );
 
+  // Get customers on component mount
   onMounted(() => {
     getCustomers();
   });
+
+  // Computed property for paginated customers
+  const paginatedCustomers = computed(() => {
+    const start = (currentPage.value - 1) * customersPerPage;
+    return customers.value.slice(start, start + customersPerPage);
+  });
+
+  // Computed property for total pages
+  const totalPages = computed(() => {
+    return Math.ceil(customers.value.length / customersPerPage);
+  });
+
+  // Function to go to a specific page
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+      currentPage.value = page;
+    }
+  };
 
   // Format rows for export excluding the "Action" column
   const formatRows = (rows) => {
@@ -193,10 +223,8 @@
       const headers = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
       const formattedRows = formatRows(customers.value);
 
-      // Add title row centered across all columns
+      // Create worksheet
       const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
-    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
-
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Customers');
       XLSX.writeFile(workbook, 'Customers.xlsx');
@@ -213,21 +241,24 @@
         toastr.info('No data to export.');
         return;
       }
-      // Define title and headers for the CSV
       const title = ['Customer List']; // Title for the CSV file
       const columnHeaders = ['#', 'Card Number', 'Customer Name', 'Contact No.', 'Email Address', 'Address', 'Validity'];
       const formattedRows = formatRows(customers.value);
 
-      // Create worksheet with a centered title row
-      const worksheet = XLSX.utils.aoa_to_sheet([[], title,  columnHeaders, ...formattedRows]);
-    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: columnHeaders.length - 1 } }]; // Merge title row cells
+      // Create CSV content
+      let csvContent = title.join(',') + '\n';
+      csvContent += columnHeaders.join(',') + '\n';
+      formattedRows.forEach(row => {
+        csvContent += row.join(',') + '\n';
+      });
 
-      const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
-      const blob = new Blob([csvOutput], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
+      // Create a blob for the CSV file and trigger download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.setAttribute('href', url);
       a.setAttribute('download', 'Customers.csv');
+      a.style.visibility = 'hidden';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -237,66 +268,41 @@
     }
   };
 
-  // Print Table with a styled design excluding the "Action" column
+  // Print the table
   const printTable = () => {
-    try {
-      const tableClone = document.getElementById('customerlist').cloneNode(true);
-
-      // Remove the "Action" column from the cloned table
-      tableClone.querySelectorAll('th:nth-child(8), td:nth-child(8)').forEach(el => el.remove());
-
-      const printContents = tableClone.outerHTML;
-      if (!printContents) {
-        toastr.info('No data to print.');
-        return;
-      }
-
-      const printWindow = window.open('', '', 'width=800,height=600');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Print Customer List</title>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-              }
-              h2 {
-                text-align: center;
-                margin-bottom: 20px;
-              }
-              table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 20px;
-              }
-              th, td {
-                padding: 8px;
-                text-align: left;
-                border: 1px solid #ddd;
-              }
-              th {
-                background-color: #f2f2f2;
-              }
-              tr:nth-child(even) {
-                background-color: #f9f9f9;
-              }
-            </style>
-          </head>
-          <body>
-            <h2>Customer List</h2>
-            ${printContents}
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.print();
-    } catch (error) {
-      console.error('Error printing table:', error);
-      toastr.error('Failed to print.');
-    }
+    const printContents = document.getElementById('customerlist').outerHTML;
+    const newWin = window.open('');
+    newWin.document.write(`
+      <html>
+        <head>
+          <title>Print Customers</title>
+          <style>
+            table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            th {
+              background-color: #f2f2f2;
+            }
+          </style>
+        </head>
+        <body onload="window.print()">
+          ${printContents}
+        </body>
+      </html>
+    `);
+    newWin.document.close();
   };
+
   </script>
 
   <style scoped>
-  /* Add any additional styling here if needed */
+  /* Add any additional styles here */
+  .pagination {
+    justify-content: flex-start; /* Align to the left */
+  }
   </style>

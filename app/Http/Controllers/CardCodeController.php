@@ -89,7 +89,8 @@ class CardCodeController extends Controller
         // Validate incoming request data
         $validated = $request->validate([
             'tripidkard_number' => 'required|numeric', // Example validation rule, adjust as needed
-            'user_id' => 'required', // Ensure enterprise is selected
+            'user_id' => 'required',
+            'card_types' => 'required',
             // Add more validation rules as needed
         ]);
 
@@ -98,13 +99,12 @@ class CardCodeController extends Controller
 
         // Check if the selected enterprise is "None"
 
-
-
         // Retrieve the number of tripidkards to generate
         $numberOfTripidkards = $request->input('tripidkard_number');
         $user_id = $validated['user_id'];
         $card_types = $validated['card_types'];
         // Loop to generate multiple customer codes
+
         for ($i = 0; $i < $numberOfTripidkards; $i++) {
             $cardNumber = $this->generateCardCode();
 

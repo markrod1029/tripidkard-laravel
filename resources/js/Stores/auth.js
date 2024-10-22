@@ -80,7 +80,7 @@ export const useAuthStore = defineStore("auth", {
         async adminLoginForm(data) {
             await this.getToken();
             try {
-                const response = await axios.post("/login", {
+                const response = await axios.post("/admin/login", {
                     email: data.email,
                     password: data.password,
                 });
