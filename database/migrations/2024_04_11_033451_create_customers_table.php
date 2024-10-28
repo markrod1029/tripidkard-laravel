@@ -17,7 +17,6 @@ class CreateCustomersTable extends Migration
             $table->id();
             // $table->foreignId('card_code_id')->constrained();
             $table->string('store_code')->unique()->nullable();
-            $table->foreignId('user_id')->constrained();
             $table->string('customer_card_num')->unique();
             $table->string('fname');
             $table->string('mname')->nullable();

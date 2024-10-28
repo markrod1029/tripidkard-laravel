@@ -24,8 +24,8 @@
                                     <div class="dropdown-menu">
                                         <button class="dropdown-item" @click="exportToExcel"
                                             type="button">Excel</button>
-                                        <button class="dropdown-item" @click="exportToCSV"  type="button">CSV</button>
-                                        <button class="dropdown-item" @click="printTable"  type="button">Print</button>
+                                        <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
+                                        <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                     </div>
                                 </div>
                             </div>
@@ -52,9 +52,9 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="points.length > 0">
+                                        <tbody v-if="paginatedPoints.length > 0">
 
-                                            <tr v-for="(point, index) in points " :key="point.id">
+                                            <tr v-for="(point, index) in paginatedPoints " :key="point.id">
                                                 <td>{{ index + 1 }}</td>
                                                 <td>{{ point.card_number }}</td>
                                                 <td>{{ point.fname }} {{ point.mname }} {{ point.lname }}</td>
@@ -81,8 +81,26 @@
 
                                         </tbody>
 
-
                                     </table>
+
+                                    <!-- Pagination Controls -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-start">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <a class="page-link" @click="changePage(currentPage - 1)">Previous</a>
+                                            </li>
+
+                                            <!-- Show only up to 10 page numbers -->
+                                            <li v-for="page in visiblePages" :key="page" class="page-item"
+                                                :class="{ active: currentPage === page }">
+                                                <a class="page-link" @click="changePage(page)">{{ page }}</a>
+                                            </li>
+
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <a class="page-link" @click="changePage(currentPage + 1)">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +125,7 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useToastr } from '@/toastr.js';
 
 import axios from 'axios';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
 
@@ -115,6 +133,9 @@ import * as XLSX from 'xlsx';
 const toastr = useToastr();
 const points = ref([]);
 const searchQuery = ref([]);
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+const maxVisiblePages = ref(10); // Maximum number of pages to show in the pagination controls
 
 const getPoints = async () => {
     try {
@@ -128,6 +149,29 @@ const getPoints = async () => {
         console.error('Error fetching services:', error);
     }
 }
+
+// Computed properties for pagination
+const paginatedPoints = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage.value;
+    return points.value.slice(start, start + itemsPerPage.value);
+});
+
+const totalPages = computed(() => {
+    return Math.ceil(points.value.length / itemsPerPage.value);
+});
+
+// Get the visible page numbers, limiting to 10
+const visiblePages = computed(() => {
+    const startPage = Math.max(currentPage.value - Math.floor(maxVisiblePages.value / 2), 1);
+    const endPage = Math.min(startPage + maxVisiblePages.value - 1, totalPages.value);
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+});
+
+// Change page function
+const changePage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
 
 const formatRows = (rows) => {
     return rows.map((point, index) => [
@@ -174,21 +218,21 @@ const exportToCSV = (rows) => {
 
 
         // merge Title and all columns
-        const worksheet = XLSX.utils.aoa_to_sheet([[], title,  headers, ...formattedRows]);
-    //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
+        const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
+        //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
 
         const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
-      const blob = new Blob([csvOutput], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.setAttribute('href', url);
-      a.setAttribute('download', 'LoyaltyStars.csv');
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+        const blob = new Blob([csvOutput], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'LoyaltyStars.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     } catch (error) {
-      console.error('Error exporting to CSV:', error);
-      toastr.error('Failed to export to CSV.');
+        console.error('Error exporting to CSV:', error);
+        toastr.error('Failed to export to CSV.');
     }
 
 
@@ -201,10 +245,10 @@ const printTable = () => {
         // Remove the Action Column using Clone Table
         tableClone.querySelectorAll('th:nth-child(6), td:nth-child(6)').forEach(el => el.remove());
 
-        const printContents =tableClone.outerHTML;
-        if(!printContents) {
-        toastr.info('No data to print.');
-        return;
+        const printContents = tableClone.outerHTML;
+        if (!printContents) {
+            toastr.info('No data to print.');
+            return;
         }
 
         const printWindow = window.open('', '', 'width = 800, height=600');

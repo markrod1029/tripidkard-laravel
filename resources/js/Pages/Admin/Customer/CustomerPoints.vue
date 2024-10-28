@@ -67,7 +67,7 @@
                       </tbody>
                       <tbody v-else>
                         <tr>
-                          <td colspan="5" class="text-center">No Customer Found</td>
+                          <td colspan="5" class="text-center">No Customer Points Found</td>
                         </tr>
                       </tbody>
                     </table>

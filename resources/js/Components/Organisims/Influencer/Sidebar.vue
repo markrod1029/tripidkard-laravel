@@ -38,8 +38,8 @@ const menuItems = ref([
                 title: "Customer Account",
                 icon: "fas fa-users",
                 children: [
-                    { title: "Customer List", icon: "far fa-circle", route: "/merchant/customer" },
-                    { title: "Customer Register", icon: "far fa-circle", route: "/merchant/customer/register" },
+                    { title: "Customer List", icon: "far fa-circle", route: "/influencer/customer" },
+                    { title: "Customer Register", icon: "far fa-circle", route: "/influencer/customer/register" },
                 ],
             },
 

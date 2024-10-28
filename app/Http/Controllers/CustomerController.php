@@ -32,11 +32,53 @@ class CustomerController extends Controller
 
     }
 
-    public function points($id) {
+    public function indexUser()
+    {
+        // Get the user_id of the current user
+        $merchant_id = request()->user()->id;
+        // Define the fields you want to search in the customers table
+        $searchFields = [
+            'customers.customer_card_num',
+            'customers.fname',
+            'customers.mname',
+            'customers.lname',
+            'customers.contact',
+            'customers.email',
+            'customers.zip',
+            'customers.street',
+            'customers.city',
+            'customers.province',
+            'customers.validity'
+        ];
+
+        // Query customers with their associated card_codes
+        $customers = Customer::query()
+            ->join('card_codes', 'customers.customer_card_num', '=', 'card_codes.card_number') // Join with card_codes table
+            ->where('customers.status', 1) // Only active customers
+            ->where('card_codes.user_id', $merchant_id) // Filter by the user's ID
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->latest('customers.created_at') // Sort by creation date
+            ->select('customers.*') // Select only the customer fields
+            ->get();
+
+        return response()->json($customers); // Return the customers as JSON
+    }
+
+
+
+
+    public function points($id)
+    {
         $searchFields = ['customer_card_num', 'fname', 'mname', 'lname', 'points', 'points.created_at'];
 
         $points = Point::query() // Use Point::query() as the primary model
-            ->select('customers.id as customer_id', 'customers.*', 'points.created_at as point_created_at',  'points.*') // Alias 'customers.id' as 'customer_id'
+            ->select('customers.id as customer_id', 'customers.*', 'points.created_at as point_created_at', 'points.*') // Alias 'customers.id' as 'customer_id'
             ->leftJoin('customers', 'customers.customer_card_num', '=', 'points.card_number') // Join with customers table
             ->where('customers.status', 1) // Check status on customers table
             ->where('customers.id', $id) // Filter by customer_id in points table
@@ -53,36 +95,37 @@ class CustomerController extends Controller
         return response()->json($points);
     }
 
-public function customerResult($cardNumber) {
-    // Fetch the card_number from the request
-    $cardNumber = request('card_number');
+    public function customerResult($cardNumber)
+    {
+        // Fetch the card_number from the request
+        $cardNumber = request('card_number');
 
-    // Retrieve the customer's details and total points
-    $customerData = Customer::query()
-        ->select(
-            'customers.id as customer_id',
-            'customers.fname', // Include necessary fields from customers
-            'customers.mname', // Include necessary fields from customers
-            'customers.lname', // Include necessary fields from customers
-            'customers.email', // Include necessary fields from customers
-            'customers.validity', // Include necessary fields from customers
-            'customers.customer_card_num',
-            // Add all other necessary fields from the customers table
-            DB::raw('IFNULL(SUM(points.points), 0) as total_points')
-        )
-        ->leftJoin('points', 'customers.customer_card_num', '=', 'points.card_number') // Join with points table
-        ->where('customers.status', 1) // Check status on customers table
-        ->where('customers.customer_card_num', $cardNumber) // Filter by customer card number
-        ->groupBy('customers.id', 'customers.fname',  'customers.mname',  'customers.lname', 'customers.email', 'customers.validity', 'customers.customer_card_num') // Group by all selected columns
-        ->first(); // Get the first result
+        // Retrieve the customer's details and total points
+        $customerData = Customer::query()
+            ->select(
+                'customers.id as customer_id',
+                'customers.fname', // Include necessary fields from customers
+                'customers.mname', // Include necessary fields from customers
+                'customers.lname', // Include necessary fields from customers
+                'customers.email', // Include necessary fields from customers
+                'customers.validity', // Include necessary fields from customers
+                'customers.customer_card_num',
+                // Add all other necessary fields from the customers table
+                DB::raw('IFNULL(SUM(points.points), 0) as total_points')
+            )
+            ->leftJoin('points', 'customers.customer_card_num', '=', 'points.card_number') // Join with points table
+            ->where('customers.status', 1) // Check status on customers table
+            ->where('customers.customer_card_num', $cardNumber) // Filter by customer card number
+            ->groupBy('customers.id', 'customers.fname', 'customers.mname', 'customers.lname', 'customers.email', 'customers.validity', 'customers.customer_card_num') // Group by all selected columns
+            ->first(); // Get the first result
 
-    // Check if customer exists
-    if (!$customerData) {
-        return response()->json(['error' => 'Customer not found'], 404);
+        // Check if customer exists
+        if (!$customerData) {
+            return response()->json(['error' => 'Customer not found'], 404);
+        }
+
+        return response()->json($customerData);
     }
-
-    return response()->json($customerData);
-}
 
 
 

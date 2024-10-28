@@ -169,7 +169,7 @@ const exportToExcel = () => {
             return;
         }
         const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Card Types'];
+        const headers = ['#', 'Business Name/Blog Name', 'Card Code', 'Card Types'];
         const formattedRows = formatRows(tripidkards.value);
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
         const workbook = XLSX.utils.book_new();
@@ -189,7 +189,7 @@ const exportToCSV = () => {
             return;
         }
         const title = ['Tripidkard List']; // Title row
-        const headers = ['#', 'Business Code', 'Card Code', 'Card Types'];
+        const headers = ['#', 'Business Name/Blog Name', 'Card Code', 'Card Types'];
         const formattedRows = formatRows(tripidkards.value);
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
         const csvOutput = XLSX.utils.sheet_to_csv(worksheet);

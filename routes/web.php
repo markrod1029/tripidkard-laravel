@@ -90,6 +90,7 @@ Route::post('/api/customers/register', [CustomerController::class, 'store']);
 Route::get('/api/customers/count', [CustomerController::class, 'count']);
 
 Route::get('/api/customers', [CustomerController::class, 'index']);
+Route::get('/api/user/customers', [CustomerController::class, 'indexUser']);
 Route::get('/api/customer/{id}/points', [CustomerController::class, 'points']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 
