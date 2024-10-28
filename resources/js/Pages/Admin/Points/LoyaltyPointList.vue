@@ -53,9 +53,9 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody v-if="merchants.length > 0">
-                                            <tr v-for="(merchant, index) in merchants" :key="merchant.id">
-                                                <td>{{ index + 1 }}</td>
+                                        <tbody v-if="paginatedMerchants.length > 0">
+                                            <tr v-for="(merchant, index) in paginatedMerchants" :key="merchant.id">
+                                                <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
                                                 <td>{{ merchant.fname }} {{ merchant.mname }} {{ merchant.lname }}</td>
                                                 <td>{{ merchant.business_name }}</td>
                                                 <td>{{ merchant.stars_points }} Stars Points</td>
@@ -86,6 +86,25 @@
 
                                         </tbody>
                                     </table>
+
+                                    <!-- Pagination Controls -->
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-start">
+                                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                                <a class="page-link" @click="changePage(currentPage - 1)">Previous</a>
+                                            </li>
+
+                                            <!-- Show only up to 10 page numbers -->
+                                            <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+                                                <a class="page-link" @click="changePage(page)">{{ page }}</a>
+                                            </li>
+
+                                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                                <a class="page-link" @click="changePage(currentPage + 1)">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
                                 </div>
                             </div>
                         </div>
@@ -112,9 +131,13 @@ import axios from 'axios';
 import { useToastr } from '@/toastr.js';
 import * as XLSX from 'xlsx';
 import { debounce } from 'lodash';
+import { computed } from 'vue';
 
 const merchants = ref([]);
 const searchQuery = ref([]);
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+const maxVisiblePages = ref(10); // Maximum number of pages to show in the pagination controls
 
 const toastr = useToastr();
 
@@ -122,7 +145,7 @@ const getMerchants = async () => {
     try {
         const response = await axios.get('/api/merchants', {
             params: {
-                query: searchQuery.value 
+                query: searchQuery.value
             }
         });
         if (!response.data) {
@@ -135,7 +158,6 @@ const getMerchants = async () => {
     }
 }
 
-
 watch(searchQuery, debounce( async () => {
     await getMerchants();
 }, 100));
@@ -146,6 +168,28 @@ onMounted(async () => {
 });
 
 
+// Computed properties for pagination
+const paginatedMerchants = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage.value;
+    return merchants.value.slice(start, start + itemsPerPage.value);
+});
+
+const totalPages = computed(() => {
+    return Math.ceil(merchants.value.length / itemsPerPage.value);
+});
+
+// Get the visible page numbers, limiting to 10
+const visiblePages = computed(() => {
+    const startPage = Math.max(currentPage.value - Math.floor(maxVisiblePages.value / 2), 1);
+    const endPage = Math.min(startPage + maxVisiblePages.value - 1, totalPages.value);
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+});
+
+// Change page function
+const changePage = (page) => {
+    if (page < 1 || page > totalPages.value) return;
+    currentPage.value = page;
+};
 
 // Format rows for export excluding the "Action" column
 const formatRows = (rows) => {

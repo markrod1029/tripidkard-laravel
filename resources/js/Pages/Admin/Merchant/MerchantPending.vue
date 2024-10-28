@@ -277,10 +277,3 @@ const printTable = () => {
 };
 </script>
 
-<style scoped>
-.content-wrapper {
-    padding: 20px;
-}
-
-/* Other custom styles */
-</style>
