@@ -210,32 +210,23 @@ class CustomerController extends Controller
         return response()->json(['success' => true]);
 
     }
-
     public function count()
     {
-
         $user = auth()->user(); // Get the authenticated user
 
         if ($user->role === 'Admin') {
             // Admin counts all customers
             $customerCount = Customer::where('status', 1)->count();
-
-        } elseif ($user->role === 'Merchant') {
-            // Merchant counts only their own customers
-            $customerCount = Customer::where('status', 1)
-                ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
-                ->count();
-
-        } elseif ($user->role === 'Influe  ncer') {
-            // Influencer counts only their own customers
-            $customerCount = Customer::where('status', 1)
-                ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to influencers
+        } elseif ($user->role === 'Merchant' || $user->role === 'Influencer') {
+            // Merchant or Influencer counts only their own customers
+            $customerCount = Customer::join('card_codes', 'customers.customer_card_num', '=', 'card_codes.card_number')
+                ->where('customers.status', 1)
+                ->where('card_codes.user_id', $user->id) // Filter by the user's ID
                 ->count();
         } else {
             // If the role doesn't match, return 0 or an appropriate message
             $customerCount = 0; // or return response()->json(['error' => 'Unauthorized'], 403);
         }
-
 
         return response()->json(['count' => $customerCount]);
     }

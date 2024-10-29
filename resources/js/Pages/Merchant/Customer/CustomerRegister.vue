@@ -38,9 +38,10 @@
                                             <div class="input-group-prepend"><span class="input-group-text">
                                                     <i class="fa fa-credit-card"></i></span></div>
                                             <input type="text" v-model="form.customer_card_num" class="form-control"
-                                                id="customer_code" name="customer_code" value="" required="" :readonly="editCustomerTitle" >
+                                                id="customer_code" name="customer_code" value="" required=""
+                                                :readonly="editCustomerTitle">
 
-                                            </div>
+                                        </div>
 
                                     </div>
 
@@ -337,6 +338,11 @@ onMounted(() => {
     if (route.name === 'merchant.customer.edit') {
         editCustomerTitle.value = true;
         getCustomers();
+    } else if (route.name === 'merchant.customer.scan') {
+        const cardNumber = route.params.card_number;
+        form.customer_card_num = cardNumber;
+        editCustomerTitle.value = true;
+
     }
 });
 

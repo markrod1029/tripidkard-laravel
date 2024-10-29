@@ -9,6 +9,11 @@
             <section class="container">
                 <div class="container">
                     <div class="bg-white p-4 rounded text-center mx-auto">
+                        <!-- Display "Card Not Available" message when applicable -->
+                        <div v-if="cardNotAvailable" class="alert alert-danger mx-auto col-sm-6">
+                            <strong>Card Not Available</strong>
+                        </div>
+
                         <div class="qr-code-form">
                             <form id="qrForm" @submit.prevent="handleSubmit" method="POST" class="form-horizontal">
                                 <label><b>SCAN QR CODE CARD NUMBER</b></label>
@@ -30,18 +35,18 @@
     </div>
 </template>
 
-
 <script setup>
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
-import Sidebar from '@/Components/Organisims/Influencer/Sidebar.vue';
+import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 const cardNumber = ref('');
+const cardNotAvailable = ref(false);
 const router = useRouter();
 
 onMounted(() => {
@@ -56,7 +61,7 @@ const startQrScanner = () => {
 
     html5QrCodeScanner.render(onScanSuccess);
 
-    function onScanSuccess(decodedText, decodedResult) {
+    function onScanSuccess(decodedText) {
         // Handle the scanned QR code text
         console.log(`QR Code detected: ${decodedText}`);
         cardNumber.value = decodedText;
@@ -68,44 +73,41 @@ const startQrScanner = () => {
     }
 };
 
-
 const handleInput = async () => {
-    console.log(cardNumber.value);
+    cardNotAvailable.value = false; // Reset the card not available state
+
     try {
-        const response = await axios.post('/api/merchant/qrcode', {
+        const response = await axios.post('/api/influencer/qrcode', {
             card_number: cardNumber.value
         });
 
-        if(response.data.card_exists === true) {
+        if (response.data.card_exists === true) {
+            // Redirect based on the route specified in the response
             router.push({
-                name: 'merchant.loyalty-stars.scan',
+                name: response.data.redirect_route, // Redirect to the route provided by the server
                 params: { card_number: response.data.card_number },
             });
-
-        } else if(response.data.card_exists === false) {
-            router.push({
-                name: 'merchant.customer.scan',
-                params: { card_number: response.data.card_number },
-            });
-        }
-        else {
-        console.log('Server response:', response.data);
-
+        } else if (response.data.card_exists === false && response.data.message === 'Card not available') {
+            // Show the alert message when the card is not available
+            cardNotAvailable.value = true;
         }
 
         console.log('Server response:', response.data);
     } catch (error) {
-        console.error('Error go to QR Code merchants:', error);
+        // Handle server or network error
+        console.error('Error fetching QR Code information:', error);
+        cardNotAvailable.value = true;
     }
 };
 
-
-
 </script>
-
 
 <style>
 span#html5-qrcode-anchor-scan-type-change {
     display: none !important;
+}
+
+.alert {
+    margin-bottom: 15px;
 }
 </style>

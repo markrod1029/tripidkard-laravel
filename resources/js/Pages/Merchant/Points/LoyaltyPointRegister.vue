@@ -19,7 +19,7 @@
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
                                 <input type="text" v-model="form.card_number" class="form-control" id="card_number"
-                                    name="card_number" placeholder="Card Number" value="" :readonly="editMode" required>
+                                    name="card_number" placeholder="Card Number" value="" :readonly="editPointsTitle" required>
                                 <span class="ml-2 text-danger">*</span>
                             </div>
                         </div>
@@ -140,6 +140,8 @@ export default {
             } else if (route.name === 'merchant.loyalty-stars.scan') {
                 const cardNumber = route.params.card_number;
                 form.card_number = cardNumber;
+                editPointsTitle.value = true;
+
             }
         });
 

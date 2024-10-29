@@ -10,7 +10,7 @@
 
                 <div class="col-sm-6">
                     <div class="info-box">
-                        <span class="info-box-icon bg-primary"><i class="far fa-users"></i></span>
+                        <span class="info-box-icon bg-primary"><i class="fa fa-users"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Customer List</span>
                             <span class="info-box-number">{{ customerCount }}</span>
@@ -20,7 +20,7 @@
 
                 <div class="col-sm-6">
                     <div class="info-box">
-                        <span class="info-box-icon bg-warning"><i class="far fa-coins"></i></span>
+                        <span class="info-box-icon bg-warning"><i class="fa fa-credit-card"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Tripidkard List</span>
                             <span class="info-box-number">{{ cardCount }}</span>
@@ -58,6 +58,7 @@ import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useAuthStore } from '@/Stores/auth';
 import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 export default {
     components: {

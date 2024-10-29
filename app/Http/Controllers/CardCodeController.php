@@ -140,17 +140,12 @@ class CardCodeController extends Controller
             $cardCount = CardCode::where('status', 0)
             ->count();
 
-        } elseif ($user->role === 'Merchant') {
+        } elseif ($user->role === 'Merchant' || $user->role === 'Influencer') {
             // Merchant counts only their own customers
             $cardCount = CardCode::where('status', 0)
             ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
             ->count();
 
-        } elseif ($user->role === 'Influe  ncer') {
-            // Influencer counts only their own customers
-            $cardCount = CardCode::where('status', 0)
-            ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
-            ->count();
         } else {
             // If the role doesn't match, return 0 or an appropriate message
             $cardCount = 0; // or return response()->json(['error' => 'Unauthorized'], 403);

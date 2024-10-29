@@ -101,6 +101,7 @@ Route::post('/api/merchant/stars', [EmailController::class, 'sendStarPoint']);
 Route::post('/api/card/orders', [EmailController::class, 'sendCard']);
 
 Route::post('/api/merchant/qrcode', [QrcodeController::class, 'merchantQrCode']);
+Route::post('/api/influencer/qrcode', [QrcodeController::class, 'influencerQrCode']);
 Route::post('/api/home/qrcode', [QrcodeController::class, 'homeQrCode']);
 
 
