@@ -10,10 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -79,5 +80,26 @@ class User extends Authenticatable
 
         get: fn ($value) => asset(Storage::url($value) ?? 'https://via.placeholder.com/510x360'),
         );
+    }
+
+    protected static $logName = 'user';
+
+    protected static $logAttributes = [
+        'fname',
+        'mname',
+        'lname',
+        'contact',
+        'email',
+        'role',
+        'status',
+        // Add other attributes to log
+    ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(static::$logAttributes)
+            ->useLogName(static::$logName)
+            ->setDescriptionForEvent(fn(string $eventName) => "{$eventName}");
     }
 }

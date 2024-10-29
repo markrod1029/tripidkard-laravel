@@ -2,35 +2,37 @@
     <!-- Start Change Images -->
     <div class="tab-pane fade" id="pills-images" role="tabpanel" aria-labelledby="pills-images-tab">
         <div class="card-body">
-            <form class="form-horizontal form-material">
-                <!--  profile/update_business.php -->
+            <form class="form-horizontal form-material" @submit.prevent="uploadImages">
+                <!-- Profile/Update Images -->
 
                 <div class="form-group">
-                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 1 </label>
+                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 1</label>
                     <div class="col-md-12">
-                        <input type="file" class="form-control" @change="(event) => handleFileChange(event, 'photo1')" name="photo1">
+                        <input type="file" class="form-control" name="photo1" @change="previewImage($event, 'photo1')">
                         <!-- Display selected image -->
-                        <img v-if="file.photo1Url" :src="file.photo1Url" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="imagePreview.photo1" :src="imagePreview.photo1" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 2 </label>
+                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 2</label>
                     <div class="col-md-12">
-                        <input type="file" class="form-control" @change="(event) => handleFileChange(event, 'photo2')" name="photo2">
+                        <input type="file" class="form-control" name="photo2" @change="previewImage($event, 'photo2')">
                         <!-- Display selected image -->
-                        <img v-if="file.photo2Url" :src="file.photo2Url" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="imagePreview.photo2" :src="imagePreview.photo2" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 3 </label>
+                    <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 3</label>
                     <div class="col-md-12">
-                        <input type="file" class="form-control" @change="(event) => handleFileChange(event, 'photo3')" name="photo3">
+                        <input type="file" class="form-control" name="photo3" @change="previewImage($event, 'photo3')">
                         <!-- Display selected image -->
-                        <img v-if="file.photo3Url" :src="file.photo3Url" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="imagePreview.photo3" :src="imagePreview.photo3" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
+
+                <button type="submit" class="btn btn-primary">Upload Images</button>
             </form>
         </div>
     </div>
@@ -38,59 +40,41 @@
 </template>
 
 <script setup>
-import { useAuthUserStore } from '@/Stores/AuthUser';
-import { ref, watch } from 'vue';
+import { reactive } from 'vue';
 import axios from 'axios';
-import { useToastr } from '@/toastr.js';
 
-const authUser = useAuthUserStore();
-const toastr = useToastr();
-
-
-const file = ref({
+const imagePreview = reactive({
     photo1: null,
-    photo1Url: null,
     photo2: null,
-    photo2Url: null,
     photo3: null,
-    photo3Url: null,
 });
 
-const handleFileChange = async (event, field) => {
-    const selectedFile = event.target.files[0];
+const previewImage = (event, photoKey) => {
+    const file = event.target.files[0];
+    if (file) {
+        imagePreview[photoKey] = URL.createObjectURL(file);
+    }
+};
 
-    file.value[field] = selectedFile;
-    file.value[`${field}`] = URL.createObjectURL(selectedFile);
-
-    const formData = new FormData();
-    formData.append(field, selectedFile);
-
+const uploadImages = async () => {
     try {
+        const formData = new FormData();
+        formData.append('photo1', document.querySelector('[name="photo1"]').files[0]);
+        formData.append('photo2', document.querySelector('[name="photo2"]').files[0]);
+        formData.append('photo3', document.querySelector('[name="photo3"]').files[0]);
+
         const response = await axios.post('/api/profile/upload-background-image', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
+                'Content-Type': 'multipart/form-data',
+            },
         });
-        toastr.success(response.data.message);
+
+        console.log(response.data.message);
+        alert(response.data.message);
     } catch (error) {
-        toastr.error('An error occurred while uploading the image');
-        console.error(error);
+        console.error('Error uploading images:', error);
     }
-}
-
-// Watch for changes in authUser to update the image URLs
-watch(() => authUser.users.photo1, (newValue, oldValue) => {
-        file.value.photo1Url = newValue;
-});
-
-watch(() => authUser.users.photo2, (newValue, oldValue) => {
-        file.value.photo2Url = newValue;
-});
-
-watch(() => authUser.users.photo3, (newValue, oldValue) => {
-        file.value.photo3Url = newValue;
-});
-
-
-
+};
 </script>
+
+

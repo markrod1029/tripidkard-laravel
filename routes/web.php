@@ -15,7 +15,13 @@ use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
+use Spatie\Activitylog\Models\Activity;
 
+
+Route::get('/users', function() {
+
+   return Activity::all();
+});
 
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);

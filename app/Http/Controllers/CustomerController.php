@@ -156,7 +156,6 @@ class CustomerController extends Controller
 
         // Create the customer
         Customer::create([
-            'user_id' => $user->id,
             'customer_card_num' => $validated['customer_card_num'],
             'fname' => $validated['fname'],
             'mname' => $request->input('mname'),

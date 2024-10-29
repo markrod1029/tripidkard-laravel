@@ -70,7 +70,7 @@ const handleSubmit = async () => {
     errors.general = '';
 
     try {
-        const responseErrors = await authStore.adminLoginForm(form);
+        const responseErrors = await authStore.loginForm(form);
 
         if (responseErrors) {
             errors.email = responseErrors.email ? responseErrors.email[0] : '';

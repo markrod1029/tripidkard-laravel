@@ -156,30 +156,57 @@ class ProfileController extends Controller
 
     public function uploadBackground(Request $request)
 {
-    // Validate that all three photos are present
+    // Validate the uploaded files
+    $request->validate([
+        'photo1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'photo2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'photo3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-    // Store each photo separately
-    if ($request->hasFile('photo1')) {
-        $photo1 = Storage::put('/photos/background', $request->file('photo1'));
-        $request->user()->update(['photo1' => $photo1]);
+    $uploadedPhotos = [];
+
+    // Process each photo and store it in the public directory
+    foreach (['photo1', 'photo2', 'photo3'] as $photoKey) {
+        if ($request->hasFile($photoKey)) {
+            $file = $request->file($photoKey);
+            $filePath = $file->store('uploads/photos', 'public');
+            $uploadedPhotos[$photoKey] = $filePath;
+        }
     }
 
-    if ($request->hasFile('photo2')) {
-        $photo2 = Storage::put('/photos/background', $request->file('photo2'));
-        $request->user()->update(['photo2' => $photo2]);
-
-    }
-
-    if ($request->hasFile('photo3')) {
-        $photo3 = Storage::put('/photos/background', $request->file('photo3'));
-        $request->user()->update(['photo3' => $photo3]);
-
-    }
-
-    // Update user's data with the paths to the uploaded photos
-
-    return response()->json(['message' => 'Background Uploaded Successfully']);
+    return response()->json([
+        'message' => 'Background Uploaded Successfully',
+        'photos' => $uploadedPhotos,
+    ]);
 }
+
+
+//     public function uploadBackground(Request $request)
+// {
+//     // Validate that all three photos are present
+
+//     // Store each photo separately
+//     if ($request->hasFile('photo1')) {
+//         $photo1 = Storage::put('/photos/background', $request->file('photo1'));
+//         $request->user()->update(['photo1' => $photo1]);
+//     }
+
+//     if ($request->hasFile('photo2')) {
+//         $photo2 = Storage::put('/photos/background', $request->file('photo2'));
+//         $request->user()->update(['photo2' => $photo2]);
+
+//     }
+
+//     if ($request->hasFile('photo3')) {
+//         $photo3 = Storage::put('/photos/background', $request->file('photo3'));
+//         $request->user()->update(['photo3' => $photo3]);
+
+//     }
+
+//     // Update user's data with the paths to the uploaded photos
+
+//     return response()->json(['message' => 'Background Uploaded Successfully']);
+// }
 
 
 

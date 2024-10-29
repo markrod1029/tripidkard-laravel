@@ -28,8 +28,13 @@ class AuthenticatedSessionController extends Controller
         // Authenticate the user
         $request->authenticate();
 
+        // Get the authenticated user
+        $user = Auth::user();
+
         // Check if the authenticated user has a status of 1
-        if (Auth::user()->status !== 1) {
+        if ($user->status !== 1) {
+            // Log the activity for inactive user login attempt
+
             Auth::logout();
             return response()->json([
                 'message' => 'Your account is not active. Please contact support.',
@@ -37,7 +42,13 @@ class AuthenticatedSessionController extends Controller
         }
 
         // Prevent Admin from logging in
-        if (Auth::user()->role === 'Admin') {
+        if ($user->role === 'Admin') {
+            // Log the activity for admin login attempt
+            activity()
+                ->causedBy($user)
+                ->withProperties(['role' => $user->role])
+                ->log('Admin attempted to log in.');
+
             Auth::logout(); // Ensure the user is logged out
             return response()->json([
                 'message' => 'These credentials do not match our records.',
@@ -47,11 +58,19 @@ class AuthenticatedSessionController extends Controller
         // Regenerate the session to avoid session fixation
         $request->session()->regenerate();
 
+        // Log successful login activity
+
+        $name = $user->fname. ' '.$user->mname. ' '.$user->lname. ' ';
+        activity()
+            ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$name successfully logged in.");
         // Return the authenticated user data
         return response()->json([
-            'user' => Auth::user(),
+            'user' => $user,
         ]);
     }
+
 
     public function storeAdmin(LoginRequest $request): Response
     {
@@ -69,7 +88,11 @@ class AuthenticatedSessionController extends Controller
 
         // Regenerate the session to avoid session fixation
         $request->session()->regenerate();
-
+        $name = $user->fname. ' '.$user->mname. ' '.$user->lname. ' ';
+        activity()
+            ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$name successfully logged in.");
         // Return the authenticated user data
         return response()->json([
             'user' => Auth::user(),
