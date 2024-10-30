@@ -76,6 +76,7 @@ class AuthenticatedSessionController extends Controller
     {
         // Authenticate the user
         $request->authenticate();
+        $user = Auth::user();
 
         // Check if the authenticated user has a status of 1
         if (Auth::user()->status !== 1) {

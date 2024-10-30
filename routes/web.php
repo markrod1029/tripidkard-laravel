@@ -15,13 +15,21 @@ use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
-use Spatie\Activitylog\Models\Activity;
+use App\Http\Controllers\ActivityLogController;
+
+// use Spatie\Activitylog\Models\Activity;
+// Route::get('/users', function() {
+
+//    return Activity::all();
+// });
 
 
-Route::get('/users', function() {
 
-   return Activity::all();
-});
+// Activity Log Route
+
+Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
+Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
+
 
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
@@ -99,7 +107,6 @@ Route::get('/api/customers', [CustomerController::class, 'index']);
 Route::get('/api/user/customers', [CustomerController::class, 'indexUser']);
 Route::get('/api/customer/{id}/points', [CustomerController::class, 'points']);
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
-
 
 
 Route::post('/contact/send-email', [EmailController::class, 'sendContactUs']);

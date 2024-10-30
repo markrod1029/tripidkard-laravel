@@ -46,7 +46,8 @@ class CardCodeController extends Controller
         return response()->json($tripidkards);
     }
 
-    public function merchantIndex() {
+    public function merchantIndex()
+    {
 
         $user = auth()->user();
 
@@ -97,28 +98,34 @@ class CardCodeController extends Controller
         // Retrieve current user
         $user = $request->user();
 
-        // Check if the selected enterprise is "None"
-
         // Retrieve the number of tripidkards to generate
         $numberOfTripidkards = $request->input('tripidkard_number');
         $user_id = $validated['user_id'];
         $card_types = $validated['card_types'];
-        // Loop to generate multiple customer codes
 
+        // Initialize an empty array to hold the card codes
+        $cardCodes = [];
+
+        // Loop to generate multiple customer codes
         for ($i = 0; $i < $numberOfTripidkards; $i++) {
             $cardNumber = $this->generateCardCode();
-
-            CardCode::create([
-                'user_id' => $user_id, // Use enterprise_id or merchant_id as user_id
+            $cardCodes[] = [
+                'user_id' => $user_id,
                 'card_number' => $cardNumber,
                 'card_types' => $card_types,
                 'status' => 0,
-            ]);
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
+
+        // Insert the generated card codes in a single query
+        CardCode::insert($cardCodes);
 
         // Optionally, you can return a response or redirect the user
         return response()->json(['message' => 'Tripidkards generated successfully']);
     }
+
 
     public function generateCardCode()
     {
@@ -138,13 +145,13 @@ class CardCodeController extends Controller
         if ($user->role === 'Admin') {
             // Admin counts all customers
             $cardCount = CardCode::where('status', 0)
-            ->count();
+                ->count();
 
         } elseif ($user->role === 'Merchant' || $user->role === 'Influencer') {
             // Merchant counts only their own customers
             $cardCount = CardCode::where('status', 0)
-            ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
-            ->count();
+                ->where('user_id', $user->id) // Assuming you have a foreign key linking customers to merchants
+                ->count();
 
         } else {
             // If the role doesn't match, return 0 or an appropriate message
