@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CardCode;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QrcodeController extends Controller
 {
@@ -79,6 +80,19 @@ class QrcodeController extends Controller
                 'card_number' => $cardNumber,
             ], 200);
         }
+        // Get the authenticated user
+        $user = Auth::user();
+        $name = $user->role === 'Merchant'
+        ? $user->business_name
+        : ($user->role === 'Influencer'
+            ? $user->blog_name
+            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+        ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$name scanned the QR code");
     }
 
 

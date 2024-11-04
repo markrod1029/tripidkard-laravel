@@ -6,6 +6,7 @@ use App\Models\Point;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CardCodesController;
 use App\Models\CardCode; // Import ng CardCode model
 
@@ -174,6 +175,21 @@ class CustomerController extends Controller
         // Update the card code status to 1
         $cardCode->update(['status' => 1, 'validity' => $validityDate,]);
 
+        $user = Auth::user();
+        // $name = $user->role === 'Merchant'
+        // ? $user->business_name
+        // : ($user->role === 'Influencer'
+        //     ? $user->blog_name
+        //     : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+            activity()
+            ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("Customer added successfully");
+
+
+
+
         return response()->json(['success' => 'Customer added successfully']);
     }
 
@@ -205,6 +221,11 @@ class CustomerController extends Controller
 
         $customer->update($validated);
 
+        $user = Auth::user();
+            activity()
+            ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("Customer updated successfully");
 
         return response()->json(['success' => true]);
 

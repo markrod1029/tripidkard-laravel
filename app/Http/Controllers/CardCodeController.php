@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\CardCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CardCodeController extends Controller
 {
@@ -122,9 +123,43 @@ class CardCodeController extends Controller
         // Insert the generated card codes in a single query
         CardCode::insert($cardCodes);
 
+          // Get the authenticated user
+          $user = Auth::user();
+        $name = $user->role === 'Merchant'
+        ? $user->business_name
+        : ($user->role === 'Influencer'
+            ? $user->blog_name
+            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+        // Log the activity
+        activity()
+            ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$name generated $numberOfTripidkards tripidkards.");
+
         // Optionally, you can return a response or redirect the user
         return response()->json(['message' => 'Tripidkards generated successfully']);
     }
+
+
+
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'tripidkard_number' => 'required|numeric',
+    //         'user_id' => 'required',
+    //         'card_types' => 'required',
+    //     ]);
+
+    //     $userId = $validated['user_id'];
+    //     $cardTypes = $validated['card_types'];
+    //     $numberOfTripidkards = $validated['tripidkard_number'];
+
+    //     // Dispatch the job to generate card codes in the background
+    //     GenerateCardCodes::dispatch($userId, $cardTypes, $numberOfTripidkards);
+
+    //     return response()->json(['message' => 'Card generation is in progress']);
+    // }
 
 
     public function generateCardCode()

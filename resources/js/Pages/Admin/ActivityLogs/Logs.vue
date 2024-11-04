@@ -43,7 +43,7 @@
                                             <tr v-for="log in paginatedLogs" :key="log.id">
                                                 <td>{{ formatDate(log.created_at) }}</td>
                                                 <td>{{ formatTime(log.created_at) }}</td>
-                                                <td>{{ log.causer ? `${log.causer.business_name} ${log.causer.mname} ${log.causer.lname}` : 'System'
+                                                <td>{{ log.causer ? `${log.causer.fname} ${log.causer.mname} ${log.causer.lname}` : 'System'
                                                     }}</td>
                                                 <td>{{ log.properties.role }}</td>
                                                 <td>{{ log.description }}</td>

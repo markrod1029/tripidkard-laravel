@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CardCode;
 use App\Models\User;
 use App\Models\Point;
+use App\Models\CardCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PointController extends Controller
 {
@@ -75,6 +76,14 @@ class PointController extends Controller
             ]);
 
             $merchant->merchant->update(['stars_points' => $points]);
+
+
+            $user = Auth::user();
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log("$user->fname $user->lname added $validated[points] points to $cardCode->card_number");
         return response()->json(['message' => 'Start Points Added Successfully']);
     }
 
@@ -90,7 +99,14 @@ class PointController extends Controller
         ]);
 
         $point->update($validated);
-        return response()->json(['success' => true]);
+
+        $user = Auth::user();
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+        ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$user->fname $user->lname updated $point->points points to $point->card_number");
+        return response()->json(['success' => 'Points updated successfully']);
 
     }
 }

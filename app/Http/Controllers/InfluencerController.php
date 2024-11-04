@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Influencer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class InfluencerController extends Controller
 {
 
@@ -214,6 +216,13 @@ class InfluencerController extends Controller
             // Commit the transaction
             DB::commit();
 
+            $user = Auth::user();
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+                ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log('Added Influencer');
+
             return response()->json(['message' => 'success']);
         } catch (\Exception $e) {
             // Rollback the transaction and delete the user
@@ -221,6 +230,9 @@ class InfluencerController extends Controller
             if (isset($user)) {
                 $user->delete();
             }
+
+
+
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
@@ -279,6 +291,13 @@ class InfluencerController extends Controller
             // Kumpirmahin ang transaksyon at i-commit ito sa database
             DB::commit();
 
+
+            $user = Auth::user();
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+                ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log('Updated Influencer');
             return response()->json(['message' => 'success']);
         } catch (\Exception $e) {
             // Kung may naganap na error, i-rollback ang transaksyon at itapon ang error

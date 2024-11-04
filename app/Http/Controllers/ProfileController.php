@@ -7,6 +7,7 @@ use App\Models\Merchant;
 use App\Models\Enterprise;
 use App\Models\Influencer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Exceptions\InvalidPasswordException;
 use App\Actions\Account\UpdateUserPasswordAction;
@@ -73,6 +74,22 @@ class ProfileController extends Controller
         // I-update ang impormasyon ng user
         $user->update($validatedData);
 
+
+        $user = Auth::user();
+        // Get the authenticated user
+        $user = Auth::user();
+        $name = $user->role === 'Merchant'
+        ? $user->business_name
+        : ($user->role === 'Influencer'
+            ? $user->blog_name
+            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+        ->withProperties(['role' => $user->role, 'status' => $user->status])
+        ->log("$name updated their profile.");
+
         return response()->json(['message' => 'User information updated successfully'], 200);
     }
 
@@ -116,6 +133,20 @@ class ProfileController extends Controller
 
             // I-update ang impormasyon ng negosyo
             $business->update($validatedData);
+            $user = Auth::user();
+            // Get the authenticated user
+            $user = Auth::user();
+            $name = $user->role === 'Merchant'
+            ? $user->business_name
+            : ($user->role === 'Influencer'
+                ? $user->blog_name
+                : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+            ->log("$name updated their business information.");
 
             return response()->json(['message' => 'Business information updated successfully'], 200);
         }
@@ -151,6 +182,20 @@ class ProfileController extends Controller
             return response()->json(['message' => 'Profile Picture Uploaded Successfully']);
         }
 
+        $user = Auth::user();
+        // Get the authenticated user
+        $user = Auth::user();
+        $name = $user->role === 'Merchant'
+        ? $user->business_name
+        : ($user->role === 'Influencer'
+            ? $user->blog_name
+            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+        ->withProperties(['role' => $user->role, 'status' => $user->status])
+        ->log("$name uploaded their profile picture.");
         return response()->json(['message' => 'No image uploaded'], 400);
     }
 
@@ -174,6 +219,20 @@ class ProfileController extends Controller
         }
     }
 
+    $user = Auth::user();
+    // Get the authenticated user
+    $user = Auth::user();
+    $name = $user->role === 'Merchant'
+    ? $user->business_name
+    : ($user->role === 'Influencer'
+        ? $user->blog_name
+        : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+    activity()
+        ->performedOn($user)
+        ->causedBy($user)
+    ->withProperties(['role' => $user->role, 'status' => $user->status])
+    ->log("$name uploaded their background photos.");
     return response()->json([
         'message' => 'Background Uploaded Successfully',
         'photos' => $uploadedPhotos,
@@ -224,6 +283,20 @@ class ProfileController extends Controller
                 'password_confirmation' => $request->passwordConfirmation,
             ]
         );
+        $user = Auth::user();
+        // Get the authenticated user
+        $user = Auth::user();
+        $name = $user->role === 'Merchant'
+        ? $user->business_name
+        : ($user->role === 'Influencer'
+            ? $user->blog_name
+            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+        activity()
+            ->performedOn($user)
+            ->causedBy($user)
+        ->withProperties(['role' => $user->role, 'status' => $user->status])
+        ->log("$name changed their password.");
         return response()->json(['message' => 'Password change Successfuly']);
     }
 }

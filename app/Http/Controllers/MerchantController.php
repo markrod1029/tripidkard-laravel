@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MerchantController extends Controller
 {
@@ -249,6 +250,13 @@ class MerchantController extends Controller
             // Commit the transaction
             DB::commit();
 
+            $user = Auth::user();
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log('Added Merchant');
+
             return response()->json(['message' => 'success']);
         } catch (\Exception $e) {
             // Rollback the transaction and delete the user
@@ -318,6 +326,13 @@ class MerchantController extends Controller
 
             // Kumpirmahin ang transaksyon at i-commit ito sa database
             DB::commit();
+
+            $user = Auth::user();
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+            ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log('Updated Merchant');
 
             return response()->json(['message' => 'success']);
         } catch (\Exception $e) {
