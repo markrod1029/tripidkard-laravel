@@ -5,7 +5,7 @@
                 <!-- Input field for file -->
                 <input @change="handleFileChange" ref="fileInput" type="file" name="" class="d-none">
                 <!-- Display image -->
-                <img @click="openFileInput" id="imageResult" height="150" width="150" :src="profilePictureUrl ? profilePictureUrl : authUser.users.avatar"
+                <img @click="openFileInput" id="imageResult" height="150" width="150" :src="profilePictureUrl ? profilePictureUrl : (authUser.users?.avatar || '/storage/img/logo.jpg')"
                     class="img-circle" alt="User Image">
                 <!-- User details -->
                 <h4 class="card-subtitle mt-2">
@@ -42,12 +42,13 @@ import { useAuthUserStore } from '@/Stores/AuthUser';
 import { ref, watch } from 'vue';
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
+import { useRouter, useRoute } from 'vue-router';
 
 const authUser = useAuthUserStore();
 const toastr = useToastr();
 const fileInput = ref(null);
 const profilePictureUrl = ref(null);
-
+const routes = useRouter();
 // Open file input when image is clicked
 const openFileInput = async () => {
     fileInput.value.click();
@@ -71,12 +72,7 @@ const handleFileChange = async (event) => {
     }
 }
 
-// Watch for changes in the user's avatar
-watch(() => authUser.users.avatar, (newValue, oldValue) => {
-    // Update profile picture URL when avatar changes
-    profilePictureUrl.value = newValue;
 
-});
 </script>
 
 <style scoped>

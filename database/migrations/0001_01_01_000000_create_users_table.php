@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('password');
             $table->integer('loyalty_stars')->nullable();
             $table->enum('role', ['Admin','Merchant', 'Influencer'])->default('Merchant');
-            $table->string('avatar')->nullable();
             $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
@@ -52,5 +51,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+
     }
 };

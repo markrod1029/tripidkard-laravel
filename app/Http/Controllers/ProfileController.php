@@ -152,7 +152,6 @@ class ProfileController extends Controller
         }
     }
 
-
     public function uploadImage(Request $request)
     {
         // Ensure the file is present in the request
@@ -174,30 +173,65 @@ class ProfileController extends Controller
             // Update the user's avatar in the database
             $request->user()->update(['avatar' => $link]);
 
-            // Delete the previous image if it exists
-            if ($previousPath) {
+            // Delete the previous image if it exists and is not empty
+            if ($previousPath && Storage::disk('public')->exists($previousPath)) {
                 Storage::disk('public')->delete($previousPath);
             }
+
+            // Get the authenticated user
+            $user = Auth::user();
+            $name = $user->role === 'Merchant'
+                ? $user->business_name
+                : ($user->role === 'Influencer'
+                    ? $user->blog_name
+                    : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+            // Log the activity
+            activity()
+                ->performedOn($user)
+                ->causedBy($user)
+                ->withProperties(['role' => $user->role, 'status' => $user->status])
+                ->log("$name uploaded their profile picture.");
 
             return response()->json(['message' => 'Profile Picture Uploaded Successfully']);
         }
 
-        $user = Auth::user();
-        // Get the authenticated user
-        $user = Auth::user();
-        $name = $user->role === 'Merchant'
-        ? $user->business_name
-        : ($user->role === 'Influencer'
-            ? $user->blog_name
-            : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
-
-        activity()
-            ->performedOn($user)
-            ->causedBy($user)
-        ->withProperties(['role' => $user->role, 'status' => $user->status])
-        ->log("$name uploaded their profile picture.");
         return response()->json(['message' => 'No image uploaded'], 400);
     }
+
+
+    // public function uploadImage(Request $request)
+    // {
+
+    //     if ($request->hasFile('profile_picture')) {
+
+    //         $previousPath = $request->user()->getRawOriginal('avatar');
+
+    //         $link = Storage::put('/photos/logo', $request->file('profile_picture'));
+
+    //         $request->user()->update(['avatar' => $link]);
+
+    //         Storage::delete($previousPath);
+
+    //         $user = Auth::user();
+    //         // Get the authenticated user
+    //         $user = Auth::user();
+    //         $name = $user->role === 'Merchant'
+    //         ? $user->business_name
+    //         : ($user->role === 'Influencer'
+    //             ? $user->blog_name
+    //             : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
+
+    //         activity()
+    //             ->performedOn($user)
+    //             ->causedBy($user)
+    //         ->withProperties(['role' => $user->role, 'status' => $user->status])
+    //         ->log("$name uploaded their profile picture.");
+
+    //         return response()->json(['message' => 'Profile Picture Uploaded Successfuly']);
+
+    //     }
+    // }
 
     public function uploadBackground(Request $request)
 {
