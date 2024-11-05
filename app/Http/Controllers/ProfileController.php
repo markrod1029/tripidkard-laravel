@@ -37,7 +37,9 @@ class ProfileController extends Controller
             $profileDetails['province'] = $merchant->province;
             $profileDetails['description'] = $merchant->description;
             $profileDetails['tagline'] = $merchant->tagline;
-
+            $profileDetails['photo1'] = $merchant->photo1;
+            $profileDetails['photo2'] = $merchant->photo2;
+            $profileDetails['photo3'] = $merchant->photo3;
 
         } else if ($user->role === 'Influencer') {
 
@@ -234,44 +236,47 @@ class ProfileController extends Controller
     // }
 
     public function uploadBackground(Request $request)
-{
-    // Validate the uploaded files
-    $request->validate([
-        'photo1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'photo2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'photo3' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        // Validate the incoming request to ensure files are present
+        $request->validate([
+            'photo1' => 'nullable|image|max:2048', // Adjust validation as needed
+            'photo2' => 'nullable|image|max:2048',
+            'photo3' => 'nullable|image|max:2048',
+        ]);
 
-    $uploadedPhotos = [];
+        $user = request()->user();
 
-    // Process each photo and store it in the public directory
-    foreach (['photo1', 'photo2', 'photo3'] as $photoKey) {
-        if ($request->hasFile($photoKey)) {
-            $file = $request->file($photoKey);
-            $filePath = $file->store('uploads/photos', 'public');
-            $uploadedPhotos[$photoKey] = $filePath;
+        // Find the merchant to update
+        $merchant = Merchant::where('user_id', $user->id)->first();
+
+        // Define the path for the new images
+        $path = 'photos/background';
+
+        // Ensure the directory exists
+        if (!Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->makeDirectory($path);
         }
+
+        // Initialize an array to store image paths
+        $paths = [];
+
+        // Handle each photo and save it to the background directory
+        foreach (['photo1', 'photo2', 'photo3'] as $photo) {
+            if ($request->hasFile($photo)) {
+                // Save the file and store the path
+                $paths[$photo] = Storage::disk('public')->put($path, $request->file($photo));
+            }
+        }
+
+        // Update the merchant's photo columns in the database
+        $merchant->update([
+            'photo1' => $paths['photo1'] ?? $merchant->photo1, // Use existing value if not updated
+            'photo2' => $paths['photo2'] ?? $merchant->photo2,
+            'photo3' => $paths['photo3'] ?? $merchant->photo3,
+        ]);
+
+        return response()->json(['message' => 'Images Uploaded Successfully', 'paths' => $paths]);
     }
-
-    $user = Auth::user();
-    // Get the authenticated user
-    $user = Auth::user();
-    $name = $user->role === 'Merchant'
-    ? $user->business_name
-    : ($user->role === 'Influencer'
-        ? $user->blog_name
-        : trim($user->fname . ' ' . $user->mname . ' ' . $user->lname));
-
-    activity()
-        ->performedOn($user)
-        ->causedBy($user)
-    ->withProperties(['role' => $user->role, 'status' => $user->status])
-    ->log("$name uploaded their background photos.");
-    return response()->json([
-        'message' => 'Background Uploaded Successfully',
-        'photos' => $uploadedPhotos,
-    ]);
-}
 
 
 //     public function uploadBackground(Request $request)

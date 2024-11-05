@@ -9,8 +9,8 @@
                     <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 1</label>
                     <div class="col-md-12">
                         <input type="file" class="form-control" name="photo1" @change="previewImage($event, 'photo1')">
-                        <!-- Display selected image -->
                         <img v-if="imagePreview.photo1" :src="imagePreview.photo1" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="authUser.users.photo1" :src="authUser.users.photo1" class="mt-2" alt="Existing Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
 
@@ -18,8 +18,8 @@
                     <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 2</label>
                     <div class="col-md-12">
                         <input type="file" class="form-control" name="photo2" @change="previewImage($event, 'photo2')">
-                        <!-- Display selected image -->
                         <img v-if="imagePreview.photo2" :src="imagePreview.photo2" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="authUser.users.photo2" :src="authUser.users.photo2" class="mt-2" alt="Existing Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
 
@@ -27,8 +27,8 @@
                     <label class="col-md-12 text-left control-label col-form-label text-muted">Photo 3</label>
                     <div class="col-md-12">
                         <input type="file" class="form-control" name="photo3" @change="previewImage($event, 'photo3')">
-                        <!-- Display selected image -->
                         <img v-if="imagePreview.photo3" :src="imagePreview.photo3" class="mt-2" alt="Selected Image" style="max-width: 150px; max-height: 150px;">
+                        <img v-if="authUser.users.photo3" :src="authUser.users.photo3" class="mt-2" alt="Existing Image" style="max-width: 150px; max-height: 150px;">
                     </div>
                 </div>
 
@@ -40,10 +40,19 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { useAuthUserStore } from '@/Stores/AuthUser';
+
+import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 
+const authUser = useAuthUserStore();
 const imagePreview = reactive({
+    photo1: null,
+    photo2: null,
+    photo3: null,
+});
+
+const existingImages = reactive({
     photo1: null,
     photo2: null,
     photo3: null,
@@ -71,10 +80,27 @@ const uploadImages = async () => {
 
         console.log(response.data.message);
         alert(response.data.message);
+        // Optionally refresh existing images after upload
+        fetchExistingImages();
     } catch (error) {
         console.error('Error uploading images:', error);
     }
 };
+
+// Function to fetch existing images from the server
+const fetchExistingImages = async () => {
+    try {
+        const response = await axios.get('/api/profile/get-existing-images'); // Adjust the API endpoint as needed
+        existingImages.photo1 = response.data.photo1 || null;
+        existingImages.photo2 = response.data.photo2 || null;
+        existingImages.photo3 = response.data.photo3 || null;
+    } catch (error) {
+        console.error('Error fetching existing images:', error);
+    }
+};
+
+// Fetch existing images when the component mounts
+onMounted(() => {
+    fetchExistingImages();
+});
 </script>
-
-
