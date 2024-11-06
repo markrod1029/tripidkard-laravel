@@ -234,50 +234,47 @@ class ProfileController extends Controller
 
     //     }
     // }
-
     public function uploadBackground(Request $request)
     {
-        // Validate the incoming request to ensure files are present
+        // Validate only if files are present
         $request->validate([
-            'photo1' => 'nullable|image|max:2048', // Adjust validation as needed
+            'photo1' => 'nullable|image|max:2048',
             'photo2' => 'nullable|image|max:2048',
             'photo3' => 'nullable|image|max:2048',
         ]);
-
-        $user = request()->user();
-
-        // Find the merchant to update
+    
+        $user = $request->user();
         $merchant = Merchant::where('user_id', $user->id)->first();
-
-        // Define the path for the new images
         $path = 'photos/background';
-
+    
         // Ensure the directory exists
         if (!Storage::disk('public')->exists($path)) {
             Storage::disk('public')->makeDirectory($path);
         }
-
-        // Initialize an array to store image paths
+    
         $paths = [];
-
-        // Handle each photo and save it to the background directory
         foreach (['photo1', 'photo2', 'photo3'] as $photo) {
             if ($request->hasFile($photo)) {
-                // Save the file and store the path
+                // Check if there's an existing photo and delete it
+                if ($merchant->$photo) {
+                    Storage::disk('public')->delete($merchant->$photo);
+                }
+    
+                // Save the new file and store its path
                 $paths[$photo] = Storage::disk('public')->put($path, $request->file($photo));
             }
         }
-
+    
         // Update the merchant's photo columns in the database
         $merchant->update([
-            'photo1' => $paths['photo1'] ?? $merchant->photo1, // Use existing value if not updated
+            'photo1' => $paths['photo1'] ?? $merchant->photo1,
             'photo2' => $paths['photo2'] ?? $merchant->photo2,
             'photo3' => $paths['photo3'] ?? $merchant->photo3,
         ]);
-
+    
         return response()->json(['message' => 'Images Uploaded Successfully', 'paths' => $paths]);
     }
-
+    
 
 //     public function uploadBackground(Request $request)
 // {
