@@ -8,8 +8,8 @@
       <form @submit.prevent="searchByProvince" class="search-form row justify-content-center">
         <div class="col-md-3 mb-3">
           <div class="form-group">
-            <select v-model="province" class="form-control province-select">
-              <option disabled selected style>Select Province</option>
+            <select v-model="province" class="form-control province-select" required>
+              <option value="" disabled selected style>Select Province</option>
               <option v-for="province in region1Provinces" :value="province">{{ province }}</option>
             </select>
           </div>

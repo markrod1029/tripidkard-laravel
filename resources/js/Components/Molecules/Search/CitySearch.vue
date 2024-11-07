@@ -8,8 +8,8 @@
       <form @submit.prevent="searchByCity" class="search-form row justify-content-center">
         <div class="col-md-4 mb-3">
           <div class="form-group">
-            <select v-model="city" class="form-control city-select">
-              <option disabled selected>Select City</option>
+            <select v-model="city" class="form-control city-select" required>
+              <option value=""  disabled selected>Select City</option>
               <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
             </select>
           </div>
@@ -17,8 +17,8 @@
 
         <div class="col-md-4 mb-3">
           <div class="form-group">
-            <select v-model="category" class="form-control category-select">
-              <option disabled selected>Select Category</option>
+            <select v-model="category" class="form-control category-select" required>
+              <option value="" disabled selected>Select Category</option>
               <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
             </select>
           </div>
