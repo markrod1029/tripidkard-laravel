@@ -19,11 +19,11 @@
                     </div>
                     <div class="row">
                         <!-- Merchants cards here -->
-                        <div class="col-md-4 mb-4" style="overflow: hidden;" v-for="merchant in filteredMerchants" :key="merchant.id">
+                        <div class="col-md-4 mb-4 d-flex align-items-stretch" style="overflow: hidden;" v-for="merchant in filteredMerchants" :key="merchant.id">
                             <div class="card float-left">
+                                <!-- Directly set src to use either avatar or default -->
+                                <img :src="merchant.avatar ? `/storage/${merchant.avatar}` : '/storage/img/logo.jpg'" height="310" class="card-img-top" alt="Merchant Avatar">
 
-                                <img :src="merchant.avatar ? `storage/${merchant.avatar}` : '/storage/img/logo.jpg'" height="310" class="card-img-top" alt="Merchant Avatar">
-                                <!-- <img :src="'storage/photos/logo/rJ4hgBJNQe6J3gYXNYtkgmGjlfm02x9lpUx2VjHR.jpg'" class="card-img-top" alt="Merchant Avatar"> -->
                                 <div class="card-body">
                                     <router-link :to="`/merchants/${merchant.merchant_id}/${merchant.business_name}`" class="text-dark">
                                         <h5 class="card-title mb-3 font-weight-bold">{{ merchant.business_name }}</h5>

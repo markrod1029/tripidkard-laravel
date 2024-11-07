@@ -48,9 +48,9 @@
         province: '',
         description: '',
         tagline: '',
-        img1: '',
-        img2: '',
-        img3: '',
+        photo1: '',
+        photo2: '',
+        photo3: '',
       });
 
       const route = useRoute(); // Get the current route
@@ -75,9 +75,9 @@
           merchants.province = data.province;
           merchants.description = data.description;
           merchants.tagline = data.tagline;
-          merchants.img1 = data.img1;
-          merchants.img2 = data.img2;
-          merchants.img3 = data.img3;
+          merchants.photo1 = data.photo1;
+          merchants.photo2 = data.photo2;
+          merchants.photo3 = data.photo3;
         } catch (error) {
           console.error('Error fetching merchant data:', error);
           // Handle the error appropriately

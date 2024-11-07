@@ -3,7 +3,7 @@
     <div class="row">
       <!-- Feature Section -->
       <div class="col-md-6 text-center">
-        <img :src="merchant.avatar ? `${merchant.avatar}` : 'https://via.placeholder.com/510x360'" alt="Feature Image" class="img-fluid rounded" width="400">
+        <img :src="merchant.avatar ? `${merchant.avatar}` : '/storage/img/logo.jpg'" alt="Feature Image" class="img-fluid rounded" width="400">
       </div>
 
       <!-- FAQ Section -->
