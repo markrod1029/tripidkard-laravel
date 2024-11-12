@@ -36,6 +36,8 @@ import MerchantCustomerPoints from './Pages/Merchant/Customer/CustomerPoints.vue
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue';
 import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue';
 import OrderCard from './Pages/Merchant/Orders/orderCards.vue';
+import Voucher from './Pages/Merchant/Orders/voucher.vue';
+import CartList from './Pages/Merchant/Orders/cartlist.vue';
 import OrderPoint from './Pages/Merchant/Orders/orderpoints.vue';
 import OrdeLists from './Pages/Merchant/Orders/list.vue';
 
@@ -124,6 +126,8 @@ const routesMerchant = [
     { path: '/merchant/profile/', name: 'merchant.profile', component: MerchantProfile, meta: { title: 'Profile Information', requiresMerchantAuth: true } },
     { path: '/merchant/order/cards', name: 'merchant.order.cards', component: OrderCard, meta: { title: 'Order Card', requiresMerchantAuth: true } },
     { path: '/merchant/order/points', name: 'merchant.order.poimts', component: OrderPoint, meta: { title: 'Order Star Points', requiresMerchantAuth: true } },
+    { path: '/merchant/order/voucher', name: 'merchant.order.voucher', component: Voucher, meta: { title: 'Order Voucher', requiresMerchantAuth: true } },
+    { path: '/merchant/order/cart', name: 'merchant.order.cart', component: CartList, meta: { title: 'Order Cart', requiresMerchantAuth: true } },
     { path: '/merchant/orderlist/', name: 'merchant.orderlist', component: OrdeLists, meta: { title: 'Orders List', requiresMerchantAuth: true } }
 ];
 
