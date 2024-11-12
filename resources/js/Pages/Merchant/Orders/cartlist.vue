@@ -92,7 +92,8 @@ const products = reactive([
         quantity: 1,
         price: 1200,
         image: '/storage/img/logo.jpg'
-    }
+    },
+
 ]);
 
 const subtotal = computed(() => {
@@ -208,7 +209,6 @@ const checkout = () => {
 .shopping-cart .summary {
     border-top: 2px solid #5ea4f3;
     background-color: #f7fbff;
-    height: 100%;
     padding: 30px;
 }
 

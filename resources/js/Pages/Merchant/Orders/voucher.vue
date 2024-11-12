@@ -10,7 +10,7 @@
 
                 <!-- Create Voucher Button  -->
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-primary create-voucher-btn ms-2" @click="createVoucher">
+                    <button class="btn btn-primary create-voucher-btn ms-2" @click="openModal">
                         Create Voucher
                     </button>
                 </div>
@@ -58,8 +58,36 @@
     </div>
 
     <Footer class="custom-footer" />
-
     <Cart />
+
+    <!-- Create Voucher Modal -->
+    <div v-if="isModalOpen" class="modal-overlay" @click.self="closeModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Create New Voucher</h3>
+            <form @submit.prevent="createVoucher">
+                <div class="form-group">
+                    <label for="code">Voucher Code</label>
+                    <input type="text" id="code" v-model="newVoucher.code" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" v-model="newVoucher.description" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="date" id="expiry" v-model="newVoucher.expiry" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label for="terms">Voucher Terms</label>
+                    <textarea id="terms" v-model="newVoucher.terms" class="form-control" placeholder="Separate terms with commas" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="closeModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -68,7 +96,7 @@ import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import Cart from '@/Pages/Merchant/Orders/cartIcon.vue';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useToastr } from '@/toastr.js';
 import axios from 'axios';
 
@@ -104,6 +132,38 @@ const vouchers = reactive([
 
 const toastr = useToastr();
 
+// Modal state
+const isModalOpen = ref(false);
+const newVoucher = reactive({
+    code: '',
+    description: '',
+    expiry: '',
+    terms: ''
+});
+
+// Open and close modal
+const openModal = () => {
+    isModalOpen.value = true;
+};
+
+const closeModal = () => {
+    isModalOpen.value = false;
+};
+
+// Create Voucher logic
+const createVoucher = async () => {
+    try {
+        const response = await axios.post('/api/voucher/create', newVoucher);
+        toastr.success(response.data.message || 'Voucher created successfully');
+        closeModal();
+        // Optionally, update the voucher list here
+    } catch (error) {
+        console.error(error);
+        toastr.error(error.response?.data?.message || 'Failed to create voucher');
+    }
+};
+
+// Redeem Voucher logic
 const redeemVoucher = async (code) => {
     try {
         const response = await axios.post('/api/voucher/redeem', { code });
@@ -113,14 +173,8 @@ const redeemVoucher = async (code) => {
         toastr.error(error.response?.data?.message || `Failed to redeem voucher ${code}`);
     }
 };
-
-// Create Voucher button click handler
-const createVoucher = () => {
-    console.log("Create Voucher button clicked");
-};
 </script>
 
-<!-- Add Styles for Cart Icon in Footer -->
 <style scoped>
 .custom-footer {
   z-index: 1000;
@@ -223,43 +277,79 @@ const createVoucher = () => {
     margin-bottom: 15px;
 }
 
-/* Cart Icon Styles */
-.footer {
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+    font-size: 1.5em;
+    color: #367FA9;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #367FA9;
+}
+
+.modal-footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 15px;
+}
+
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.btn-secondary:hover {
+    background-color: #ddd;
+}
+
+.btn-primary {
     background-color: #367FA9;
-    color: #fff;
-    position: relative;
+    color: white;
 }
 
-.footer-content {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.cart-icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    color: #367FA9;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.cart-icon-wrapper:hover {
+.btn-primary:hover {
     background-color: #2b6a85;
-}
-
-.cart-icon {
-    font-size: 1.2em;
 }
 </style>

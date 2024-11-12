@@ -126,7 +126,8 @@ const routesMerchant = [
     { path: '/merchant/profile/', name: 'merchant.profile', component: MerchantProfile, meta: { title: 'Profile Information', requiresMerchantAuth: true } },
     { path: '/merchant/order/cards', name: 'merchant.order.cards', component: OrderCard, meta: { title: 'Order Card', requiresMerchantAuth: true } },
     { path: '/merchant/order/points', name: 'merchant.order.poimts', component: OrderPoint, meta: { title: 'Order Star Points', requiresMerchantAuth: true } },
-    { path: '/merchant/order/voucher', name: 'merchant.order.voucher', component: Voucher, meta: { title: 'Order Voucher', requiresMerchantAuth: true } },
+    { path: '/merchant/example/voucher', name: 'merchant.example.voucher', component: Voucher, meta: { title: 'Example Voucher', requiresMerchantAuth: true } },
+    { path: '/merchant/list/voucher', name: 'merchant.list.voucher', component: Voucher, meta: { title: 'Example Voucher', requiresMerchantAuth: true } },
     { path: '/merchant/order/cart', name: 'merchant.order.cart', component: CartList, meta: { title: 'Order Cart', requiresMerchantAuth: true } },
     { path: '/merchant/orderlist/', name: 'merchant.orderlist', component: OrdeLists, meta: { title: 'Orders List', requiresMerchantAuth: true } }
 ];
