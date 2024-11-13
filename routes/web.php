@@ -22,7 +22,7 @@ use App\Http\Controllers\StartPointsController;
 Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
 Route::post('/api/voucher/create', [CartController::class, 'store']);
-
+Route::get('/api/voucher', [CartController::class, 'index']);
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
 

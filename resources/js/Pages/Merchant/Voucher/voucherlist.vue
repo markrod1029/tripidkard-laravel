@@ -134,7 +134,7 @@ const toastr = useToastr();
 
 // Modal state
 const isModalOpen = ref(false);
-const newVoucher = reactive({
+const Voucher = reactive({
     code: '',
     description: '',
     expiry: '',
@@ -153,7 +153,7 @@ const closeModal = () => {
 // Create Voucher logic
 const createVoucher = async () => {
     try {
-        const response = await axios.post('/api/voucher/create', newVoucher);
+        const response = await axios.post('/api/voucher', newVoucher);
         toastr.success(response.data.message || 'Voucher created successfully');
         closeModal();
         // Optionally, update the voucher list here
