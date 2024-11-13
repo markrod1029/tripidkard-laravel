@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StarController;
+use App\Http\Controllers\CartController;
 
+use App\Http\Controllers\StarController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PointController;
@@ -13,23 +14,14 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\InfluencerController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
-use App\Http\Controllers\ActivityLogController;
 
-// use Spatie\Activitylog\Models\Activity;
-// Route::get('/users', function() {
-
-//    return Activity::all();
-// });
-
-
-
-// Activity Log Route
 
 Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
-
+Route::post('/api/voucher/create', [CartController::class, 'store']);
 
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
