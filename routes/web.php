@@ -23,6 +23,9 @@ Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
 Route::post('/api/voucher/create', [CartController::class, 'store']);
 Route::get('/api/voucher', [CartController::class, 'index']);
+Route::put('/api/voucher/edit/{id}', [CartController::class, 'update']);
+Route::delete('/api/voucher/{id}', [CartController::class, 'destroy']);
+
 // Merchant Account
 Route::get('/api/card/lists', [OrderController::class, 'index']);
 

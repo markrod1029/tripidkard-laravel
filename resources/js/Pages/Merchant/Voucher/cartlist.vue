@@ -51,7 +51,6 @@
                                 <div class="summary-item"><span class="text">Discount</span><span class="price">{{ discountAmount }}%</span></div>
                                 <div class="summary-item"><span class="text">Total</span><span class="price">₱{{ total.toFixed(2) }}</span></div>
                                 <button @click="checkout" type="button" class="btn btn-primary bg-primary btn-lg btn-block">Checkout</button>
-                                <router-link to="/services/chatbot-marketing" class="btn btn-dark btn-lg btn-block">Back to Chatbot</router-link>
                             </div>
                         </div>
                     </div>
@@ -59,119 +58,140 @@
             </section>
         </main>
     </div>
+
+    <!-- Edit Modal -->
+    <div v-if="isEditModalVisible" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="close" @click="closeEditModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="updateProduct">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" v-model="editProduct.title" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" v-model="editProduct.description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="terms">Terms</label>
+                            <input type="text" id="terms" v-model="editProduct.terms" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="points">Points</label>
+                            <input type="number" id="points" v-model="editProduct.points" class="form-control" />
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-primary  mx-2">Update</button>
+                            <button type="button" class="btn btn-secondary " @click="closeEditModal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
 import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
-import { reactive, computed, onMounted } from 'vue';
+import { reactive, computed, ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useToastr } from '@/toastr.js';
 
 const products = reactive([]);
-const isEditModalVisible = reactive(false);
+const isEditModalVisible = ref(false); // Use ref for booleans
 const editProduct = reactive({});
-const productToDelete = reactive({ id: null }); // Store the product ID for deletion
+const toastr = useToastr();
 
 // Subtotal calculation
 const subtotal = computed(() => {
     return products.reduce((acc, product) => acc + (product.points * product.quantity), 0);
 });
 
-// Static discount percentage
-const discountAmount = 10; // Example static discount
+const discountAmount = 10;
 const total = computed(() => subtotal.value * (1 - discountAmount / 100));
 
-// Delete the product after confirmation
-const confirmDeleteProduct = (productId) => {
-    productToDelete.id = productId; // Store the product ID
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                // Perform the deletion
+const confirmDeleteProduct = async (productId) => {
+    try {
+        await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
                 await axios.delete(`/api/voucher/${productId}`);
-                // Remove the product from the local array
                 const index = products.findIndex(product => product.id === productId);
                 if (index !== -1) {
                     products.splice(index, 1);
                 }
-
-                // Show success alert
                 Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
-            } catch (error) {
-                console.error("Error deleting product:", error);
-                // Show error alert
-                Swal.fire('Error!', 'There was an issue deleting the product.', 'error');
             }
-        }
-    });
+        });
+    } catch (error) {
+        Swal.fire('Error!', 'There was an issue deleting the product.', 'error');
+    }
 };
 
-// Fetch products (vouchers) from API
 const fetchVouchers = async () => {
     try {
         const response = await axios.get('/api/voucher');
-        products.length = 0; // Clear existing products
+        products.length = 0;
         if (response.data && Array.isArray(response.data)) {
-            products.push(...response.data); // Add fetched products to the list
+            products.push(...response.data);
         }
     } catch (error) {
         console.error("Error fetching vouchers:", error);
     }
 };
 
-// Checkout function
 const checkout = () => {
     console.log('Proceed to checkout');
 };
 
-// Open edit modal
 const openEditModal = (product) => {
     editProduct.id = product.id;
     editProduct.title = product.title;
     editProduct.description = product.description;
     editProduct.terms = product.terms;
     editProduct.points = product.points;
-    isEditModalVisible.value = true;
+    isEditModalVisible.value = true; // Update modal visibility with .value
 };
 
-// Close edit modal
 const closeEditModal = () => {
-    isEditModalVisible.value = false;
+    isEditModalVisible.value = false; // Close the modal by setting value to false
 };
 
-// Update product
 const updateProduct = async () => {
     try {
-        const response = await axios.put(`/api/voucher/${editProduct.id}`, editProduct);
+        const response = await axios.put(`/api/voucher/edit/${editProduct.id}`, editProduct);
         const updatedProduct = response.data.voucher;
-
-        // Update the product in the products array
         const index = products.findIndex(product => product.id === updatedProduct.id);
+        toastr.success('Voucher Updated Successfuly');
         if (index !== -1) {
             products.splice(index, 1, updatedProduct);
         }
-
         closeEditModal();
     } catch (error) {
         console.error("Error updating voucher:", error);
     }
 };
 
-// Fetch products on component mount
 onMounted(() => {
     fetchVouchers();
 });
 </script>
+
 
 
 <style scoped>
@@ -196,21 +216,38 @@ onMounted(() => {
     font-size: 22px;
 }
 
-.summary {
+.shopping-cart .summary {
     border-top: 2px solid #5ea4f3;
     background-color: #f7fbff;
     padding: 30px;
 }
 
-.summary .summary-item:not(:last-of-type) {
+.shopping-cart .summary h3 {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.shopping-cart .summary .summary-item:not(:last-of-type) {
     padding-bottom: 10px;
     padding-top: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.summary .text, .summary .price {
+.shopping-cart .summary .text {
     font-size: 1em;
     font-weight: 600;
+}
+
+.shopping-cart .summary .price {
+    font-size: 1em;
+    float: right;
+}
+
+.shopping-cart .summary button {
+    margin-top: 20px;
 }
 
 .no-products-message {
