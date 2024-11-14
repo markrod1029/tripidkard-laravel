@@ -55,7 +55,8 @@ import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
 import AdminLogin from './Pages/Auth/Admin/Login.vue';
 import Login from './Pages/Auth/Login.vue';
-import ForgotPassword from './Pages/Auth/Forgot.vue';
+import ForgotPassword from './Pages/Auth/ResetPassword/Forgot.vue';
+import ResetPassword from './Pages/Auth/ResetPassword/Reset.vue';
 import NotFound from './Pages/Error/404.vue';
 import Profile from './Pages/Profiles/Information.vue';
 
@@ -164,7 +165,8 @@ const routesDefault = [
 
     { path: '/admin/login/', name: 'admin.login', component: AdminLogin, meta: { title: 'Admin Login', requiresGuest: true } },
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
-    { path: '/forgot-password/', name: 'forgot-password', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },
+    { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },
+    { path: '/reset-password/:token', name: 'ResetPassword', component: ResetPassword, meta: { title: 'Reset Password', requiresGuest: true, } },
     { path: '/tripidkard/', name: 'tripidkard', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true, } },
 
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound, meta: { title: 'Not Found' } }

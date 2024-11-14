@@ -4,6 +4,7 @@ import axios from "axios";
 export const useAuthStore = defineStore("auth", {
     state: () => ({
         authUser: null,
+        authErrors: [], // Declare authErrors in the state to avoid reference issues
     }),
     getters: {
         user: (state) => state.authUser,
@@ -52,23 +53,19 @@ export const useAuthStore = defineStore("auth", {
                     password: data.password,
                 });
 
-                // Handle if user is inactive or has Admin role
                 if (response.data.message) {
                     return { general: response.data.message };
                 }
 
-                // If no error, set the authenticated user
                 this.authUser = response.data.user;
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
 
-                return null; // No errors
+                return null;
             } catch (error) {
                 console.error("Error logging in:", error);
-
                 if (error.response && error.response.status === 403) {
                     return { general: error.response.data.message };
                 }
-
                 if (error.response && error.response.data.errors) {
                     return error.response.data.errors;
                 } else {
@@ -85,23 +82,19 @@ export const useAuthStore = defineStore("auth", {
                     password: data.password,
                 });
 
-                // Handle if user is inactive or has Admin role
                 if (response.data.message) {
                     return { general: response.data.message };
                 }
 
-                // If no error, set the authenticated user
                 this.authUser = response.data.user;
                 localStorage.setItem("authUser", JSON.stringify(this.authUser));
 
-                return null; // No errors
+                return null;
             } catch (error) {
                 console.error("Error logging in:", error);
-
                 if (error.response && error.response.status === 403) {
                     return { general: error.response.data.message };
                 }
-
                 if (error.response && error.response.data.errors) {
                     return error.response.data.errors;
                 } else {
@@ -109,9 +102,6 @@ export const useAuthStore = defineStore("auth", {
                 }
             }
         },
-
-
-
 
         async logout() {
             await this.getToken();
@@ -121,6 +111,35 @@ export const useAuthStore = defineStore("auth", {
                 localStorage.removeItem("authUser");
             } catch (error) {
                 console.error("Error logging out:", error);
+            }
+        },
+
+        async handleForgotPassword(email) {
+            this.authErrors = [];
+            try {
+                const response = await axios.post("/forgot-password", {
+                    email: email,
+                });
+                return response.data;
+            } catch (error) {
+                console.error("Error sending password reset email:", error);
+                return { error: "An error occurred while sending the password reset email." };
+            }
+        },
+
+        // Moved handleResetPassword inside actions and fixed syntax
+        async handleResetPassword(resetData) {
+            this.authErrors = [];
+            await this.getToken();
+            try {
+                const response = await axios.post("/reset-password", resetData);
+                return response.data;
+            } catch (error) {
+                if (error.response && error.response.status === 422) {
+                    return error.response.data.errors;
+                }
+                console.error("Error resetting password:", error);
+                return { general: "An error occurred while resetting the password." };
             }
         },
     },
