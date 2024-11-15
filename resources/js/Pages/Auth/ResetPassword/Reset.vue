@@ -3,8 +3,7 @@
         <div class="container login">
             <div class="login form">
                 <header style="font-size:26px;">Reset Password</header>
-                <form @submit.prevent="handleSubmit">
-
+                <form @submit.prevent="handleFormSubmit">
                     <!-- Password -->
                     <div class="mt-1">
                         <label for="password">Password</label>
@@ -23,8 +22,9 @@
 
                     <!-- Submit Button -->
                     <div class="mt-4">
-                        <input type="submit" class="btn btn-success btn-block" :disabled="loading"
-                            :value="loading ? 'Loading...' : 'Reset Password'" />
+                        <input type="submit" class="btn btn-success btn-block"
+                            :value="loading ? 'Resetting...' : 'Reset Password'"
+                            :disabled="loading" />
                     </div>
                 </form>
 
@@ -53,36 +53,28 @@ const form = ref({
 });
 
 const errors = reactive({
-    password: '',
-    password_confirmation: '',
-    general: '',
+    password: null,
+    password_confirmation: null,
+    general: null,
 });
 
 const loading = ref(false);
 
-const handleSubmit = async () => {
+async function handleFormSubmit() {
     loading.value = true;
-    errors.password = '';
-    errors.password_confirmation = '';
-    errors.general = '';
+    const responseErrors = await authStore.handleResetPassword(form.value);
 
-    try {
-        const responseErrors = await authStore.handleResetPassword(form);
-
-        if (responseErrors) {
-            errors.password = responseErrors.password ? responseErrors.password[0] : '';
-            errors.password_confirmation = responseErrors.password_confirmation ? responseErrors.password_confirmation[0] : '';
-            errors.general = responseErrors.general ? responseErrors.general : '';
-        } else {
-            router.push('/login');
-        }
-    } catch (error) {
-        errors.general = 'An unexpected error occurred. Please try again.';
-        console.log(error); // Log the error for debugging
-    } finally {
-        loading.value = false;
+    if (responseErrors) {
+        // Map errors to the form
+        errors.password = responseErrors.password || null;
+        errors.password_confirmation = responseErrors.password_confirmation || null;
+        errors.general = responseErrors.general || null;
+    } else {
+        // Reset successful; navigate to login page
+        router.push('/login');
     }
-};
+    loading.value = false;
+}
 </script>
 
 <style scoped>

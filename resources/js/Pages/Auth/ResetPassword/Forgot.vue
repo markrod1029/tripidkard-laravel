@@ -1,93 +1,76 @@
 <template>
-    <se class="login">
+    <div class="login">
         <div class="container login">
             <div class="login form">
                 <header style="font-size:26px;">Forgot Password</header>
-                <form @submit.prevent="authStore.handleForgotPassword(email)">
+                <form @submit.prevent="handleSubmit">
                     <!-- Email Address -->
                     <div>
                         <label for="email">Email</label>
-                        <input id="email" type="email" v-model="email" placeholder="Enter your email"
-                            class="form-control" required autofocus />
-                        <!-- <span v-if="errors.email" class="text-danger">
-                            {{ errors.email }}
-                        </span> -->
+                        <input
+                            id="email"
+                            type="email"
+                            v-model="email"
+                            placeholder="Enter your email"
+                            class="form-control"
+                            required
+                            autofocus
+                        />
+                        <span v-if="errorMessage" class="text-danger">{{ errorMessage }}</span>
+                        <span v-if="successMessage" class="text-success">{{ successMessage }}</span>
                     </div>
-
-                    <!-- <router-link to="#">Ggo back Login?</router-link> -->
 
                     <div class="mt-4">
-                        <input type="submit" class="btn btn-success btn-block"
-                            value="Sign In" />
+                        <input
+                            type="submit"
+                            class="btn btn-success btn-block"
+                            :value="loading ? 'Sending...' : 'Send'"
+                            :disabled="loading"
+                        />
                     </div>
-
-                    <!-- Submit Button -->
-                    <!-- <div class="mt-4">
-                        <input type="submit" class="btn btn-success btn-block" :disabled="loading"
-                            :value="loading ? 'Loading...' : 'Sign In'" />
-                    </div> -->
                 </form>
-
-                <!-- <div class="signup mt-4">
-                    <span>Don't have an account?
-                        <router-link to="/register" class="text-decoration-none">Signup</router-link>
-                    </span>
-                </div> -->
-
-
             </div>
         </div>
-    </se>
+    </div>
 </template>
 
-
-
 <script setup>
-import { reactive, ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 import { useAuthStore } from '@/Stores/auth';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const authStore = useAuthStore();
 const router = useRouter();
 
 const email = ref('');
-// const form = reactive({
-//     email: '',
-// });
+const loading = ref(false);
+const errorMessage = ref('');
+const successMessage = ref('');
 
-// const errors = reactive({
-//     email: '',
-//     general: '',
-// });
+// Handle the form submission
+const handleSubmit = async () => {
+    loading.value = true;
+    errorMessage.value = '';
+    successMessage.value = '';
 
-// const loading = ref(false);
-
-// const handleSubmit = async () => {
-//     loading.value = true;
-//     errors.email = '';
-//     errors.general = '';
-//     try {
-//         const responseErrors = await authStore.handleForgotPassword(form);
-//         if (responseErrors) {
-//             errors.email = responseErrors.email ? responseErrors.email[0] : '';
-//             errors.general = responseErrors.general ? responseErrors.general : '';
-//         } else {
-//             if (authStore.user) {
-//                 router.push('/admin/dashboard'); // Redirect to dashboard upon successful login
-//             }
-//         }
-//     } catch (error) {
-//         errors.general = 'An unexpected error occurred. Please try again.';
-//     } finally {
-//         loading.value = false;
-//     }
-// };
-
+    try {
+        const response = await authStore.handleForgotPassword(email.value);
+        if (response.error) {
+            errorMessage.value = response.error;  // Show error message if any
+        } else {
+            successMessage.value = 'Password reset link has been sent to your email.';  // Success message
+        }
+    } catch (error) {
+        errorMessage.value = 'An unexpected error occurred. Please try again later.';
+        console.error('Error during password reset request:', error);
+    } finally {
+        loading.value = false;
+    }
+};
 </script>
 
-
 <style scoped>
-
 /* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
@@ -194,5 +177,9 @@ body {
 
 .text-danger {
     color: red;
+}
+
+.text-success {
+    color: green;
 }
 </style>
