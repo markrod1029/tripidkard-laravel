@@ -83,7 +83,7 @@ class EmailController extends Controller
         Order::create([
             'user_id' => $user->id,
             'Name' => $card_types,  // Assuming user has a 'name' field
-            'type' => 'Points',
+            'type' => 'Cards',
             'total' => $total,
             'status' => 'Pending', // Initial order status
         ]);

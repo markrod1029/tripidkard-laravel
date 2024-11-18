@@ -32,7 +32,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <NavItem to="/" label="Home" />
-              <NavItem to="/tripidkard" label="Tripidkard" />
+              <NavItem to="/tripidkard/details" label="Tripidkard" />
               <NavItem to="/join" label="How To Join" />
               <NavItem to="/scanner" label="Scanner" />
               <NavItem to="/merchants" label="Merchants" />

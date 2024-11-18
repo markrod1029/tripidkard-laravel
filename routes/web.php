@@ -19,6 +19,8 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\StartPointsController;
 
 
+Route::get('/api/order/lists', [OrderController::class, 'Adminindex']);
+
 Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
 Route::post('/api/voucher/create', [CartController::class, 'store']);

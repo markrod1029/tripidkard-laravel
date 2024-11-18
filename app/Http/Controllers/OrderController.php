@@ -10,26 +10,57 @@ use Illuminate\Support\Facades\Mail;
 class OrderController extends Controller
 {
 
-    public function index()
+
+    public function Adminindex()
     {
         $searchFields = [
             'orders.card_type',
             'orders.total',
+            'merchants.business_name', // Add relevant merchant fields here
         ];
 
         $tripidkardOrders = Order::query()
-        ->where('status', 0)
-        ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
-            $query->where(function ($query) use ($searchFields, $searchQuery) {
-                foreach ($searchFields as $field) {
-                    $query->orWhere($field, 'like', "%{$searchQuery}%");
-                }
-            });
-        })
-        ->latest()->get();
+            ->leftJoin('users', 'orders.user_id', '=', 'users.id') // Joining orders with merchants
+            ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id') // Joining orders with merchants
+            ->where('orders.status', 0) // Only fetch pending orders
+            ->where('orders.type', 'Points') // Only fetch pending orders
+            ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+                $query->where(function ($query) use ($searchFields, $searchQuery) {
+                    foreach ($searchFields as $field) {
+                        $query->orWhere($field, 'like', "%{$searchQuery}%");
+                    }
+                });
+            })
+            ->select('orders.*', 'merchants.business_name', 'users.contact', 'users.email') // Selecting required fields
+            ->latest()
+            ->get();
 
-        return response()->json($tripidkardOrders);
+        return response()->json($tripidkardOrders); // Return the data in JSON format
     }
+
+
+
+
+    // public function index()
+    // {
+    //     $searchFields = [
+    //         'orders.card_type',
+    //         'orders.total',
+    //     ];
+
+    //     $tripidkardOrders = Order::query()
+    //     ->where('status', 0)
+    //     ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
+    //         $query->where(function ($query) use ($searchFields, $searchQuery) {
+    //             foreach ($searchFields as $field) {
+    //                 $query->orWhere($field, 'like', "%{$searchQuery}%");
+    //             }
+    //         });
+    //     })
+    //     ->latest()->get();
+
+    //     return response()->json($tripidkardOrders);
+    // }
 
 
     public function store(Request $request)

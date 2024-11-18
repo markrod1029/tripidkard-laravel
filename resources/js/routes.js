@@ -169,7 +169,7 @@ const routesDefault = [
     { path: '/login/', name: 'login', component: Login, meta: { title: 'User Login', requiresGuest: true, } },
     { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPassword, meta: { title: 'Forgot Password', requiresGuest: true, } },
     { path: '/reset-password/:token', name: 'ResetPassword', component: ResetPassword, meta: { title: 'Reset Password', requiresGuest: true, } },
-    { path: '/tripidkard/', name: 'tripidkard', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true, } },
+    { path: '/tripidkard/details', name: 'tripidkard.details', component: TripidkardDetails, meta: { title: 'Tripidkard', requiresGuest: true, } },
 
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound, meta: { title: 'Not Found' } }
 ];
