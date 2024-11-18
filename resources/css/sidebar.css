@@ -1,5 +1,4 @@
 
-
 .main-sidebar {
     background-color: #367fa9;
     height: 100vh !important;
@@ -30,7 +29,7 @@
 }
 
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
-    background-color: #367fa9;
+    background-color: #367fa9 !important;
 
 }
 
@@ -218,7 +217,7 @@
     width: 290px;
 }
 
-/* <style>
+/*  <style>
 @media (max-width: 667px){
 .input-group label {
     text-align: left;
@@ -275,7 +274,8 @@
 {
 	background-color: #C1C7AB;
 
-} */
+}
 
 
 
+    </style>  */

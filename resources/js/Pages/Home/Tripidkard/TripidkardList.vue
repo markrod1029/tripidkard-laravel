@@ -29,10 +29,7 @@ export default {
     },
 
     setup() {
-        const authStore = useAuthStore();
-        onMounted(async () => {
-            await authStore.getUser();
-        });
+
     }
 }
 

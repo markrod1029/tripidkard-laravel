@@ -76,7 +76,7 @@
 
                                 <!-- DTI No -->
                                 <div class="col-12 mb-3">
-                                    <label for="dtiNo" class="form-label">DTI No <span
+                                    <label for="dtiNo" class="form-label">DTI Registration No. <span
                                             class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="dtiNo" id="dtiNo"
@@ -174,10 +174,9 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useToastr } from '@/toastr.js';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const router = useRouter();
-const toastr = useToastr();
 
 const form = ref({
     fname: '',
@@ -193,6 +192,7 @@ const form = ref({
     city: '',
     province: '',
 });
+
 const categories = ref({
     'Retail': ['Clothing', 'Electronics', 'Groceries', 'Furniture', 'Books'],
     'Food and Beverage': ['Restaurants', 'Cafes', 'Bars', 'Fast Food', 'Bakeries'],
@@ -201,41 +201,35 @@ const categories = ref({
     'Travel and Leisure': ['Hotels', 'Travel Agencies', 'Tour Operators', 'Cruise Lines', 'Adventure Sports'],
     'Entertainment': ['Movie Theaters', 'Music Venues', 'Amusement Parks', 'Casinos', 'Art Galleries'],
     'Automotive': ['Car Dealerships', 'Auto Repair', 'Car Rentals', 'Car Wash', 'Auto Parts'],
-    'Home and Garden': ['Home Decor', 'Gardening Supplies', 'Hardware Stores', 'Furniture Stores', 'Cleaning Services'],
-    'Electronics and Gadgets': ['Mobile Phones', 'Computers', 'Home Appliances', 'Audio Equipment', 'Camera Equipment'],
-    'Fashion and Apparel': ['Men\'s Clothing', 'Women\'s Clothing', 'Kids\' Clothing', 'Shoes', 'Accessories'],
-    'Financial Services': ['Banks', 'Insurance', 'Investment Services', 'Accounting', 'Financial Advisors'],
-    'Professional Services': ['Legal Services', 'Consulting', 'Marketing', 'Human Resources', 'IT Services'],
-    'Education and Training': ['Schools', 'Colleges', 'Online Courses', 'Vocational Training', 'Tutoring'],
-    'Technology': ['Software Development', 'IT Support', 'Web Design', 'Cybersecurity', 'Tech Consulting'],
-    'Real Estate': ['Residential Sales', 'Commercial Sales', 'Property Management', 'Real Estate Agencies', 'Real Estate Investment'],
-    'Hospitality': ['Hotels', 'Motels', 'Bed and Breakfasts', 'Hostels', 'Resorts'],
-    'Sports and Recreation': ['Gyms', 'Sports Clubs', 'Outdoor Activities', 'Equipment Rentals', 'Fitness Classes'],
-    'Pet Services': ['Veterinary Clinics', 'Pet Grooming', 'Pet Boarding', 'Pet Training', 'Pet Supplies'],
-    'Media and Advertising': ['Advertising Agencies', 'Digital Marketing', 'Print Media', 'Television', 'Radio'],
-    'Non-Profit and Community Services': ['Charities', 'Community Centers', 'Social Services', 'Environmental Organizations', 'Cultural Organizations']
+    'Home and Garden': ['Home Decor', 'Gardening Supplies', 'Construction', 'Landscaping', 'Furniture'],
 });
 
 const subCategories = ref([]);
 
+const successMessage = ref('');
+const errorMessage = ref('');
+
 const updateSubCategories = () => {
-    if (form.value.business_category === 'Other') {
-        subCategories.value = [];
-        form.value.business_sub_category = ''; // Reset sub-category when 'Other' is selected
+    if (form.value.business_category && categories.value[form.value.business_category]) {
+        subCategories.value = categories.value[form.value.business_category];
     } else {
-        subCategories.value = categories.value[form.value.business_category] || [];
+        subCategories.value = [];
     }
 };
-
-const errorMessage = ref('');
-const successMessage = ref('');
 
 const createMerchants = async () => {
     try {
         const response = await axios.post('/api/merchants/create', form.value);
         router.push('/merchants');
         successMessage.value = response.data.message;
-        toastr.success('Merchant Added Successfully');
+
+        // SweetAlert2 Success Message
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your merchant request is under review. You will be notified once it is approved.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
     } catch (error) {
         if (error.response && error.response.data.error) {
             errorMessage.value = error.response.data.error;
@@ -243,7 +237,7 @@ const createMerchants = async () => {
             errorMessage.value = 'An error occurred while processing your request.';
         }
     }
-}
+};
 </script>
 
 <style scoped>
