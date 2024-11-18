@@ -87,7 +87,7 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
-import Sidebar from '@/Components/Organisims/Sidebar.vue';
+import Sidebar from '@/Components/Organisims/Influencer/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import axios from 'axios';
