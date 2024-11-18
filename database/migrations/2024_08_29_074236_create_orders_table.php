@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('cards');
+            $table->string('Name');
+            $table->enum('type', ['Cards','Points'])->default('Cards');
             $table->string('total');
             $table->string('status');
             $table->timestamps();

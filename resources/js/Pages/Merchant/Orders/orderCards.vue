@@ -6,66 +6,51 @@
         <Breadcrumb />
 
         <section class="content">
-            <div class="container-fluid">
-                <div class="card">
-                    <!-- title -->
-                    <div class="box-header with-border" style="background-color:#367FA9;">
-                        <div class="card-header">
-                            <h4 class="card-title text-white title">Order Cards</h4>
+            <div class="container mt-5">
+                <div class="bg-white p-4 rounded shadow text-center mx-auto custom-container">
+                    <img class="img-fluid mx-auto"
+                    src="/storage/img/logo.jpg"
+                        width="150" height="100" />
+                    <h3>Order Loyalty Points</h3>
+                    <form method="POST" @submit.prevent="submitForm">
+
+                        <div class="form-group mt-3">
+                            <div class="col-md-12 d-flex align-items-center">
+                                <!-- Card Types Dropdown -->
+                                <select class="form-control" name="influencer_code" v-model="form.card_types">
+                                    <option value="" disabled :selected="!form.card_types">Select Card Types</option>
+                                    <option value="VIP">VIP</option>
+                                    <option value="Common">Common</option>
+                                </select>
+                                <input class="form-control" v-model="form.id" hidden>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="box-body">
-                        <div class="card-body">
-                            <form class="form-horizontal" @submit.prevent="createOrders" method="POST"
-                                enctype="multipart/form-data">
-
-
-                                <!-- Customer Information -->
-                                <h4 class="card-title text-dark mb-3">Order  Information</h4><br>
-
-
-                                <div class="input-group mb-3">
-                                    <label for="influencer"
-                                        class="col-sm-2 text-right control-label col-form-label text-muted">Influencer Name
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="input-group col-sm-8 col-xs-11">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
-                                        </div>
-                                        <select class="form-control" name="influencer_code" v-model="form.card_types">
-                                            <option value="" disabled selected>Select Card Types</option>
-                                            <option value="VIP">VIP</option>
-                                            <option value="Common">Common</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <label for="lname"
-                                        class="col-sm-2 text-right control-label col-form-label text-muted">total Of
-                                        Card</label>
-
-                                    <div class="input-group col-sm-8 col-xs-11">
-                                        <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="fa fa-list-ol"></i></span></div>
-                                        <input type="number" class="form-control" id="number" v-model="form.total" name="number" required="">
-                                    </div>
-                                    <span class="text-danger">*</span>
-                                </div>
-
-                                <!-- Navigation buttons -->
-                                <div class="box-footer text-right">
-                                    <button type="reset"
-                                        class="btn btn-dark waves-effect waves-light ml- text-white ">Reset</button>
-
-                                    <button type="submit" class="btn btn-primary  ml-1" name="">Order</button>
-                                </div>
-
-                            </form>
+                        <div class="form-group mt-3">
+                            <div class="col-md-12 d-flex align-items-center">
+                                <select v-if="!showOtherInput && !isSubmitting" class="form-control"
+                                    name="total" v-model="form.total" id="total"
+                                    @change="handleSelectChange">
+                                    <option value="" disabled selected>Select Loyalty Stars</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="250">250</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <input v-else type="number" class="form-control" id="loyalty_points"
+                                    name="loyalty_points" placeholder="Total Loyalty Stars"
+                                    v-model="form.total" @blur="handleOtherInputBlur">
+                                <span class="ml-2 text-danger">*</span>
+                            </div>
                         </div>
-                    </div>
+
+                        <button type="submit" :disabled="isSubmitting" class="btn btn-primary px-5">
+                            <span v-if="isSubmitting">Processing...</span>
+                            <span v-else>Request</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -73,35 +58,79 @@
 
     <Footer />
 </template>
+
 <script setup>
+import { onMounted, reactive, ref } from 'vue';
 import MenuBar from '@/Components/Organisims/MenuBar.vue';
 import Sidebar from '@/Components/Organisims/Merchant/Sidebar.vue';
 import Footer from '@/Components/Organisims/Footer.vue';
 import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
-import { useRouter } from 'vue-router';
-import { useToastr } from '@/toastr.js';
-
 import axios from 'axios';
-import { reactive, onMounted, watch } from 'vue';
+import { useAuthUserStore } from '../../../Stores/AuthUser';
 
-const toastr = useToastr();
+import { useRouter, useRoute } from 'vue-router';
+import Swal from 'sweetalert2'; // Import Swal for alerts
+
+const showOtherInput = ref(false);
+const isSubmitting = ref(false); // For loading state
 const router = useRouter();
+const route = useRoute();
+const authUser = useAuthUserStore();
 
 const form = reactive({
-    card_types: '',
+    id: '',
     total: '',
+    card_types: ''
 });
-const createOrders = async () => {
-    try {
-        const response = await axios.post('/api/card/orders', form);
-        router.push('/merchant/dashboard');
-        toastr.success('Orders Added Successfully');
-    } catch (error) {
-        console.error('Error fetching services:', error);
+
+const handleSelectChange = () => {
+    if (form.total === 'Other') {
+        showOtherInput.value = true;
+        form.total = null;
+    } else {
+        showOtherInput.value = false;
     }
 }
 
+const handleOtherInputBlur = () => {
+    if (!form.total.trim()) {
+        form.total = null;
+    }
+}
 
+const submitForm = async () => {
+    if (isSubmitting.value) return; // Prevent multiple submissions
 
+    isSubmitting.value = true; // Set the loading state to true
 
+    try {
+        const response = await axios.post('/api/card/orders', form);
+        // SweetAlert2 success
+        Swal.fire({
+            title: 'Success',
+            text: response.data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            router.push('/merchant/dashboard'); // Redirect after success
+        });
+    } catch (error) {
+        console.error('Error creating stars:', error);
+        Swal.fire({
+            title: 'Error',
+            text: error.response ? error.response.data.message : 'An error occurred while updating stars',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } finally {
+        isSubmitting.value = false; // Reset the loading state
+    }
+}
+
+onMounted(() => {
+    const savedAuthUser = localStorage.getItem('authUser');
+    if (savedAuthUser) {
+        authUser.users = JSON.parse(savedAuthUser); // Load the saved user data
+    }
+});
 </script>

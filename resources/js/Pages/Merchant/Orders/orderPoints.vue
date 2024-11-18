@@ -9,25 +9,21 @@
             <div class="container mt-5">
                 <div class="bg-white p-4 rounded shadow text-center mx-auto custom-container">
                     <img class="img-fluid mx-auto"
-                        src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
+                    src="/storage/img/logo.jpg"
                         width="150" height="100" />
-                    <h3>Register Merchant Loyalty Stars</h3>
-                    <form method="POST" @submit.prevent="createStars">
-
+                    <h3>Order Loyalty Points</h3>
+                    <form method="POST" @submit.prevent="submitForm">
 
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
-                                <input class="form-control"  :value="(authUser.users.stars_points || 0) + ' Star Points'" readonly>
+                                <input class="form-control" :value="(authUser.users.stars_points || 0) + ' Loyalty Points'" readonly>
                                 <input class="form-control" v-model="form.id" hidden>
-
                             </div>
                         </div>
 
-
-
                         <div class="form-group mt-3">
                             <div class="col-md-12 d-flex align-items-center">
-                                <select v-if="!showOtherInput && updatestarts == false" class="form-control"
+                                <select v-if="!showOtherInput && !isSubmitting" class="form-control"
                                     name="starsPoints" v-model="form.starsPoints" id="starsPoints"
                                     @change="handleSelectChange">
                                     <option value="" disabled selected>Select Loyalty Stars</option>
@@ -45,7 +41,10 @@
                             </div>
                         </div>
 
-                        <button type="submit" name="save" class="btn btn-primary px-5 ">Submit</button>
+                        <button type="submit" :disabled="isSubmitting" class="btn btn-primary px-5">
+                            <span v-if="isSubmitting">Processing...</span>
+                            <span v-else>Request</span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -65,96 +64,68 @@ import axios from 'axios';
 import { useAuthUserStore } from '../../../Stores/AuthUser';
 
 import { useRouter, useRoute } from 'vue-router';
-import { useToastr } from '@/toastr';
+import Swal from 'sweetalert2'; // Import Swal for alerts
+
 const showOtherInput = ref(false);
+const isSubmitting = ref(false); // For loading state
 const router = useRouter();
 const route = useRoute();
-const toastr = useToastr();
 const authUser = useAuthUserStore();
-
-const stars = ref([]);
-
-const updatestarts = ref(false);
 
 const form = reactive({
     id: '',
-    total: '',
     starsPoints: ''
 });
-
-
-
-const getStars = async () => {
-    try {
-        const response = await axios.get('/api/stars');
-        const modifiedStars = response.data.map(star => {
-            return {
-                ...star,
-                newProperty: 'Star Points',
-            };
-        });
-        stars.value = modifiedStars;
-        form.id = stars.value[0].id; // Set the form id to the first star id
-    } catch (error) {
-        console.error('Error fetching stars:', error);
-    }
-}
-
-
-
 
 const handleSelectChange = () => {
     if (form.starsPoints === 'Other') {
         showOtherInput.value = true;
-        form.starsPoints = null; // Reset starsPoints value
+        form.starsPoints = null;
     } else {
         showOtherInput.value = false;
-        form.otherStarsPoints = form.starsPoints; // Set otherStarsPoints equal to starsPoints
     }
 }
 
 const handleOtherInputBlur = () => {
-    if (!form.otherStarsPoints.trim()) {
-        form.starsPoints = null; // Reset starsPoints value if otherStarsPoints is empty
+    if (!form.starsPoints.trim()) {
+        form.starsPoints = null;
     }
 }
 
-const createStars = async () => {
+const submitForm = async () => {
+    if (isSubmitting.value) return; // Prevent multiple submissions
+
+    isSubmitting.value = true; // Set the loading state to true
+
     try {
         const response = await axios.post('/api/merchant/stars', form);
-        router.push('/merchant/dashboard');
-        toastr.success(response.data.message);
+        // SweetAlert2 success
+        Swal.fire({
+            title: 'Success',
+            text: response.data.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            router.push('/merchant/dashboard'); // Redirect after success
+        });
     } catch (error) {
         console.error('Error creating stars:', error);
-        if (error.response && error.response.status === 422) {
-            toastr.error(error.response.data.message);
-        } else {
-            toastr.error('An error occurred while updating stars');
-        }
+        Swal.fire({
+            title: 'Error',
+            text: error.response ? error.response.data.message : 'An error occurred while updating stars',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } finally {
+        isSubmitting.value = false; // Reset the loading state
     }
 }
-
-
-// const getPoints = async () => {
-//     try {
-//         const response = await axios.get(`/api/loyalty-stars/${route.params.id}/edit`);
-//         const data = response.data;
-//         form.merchant = data.id;
-//         form.starsPoints = data.stars_points;
-//         form.otherStarsPoints = data.stars_points;
-//     } catch (error) {
-
-//     }
-// }
-
-
 
 onMounted(() => {
     const savedAuthUser = localStorage.getItem('authUser');
     if (savedAuthUser) {
-        authUser.users = JSON.parse(savedAuthUser); // I-load ang saved user data
+        authUser.users = JSON.parse(savedAuthUser); // Load the saved user data
     }
 });
-
-
 </script>
+
