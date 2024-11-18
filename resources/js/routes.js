@@ -22,6 +22,7 @@ import AdminLoyaltyPoint from './Pages/Admin/Points/LoyaltyPointList.vue';
 import AdminLoyaltyStarForm from './Pages/Admin/Points/LoyaltyPointRegister.vue';
 import AdminStarForm from './Pages/Admin/Points/StarsForm.vue';
 import AdminCustomerStars from './Pages/Admin/Points/CustomerStars.vue';
+import AdminOrderPointList from './Pages/Admin/Order/PointsList.vue';
 import AdminLogs from './Pages/Admin/ActivityLogs/Logs.vue';
 import AdminProfile from './Pages/Admin/Profile/ProfileList.vue';
 
@@ -107,6 +108,7 @@ const routesAdmin = [
     { path: '/admin/stars/register', name: 'admin.stars.register', component: AdminStarForm, meta: { title: 'Total of Loyalty Stars', requiresAdminAuth: true } },
     { path: '/admin/loyalty-stars/:id/customer', name: 'admin.loyalty-stars.customer', component: AdminCustomerStars, meta: { title: 'Customer Loyalty Stars List', requiresAdminAuth: true } },
     { path: '/admin/activity-log/', name: 'admin.activity-log', component: AdminLogs, meta: { title: 'Activity Logs List', requiresAdminAuth:true } },
+    { path: '/admin/order-point/list', name: 'admin.order-point.list', component: AdminOrderPointList, meta: { title: 'Merchant Loyalty Point List', requiresAdminAuth:true } },
     { path: '/admin/profile/', name: 'admin.profile', component: AdminProfile, meta: { title: 'Profile Information', requiresAdminAuth: true } },
 ];
 
