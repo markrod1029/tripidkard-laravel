@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Star;
 use App\Models\Order;
+use App\Models\Merchant;
 use App\Mail\OrderCardEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -22,7 +24,7 @@ class OrderController extends Controller
         $tripidkardOrders = Order::query()
             ->leftJoin('users', 'orders.user_id', '=', 'users.id') // Joining orders with merchants
             ->leftJoin('merchants', 'merchants.user_id', '=', 'users.id') // Joining orders with merchants
-            ->where('orders.status', 0) // Only fetch pending orders
+            ->where('orders.status', 'Pending') // Only fetch pending orders
             ->where('orders.type', 'Points') // Only fetch pending orders
             ->when(request('query'), function ($query, $searchQuery) use ($searchFields) {
                 $query->where(function ($query) use ($searchFields, $searchQuery) {
@@ -53,7 +55,48 @@ class OrderController extends Controller
         ]);
     }
 
+    public function orderAccept(Request $request)
+    {
 
+        $validated = $request->validate([
+            "id" => "required|exists:stars,id",
+            "merchant" => "required",
+            "order_id" => "required",
+            "starsPoints" => "required" // Require otherStarsPoints only if starsPoints is Other
+        ]);
+
+     // Find the Merchant model using the business name provided in the request
+    $merchant = Merchant::where('business_name', $validated['merchant'])->first(); // Find by business name
+
+    // If the merchant is not found, return an error
+    if (!$merchant) {
+        return response()->json(['message' => 'Merchant not found'], 404);
+    }
+
+        $star = Star::findOrFail($validated['id']);
+
+        // Determine the points based on the input
+        $points = $validated['otherStarsPoints'] ?? $validated['starsPoints'];
+
+
+        $newStars = $star->stars - $points;
+
+        $newPoints = $merchant->stars_points + $points;
+
+        if ($points > $star->stars) {
+            return response()->json(['message' => 'Stars exceeded the maximum limit '], 422); // Ayusin ang maximum limit at HTTP status code
+        }
+
+        // Update the points attribute of the merchant
+        $merchant->update(['stars_points' => $newPoints]);
+        $star->update(['stars' => $newStars]);
+
+        $order = Order::findOrFail($validated['order_id']);
+        $order->update(['status' => 'Complete']);
+
+        // Optionally, you can return a response indicating success or failure
+        return response()->json(['message' => 'Points updated successfully']);
+    }
 
 
 

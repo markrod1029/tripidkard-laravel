@@ -21,6 +21,7 @@ use App\Http\Controllers\StartPointsController;
 
 Route::get('/api/order/lists', [OrderController::class, 'Adminindex']);
 Route::get('/api/loyalty-stars/order/{order}/edit', [OrderController::class, 'edit']);
+Route::put('/api/loyalty-stars/order/create', [OrderController::class, 'orderAccept']);
 
 Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);

@@ -70,28 +70,16 @@ const route = useRoute();
 const toastr = useToastr();
 
 const stars = ref([]);
-const merchants = ref([]);
 
 const updatestarts = ref(false);
 const form = reactive({
+    order_id: route.params.id,
     id: '',
     merchant: '',  // This will hold the business name directly
     starsPoints: '',
 });
 
-// Computed property to find the selected merchant's name from the merchants list (if necessary)
-const selectedMerchant = computed(() => {
-    return merchants.value.find(merchant => merchant.business_name === form.merchant) || {};
-});
 
-const getMerchants = async () => {
-    try {
-        const response = await axios.get('/api/merchants');
-        merchants.value = response.data;
-    } catch (error) {
-        console.error('Error fetching merchants:', error);
-    }
-}
 
 const getStars = async () => {
     try {
@@ -112,7 +100,7 @@ const getStars = async () => {
 
 const orderPoint = async () => {
     try {
-        const response = await axios.post('/api/loyalty-stars/crete', form);
+        const response = await axios.put('/api/loyalty-stars/order/create', form);
         router.push('/admin/loyalty-stars');
         toastr.success(response.data.message);
     } catch (error) {
@@ -139,7 +127,6 @@ const getPoints = async () => {
 
 onMounted(() => {
     getPoints();
-    getMerchants();
     getStars();
 })
 </script>

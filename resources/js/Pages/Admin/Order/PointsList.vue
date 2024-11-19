@@ -47,7 +47,7 @@
                                                 <td>
 
                                                     <router-link
-                                                        :to="`/admin/loyalty-stars/${order.merchant_id}/order/register`"
+                                                        :to="`/admin/loyalty-stars/${order.order_id}/order/register`"
                                                         class="btn btn-primary btn-sm  " style="margin-right: 5px;">Accept
                                                     </router-link>
 
