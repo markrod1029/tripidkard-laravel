@@ -20,6 +20,7 @@ use App\Http\Controllers\StartPointsController;
 
 
 Route::get('/api/order/lists', [OrderController::class, 'Adminindex']);
+Route::get('/api/loyalty-stars/order/{order}/edit', [OrderController::class, 'edit']);
 
 Route::get('/api/activity-logs', [ActivityLogController::class, 'index']);
 Route::get('/api/user/activity-logs', [ActivityLogController::class, 'indexUser']);
@@ -33,6 +34,7 @@ Route::get('/api/card/lists', [OrderController::class, 'index']);
 
 Route::get('/api/home/customer/{card_number}/points', [CustomerController::class, 'customerResult']);
 
+Route::get('/api/stars', [StarController::class, 'index']);
 
 
 Route::post('/api/loyalty-stars/crete', [StartPointsController::class, 'store']);

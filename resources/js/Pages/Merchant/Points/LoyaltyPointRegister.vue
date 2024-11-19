@@ -10,7 +10,7 @@
                 <div class="bg-white p-4 rounded shadow text-center mx-auto  custom-container w-75 mt-5 ">
 
                     <img class="img-fluid mx-auto"
-                        src="https://scontent.fmnl17-6.fna.fbcdn.net/v/t39.30808-6/399434519_122118450656079042_7601433698559540672_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFganLRFe4as7VGZgSGFL4uCAaG5sSOyxIIBobmxI7LEpL9o-leIwHBfb0dSo2CXZiUCtiVG_p7pmpGcYIQ4OZx&_nc_ohc=ciZu2eLfLtEQ7kNvgFULvi-&_nc_ht=scontent.fmnl17-6.fna&_nc_gid=AmYW0fjwy3v3H-PJAlOVj5D&oh=00_AYDvnNWYNVKIzPTAMYFph7JeCjZIeVEyuXvVp1y_UoCU_g&oe=670D0EEC"
+                    src="/storage/img/logo.jpg"
                         width="150" height="100" />
                     <h3 v-if="editPointsTitle">Register Loyalty Stars</h3>
                     <h3 v-else>Update Loyalty Stars</h3>

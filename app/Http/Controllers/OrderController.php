@@ -31,12 +31,28 @@ class OrderController extends Controller
                     }
                 });
             })
-            ->select('orders.*', 'merchants.business_name', 'users.contact', 'users.email') // Selecting required fields
+            ->select('orders.*', 'orders.id AS order_id', 'merchants.business_name','merchants.id as merchant_id', 'users.contact', 'users.email') // Selecting required fields
             ->latest()
             ->get();
 
         return response()->json($tripidkardOrders); // Return the data in JSON format
     }
+
+    public function edit(Order $order)
+    {
+        // Load the related user and merchant data (business_name)
+        $order->load('user.merchant');
+
+        // Now you can access the business_name via the merchant relationship
+        $businessName = $order->user->merchant->business_name;
+
+        // Return the order along with the related user and business_name
+        return response()->json([
+            'order' => $order,
+            'business_name' => $businessName
+        ]);
+    }
+
 
 
 

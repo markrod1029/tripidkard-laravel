@@ -9,7 +9,8 @@
             <div class="container mt-5">
                 <div class="bg-white p-4 rounded shadow text-center mx-auto custom-container">
                     <img class="img-fluid mx-auto"
-                        src="https://tripidkard.com/wp-content/uploads/2023/10/tripid-card-ver.-2-1.png" width="150"
+                    src="/storage/img/logo.jpg"
+                        width="150"
                         height="100" />
                     <h3>Total of Loyalty Stars</h3>
                     <form method="PUT" @submit.prevent="createStars">

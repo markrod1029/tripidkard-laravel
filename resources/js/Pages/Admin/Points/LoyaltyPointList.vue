@@ -71,10 +71,7 @@
                                                             class="btn btn-primary btn-sm  "
                                                             style="margin-right: 5px;"><i class="fa fa-edit"></i>
                                                         </router-link>
-                                                        <a href="class/enterprise_crud.php?action=archive&&enterprise_id=<?php echo $row['id']?>"
-                                                            onclick="return confirm('Are you sure you want to remove Archive this Enterprise Account?')"
-                                                            class="btn btn-danger btn-sm  "><i class="fa fa-redo"></i>
-                                                        </a>
+
                                                     </div>
                                                 </td>
                                             </tr>

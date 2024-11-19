@@ -26,7 +26,7 @@ const menuItems = ref([
 
               // Order Route
               {
-                title: 'Orders',
+                title: 'Order List',
                 icon: 'fas fa-shopping-cart',
                 children: [
                     { title: 'Order Point List', icon: 'far fa-circle', route: '/admin/order-point/list' },

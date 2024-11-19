@@ -11,17 +11,20 @@
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
                         <div class="d-flex justify-content-between mb-2">
                             <div class="col-3">
-                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search orders..." />
+                                <input type="text" v-model="searchQuery" class="form-control"
+                                    placeholder="Search orders..." />
                             </div>
                         </div>
 
                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="ordersTable" class="display dataTable table-bordered" style="width: 100%;">
+                                    <table id="ordersTable" class="display dataTable table-bordered"
+                                        style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Time Ago</th>
                                                 <th>Business Name</th>
                                                 <th>Order</th>
                                                 <th>Order Type</th>
@@ -34,20 +37,28 @@
                                         <tbody v-if="paginatedOrders.length > 0">
                                             <tr v-for="(order, index) in paginatedOrders" :key="order.id">
                                                 <td>{{ (currentPage - 1) * ordersPerPage + index + 1 }}</td>
+                                                <td>{{ formatRelativeTime(order.created_at) }}</td>
                                                 <td>{{ order.business_name }}</td>
-                                                <td>{{ order.Name }} Card</td>
+                                                <td>{{ order.name }} Card</td>
                                                 <td>{{ order.type }}</td>
                                                 <td>{{ order.total }}</td>
                                                 <td>{{ order.status }}</td>
-                                                <td>{{ formatRelativeTime(order.created_at) }}</td>
+                                                <td>{{ formatDate(order.created_at) }}</td>
                                                 <td>
-                                                    <button class="btn btn-success" @click="acceptOrder(order.id)">Accept</button> <!-- Accept button -->
+
+                                                    <router-link
+                                                        :to="`/admin/loyalty-stars/${order.merchant_id}/order/register`"
+                                                        class="btn btn-primary btn-sm  " style="margin-right: 5px;">Accept
+                                                    </router-link>
+
+
                                                 </td>
                                             </tr>
                                         </tbody>
                                         <tbody v-else>
                                             <tr>
-                                                <td colspan="8" class="text-center">No Orders Found</td> <!-- Adjusted colspan -->
+                                                <td colspan="8" class="text-center">No Orders Found</td>
+                                                <!-- Adjusted colspan -->
                                             </tr>
                                         </tbody>
                                     </table>
@@ -56,13 +67,16 @@
                                     <nav>
                                         <ul class="pagination justify-content-left">
                                             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage - 1)">Previous</button>
                                             </li>
-                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                            <li class="page-item" v-for="page in totalPages" :key="page"
+                                                :class="{ active: currentPage === page }">
                                                 <button class="page-link" @click="goToPage(page)">{{ page }}</button>
                                             </li>
                                             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage + 1)">Next</button>
                                             </li>
                                         </ul>
                                     </nav>
@@ -155,6 +169,11 @@ const formatRelativeTime = (timestamp) => {
         return `${seconds} second(s) ago`;
     }
 };
+
+function formatDate(date) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(date).toLocaleDateString(undefined, options); // Adjust locale as needed
+}
 
 // Accept the order
 const acceptOrder = async (orderId) => {

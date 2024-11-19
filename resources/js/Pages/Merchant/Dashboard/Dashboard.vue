@@ -8,7 +8,7 @@
         <section class="container">
             <div class="row">
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="info-box">
                         <span class="info-box-icon bg-primary"><i class="fa fa-users"></i></span>
                         <div class="info-box-content">
@@ -18,12 +18,23 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="fa fa-credit-card"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Tripidkard List</span>
                             <span class="info-box-number">{{ cardCount }}</span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fa fa-coins"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Loyalty Points</span>
+                            <span class="info-box-number">{{ loyaltyPoints }} Points</span>
 
                         </div>
                     </div>
@@ -72,6 +83,7 @@ export default {
         const userAddress = ref('');
         const customerCount = ref(0);
         const cardCount = ref(0);
+        const loyaltyPoints = ref(0);
 
         const fetchCounts = async () => {
             try {
@@ -89,6 +101,7 @@ export default {
             await authStore.getUser();
             // Assuming the user's address is available as `authStore.user.address`
             userAddress.value = authStore.user?.zip + ' ' + authStore.user?.street + ' ' + authStore.user?.city + ' ' + authStore.user?.province || 'Dagupan City Pangasinan';
+            loyaltyPoints.value = authStore.user?.stars_points  || 0;
             await fetchCounts();
         });
 
@@ -96,6 +109,7 @@ export default {
             userAddress,
             customerCount,
             cardCount,
+            loyaltyPoints,
         };
     },
 };

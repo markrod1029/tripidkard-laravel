@@ -11,6 +11,7 @@ import AdminInfluencerPending from './Pages/Admin/Influencer/InfluencerPending.v
 import AdminInfluencerForm from './Pages/Admin/Influencer/InfluencerRegister.vue';
 import AdminInfluencerArchive from './Pages/Admin/Influencer/InfluencerArchive.vue';
 import AdminScanner from './Pages/Admin/Scanner/Qr-Code.vue';
+import AdminOrderStarForm from './Pages/Admin/Order/OrderPointRegister.vue';
 
 
 import AdminTripidkard from './Pages/Admin/Tripidkard/TripidkardList.vue';
@@ -98,6 +99,7 @@ const routesAdmin = [
 
     { path: '/admin/tripidkard/', name: 'admin.tripidkard', component: AdminTripidkard, meta: { title: 'Tripidkard List', requiresAdminAuth: true } },
     { path: '/admin/tripidkard/register', name: 'admin.tripidkard.register', component: AdminTripidkardForm, meta: { title: 'Tripidkard Register', requiresAdminAuth: true } },
+    { path: '/admin/loyalty-stars/:id/order/register', name: 'admin.loyalty-stars.order.registerr', component: AdminOrderStarForm, meta: { title: 'Loyalty Stars Update', requiresAdminAuth: true } },
     { path: '/admin/customer/', name: 'admin.customer', component: AdminCustomer, meta: { title: 'Customer List', requiresAdminAuth: true } },
     { path: '/admin/customer/:id/points', name: 'admin.customer.points', component: AdminCustomerPoints, meta: { title: 'Customer Points', requiresAdminAuth: true } },
     { path: '/admin/customer/register', name: 'admin.customer.register', component: AdminCustomerForm, meta: { title: 'Customer Register', requiresAdminAuth: true } },
