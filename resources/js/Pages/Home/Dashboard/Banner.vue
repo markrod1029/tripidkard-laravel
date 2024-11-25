@@ -46,7 +46,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with 70% opacity */
+    background-color: rgba(0, 0, 0, 0.6); /* Black background with 70% opacity */
   }
 
   .tagline {
@@ -82,6 +82,34 @@
       transform: scale(1.2);
     }
   }
+
+
+/* Mobile and Tablet View */
+@media (max-width: 1024px) {
+    .h1-title {
+        text-align:center;
+    }
+    .tagline {
+    position: absolute;
+    top: 30%;
+    width: 90%;
+  }
+
+}
+
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .h1-title {
+        font-size: 45px; /* Adjust for smaller mobile screens */
+    }
+    .tagline {
+    position: absolute;
+    top: 45%;
+    width: 90%;
+
+  }
+}
+
   </style>
 
   <script>
