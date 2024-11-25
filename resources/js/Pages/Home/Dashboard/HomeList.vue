@@ -109,7 +109,7 @@ export default {
 }
 
 .content-container {
-    position: fixed;
+    /* position: fixed; */
     text-align: center;
     top: 0;
     left: 0;
