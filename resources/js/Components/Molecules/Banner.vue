@@ -7,7 +7,8 @@
           <div class="overlay">
 
             <h1 class=" title font-weight-bold ">
-                Ultimate Affiliate Merchant Selection Guide
+                How to Join Affiliate Merchants
+
             </h1>
           </div>
           <!-- <div class="tagline">Your tagline here</div> -->
@@ -22,7 +23,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 70vh; /* Adjust height as needed */
+    height: 40vh; /* Adjust height as needed */
   }
 
   .banner-image {
@@ -52,7 +53,7 @@
     color: white;
     font-size: 45px;
     text-align:center;
-    margin-top:18%;
+    margin-top:11%;
 
   }
 

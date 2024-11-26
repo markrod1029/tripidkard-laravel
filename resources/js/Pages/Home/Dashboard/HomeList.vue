@@ -1,22 +1,14 @@
 <template>
     <!-- Desktop View -->
-    <div class="desktop-only">
-        <MenuBar />
+        <MenuBar class="content-components"/>
         <Banner />
         <Search />
         <Raffle />
         <Footer />
-    </div>
+
 
     <div class="mobile-only">
         <!-- Content Section for Mobile (MenuBar, Banner, Search, Raffle, Footer) -->
-        <div class="content-components">
-            <MenuBar />
-            <Banner />
-            <Search />
-            <Raffle />
-            <Footer />
-        </div>
 
         <div class="content-container">
             <div class="overlay-wrapper">
@@ -27,6 +19,7 @@
                     </div>
                     <div class="content-mobile text-center">
                         <h1 class="my-3 text-primary fw-bold">
+
                             Welcome to the #1 Residential Rental Platform in the Philippines!
                         </h1>
                         <p class="text-muted">
@@ -88,9 +81,9 @@ export default {
 
 <style scoped>
 /* Desktop-Only Styles */
-.desktop-only {
+/* .desktop-only {
     display: block;
-}
+} */
 
 /* Mobile & Tablet Styles */
 .mobile-only {
@@ -101,15 +94,10 @@ export default {
     overflow: hidden;
 }
 
-.content-components {
-    /* Content section styles */
-    position: relative;
-    z-index: 1;
-    /* Lower z-index to make sure the overlay sits on top */
-}
+
 
 .content-container {
-    /* position: fixed; */
+    position: fixed;
     text-align: center;
     top: 0;
     left: 0;
@@ -139,9 +127,9 @@ export default {
 
 /* Desktop View */
 @media (min-width: 1025px) {
-    .desktop-only {
+    /* .desktop-only {
         display: block;
-    }
+    } */
 
     .mobile-only {
         display: none;
@@ -150,12 +138,18 @@ export default {
 
 /* Mobile and Tablet View */
 @media (max-width: 1024px) {
-    .desktop-only {
+    /* .desktop-only {
         display: none;
-    }
+    } */
 
     .mobile-only {
         display: block;
     }
+    .content-components {
+    /* Content section styles */
+    position: relative;
+    z-index: 1;
+    /* Lower z-index to make sure the overlay sits on top */
+}
 }
 </style>

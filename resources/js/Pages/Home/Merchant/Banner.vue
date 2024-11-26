@@ -5,6 +5,7 @@
         <div v-for="(image, index) in images" :key="index" class="banner-image" :style="{ zIndex: index, opacity: (index === currentImageIndex) ? 1 : 0 }">
           <img :src="image" alt="Banner Image" class="img-fluid zoom-effect">
           <div class="overlay">
+            <div class="tagline">
 
             <h1 class=" title font-weight-bold ">
                 Ultimate Affiliate Merchant Selection Guide
@@ -12,6 +13,7 @@
           </div>
           <!-- <div class="tagline">Your tagline here</div> -->
         </div>
+    </div>
       </transition-group>
     </div>
 
@@ -76,6 +78,42 @@
       transform: scale(1.2);
     }
   }
+
+
+
+/* Mobile and Tablet View */
+@media (max-width: 1024px) {
+    .title {
+        text-align: center;
+    }
+
+    .tagline {
+        position: absolute;
+        top: 13%;
+        width: 90%;
+        left: 35px;
+
+    }
+
+}
+
+
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .title {
+        font-size: 30px;
+        /* Adjust for smaller mobile screens */
+
+    }
+
+    .tagline {
+        position: absolute;
+        top: 30%;
+        width: 90%;
+        left: 15px;
+    }
+}
+
   </style>
 
   <script>

@@ -1,8 +1,8 @@
 <template>
     <div class="container">
       <div class="search-top text-center mb-5 mt-5">
-        <h2 class="font-weight-bold" style="font-size: 40px;">Where Do you Want To Go?</h2>
-        <p class="search-top__subtitle" style="font-size:18px;">Search for their Best Offer</p>
+        <h2 class="font-weight-bold province-title-search" >Where Do you Want To Go?</h2>
+        <p class="search-top__subtitle province-subtitle-search" >Search for their Best Offer</p>
       </div>
 
       <form @submit.prevent="searchByProvince" class="search-form row justify-content-center">
@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-1 mb-3 d-flex justify-content-center align-items-center">
           <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-dark btn-search">
+            <button type="submit" class="btn btn-block btn-lg d-block btn-dark btn-search">
               <i class="icon-search"></i> Search
             </button>
           </div>
@@ -57,4 +57,38 @@ export default {
     color: black !important;
     height: 3rem;
   }
+  .province-title-search{
+    font-size: 40px;
+  }
+  .province-subtitle-search{
+    font-size: 18px;
+
+  }
+
+
+/* Mobile and Tablet View */
+@media (max-width: 1024px) {
+    .h1-title {
+        text-align:center;
+    }
+    .tagline {
+    position: absolute;
+    top: 30%;
+    width: 90%;
+  }
+
+}
+
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .province-title-search{
+        font-size: 29px; /* Adjust for smaller mobile screens */
+    }
+    .tagline {
+    position: absolute;
+    top: 45%;
+    width: 90%;
+
+  }
+}
   </style>

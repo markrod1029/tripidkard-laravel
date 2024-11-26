@@ -14,7 +14,7 @@
 
 <script>
 import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
-import Banner from '@//Pages/Home/Result/Banner.vue';
+import Banner from '@//Pages/Home/Merchant/Banner.vue';
 import Merchant from '@/Pages/Home/Merchant/Merchant.vue';
 import Search from '@/Components/Molecules/Search/CitySearch.vue';
 

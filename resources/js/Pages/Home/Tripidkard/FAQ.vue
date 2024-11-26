@@ -8,7 +8,7 @@
 
         <!-- FAQ Section -->
         <div class="col-md-6">
-          <h2 class="font-weight-bold mb-4">Frequently Asked Questions</h2>
+          <h2 class="font-weight-bold mb-4 title-faq">Frequently Asked Questions</h2>
           <div class="accordion" id="faqAccordion">
             <div class="card" v-for="(faq, index) in faqs" :key="index">
               <div class="card-header d-flex justify-content-between align-items-center" @click="toggleFaq(index)">
@@ -89,4 +89,22 @@
   .card-header {
     cursor: pointer;
   }
+
+
+
+/* Mobile and Tablet View */
+@media (max-width: 1024px) {
+
+}
+
+
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .title-faq {
+        font-size: 30px;
+        text-align: center;
+    }
+
+}
+
   </style>
