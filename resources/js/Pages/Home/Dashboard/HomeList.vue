@@ -13,35 +13,34 @@
         <div class="content-container">
             <div class="overlay-wrapper">
                 <div class="top-section">
-                    <div class="text-center">
+                    <div class="text-center mt-3">
                         <img class="img-fluid" src="/storage/img/logo.jpg" alt="TripidKard Logo" width="120"
                             height="120" />
                     </div>
                     <div class="content-mobile text-center">
-                        <h1 class="my-3 text-primary fw-bold">
-
-                            Welcome to the #1 Residential Rental Platform in the Philippines!
+                        <h1 class="my-3 text-primary fw-bold title">
+                            Discover Exclusive Deals, Amazing Discounts, and More with TripidKard
                         </h1>
-                        <p class="text-muted">
-                            Find your perfect home or post your rental property today!
+                        <p class="text-muted sub-title">
+                            Whether you're shopping for great deals or a business seeking new customers, TripidKard has you covered.
                         </p>
                     </div>
                 </div>
 
                 <!-- Bottom Section (Buttons with 50% Opacity) -->
-                <div class="bottom-section">
+                <div class="bottom-section mx-3">
                     <div class="mobile-buttons text-center">
-                        <button class="btn btn-primary btn-lg mb-3 w-100 button-transparent">
-                            I'm Looking for a Place to Rent
-                        </button>
-                        <button class="btn btn-outline-primary btn-lg w-100 button-transparent">
-                            I Want to Post My Rental Property
-                        </button>
+                        <router-link to="/merchants" class="btn btn-primary btn-lg mb-3 w-100 button-transparent">
+                            View Offers from Our Merchants
+                        </router-link>
+                        <router-link to="/join" class="btn btn-outline-primary btn-lg w-100 button-transparent">
+                            Join TripidKard as a Merchant
+                        </router-link>
                     </div>
                     <div class="text-center mt-4">
-                        <a href="#" class="text-decoration-none text-secondary fw-bold">
-                            Skip Onboarding
-                        </a>
+                        <router-link to="/tripidkard/details" class="text-decoration-none text-secondary fw-bold">
+                            Learn How TripidKard Works
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -138,9 +137,10 @@ export default {
 
 /* Mobile and Tablet View */
 @media (max-width: 1024px) {
-    /* .desktop-only {
-        display: none;
-    } */
+
+    .title{
+        font-size:35px;
+    }
 
     .mobile-only {
         display: block;
