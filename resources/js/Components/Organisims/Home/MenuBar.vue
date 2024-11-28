@@ -1,48 +1,50 @@
 <template>
     <div>
-        <!-- Navigation bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top">
-            <div class="container">
-                <!-- Logo aligned to the left -->
-                <router-link class="navbar-brand" to="/">
-                    <img class="img-fluid" src="/storage/img/logo.jpg" alt="Tripidkard" width="100" />
-                </router-link>
+      <!-- Navigation bar for larger screens -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top d-none d-md-flex">
+        <div class="container">
+          <!-- Logo aligned to the left -->
+          <router-link class="navbar-brand" to="/">
+            <img class="img-fluid" src="/storage/img/logo.jpg" alt="Tripidkard" width="100" />
+          </router-link>
 
-                <!-- Toggle button aligned to the right -->
-                <button @click="toggleModal" class="navbar-toggler" type="button" aria-label="Toggle navigation">
-                    <!-- Toggle icon based on modal state -->
-                    <span class="text-dark" :class="showModal ? 'fa fa-times' : 'fa fa-bars'" ></span>
-                </button>
+          <!-- Navigation links aligned to the right -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <NavItem to="/" label="Home" />
+              <NavItem to="/tripidkard/details" label="Tripidkard" />
+              <NavItem to="/join" label="How To Join" />
+              <NavItem to="/scanner" label="Scanner" />
+              <NavItem to="/merchants" label="Merchants" />
+              <NavItem to="/contact-us" label="Contact" />
 
-                <!-- Navigation links aligned to the right -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <NavItem to="/" label="Home" />
-                        <NavItem to="/tripidkard/details" label="Tripidkard" />
-                        <NavItem to="/join" label="How To Join" />
-                        <NavItem to="/scanner" label="Scanner" />
-                        <NavItem to="/merchants" label="Merchants" />
-                        <NavItem to="/contact-us" label="Contact" />
+              <!-- Conditional button for login or dashboard -->
+              <NavItem v-if="isLoggedIn" to="/login" label="Dashboard"
+                textClass="btn btn-primary font-weight-bold text-uppercase bg-primary" />
+              <NavItem v-else to="/login" label="Merchant Login"
+                textClass="btn btn-primary font-weight-bold text-uppercase bg-primary" />
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-                        <!-- Conditional button for login or dashboard -->
-                        <NavItem v-if="isLoggedIn" to="/login" label="Dashboard"
-                            textClass="btn btn-primary font-weight-bold text-uppercase bg-primary" />
-                        <NavItem v-else to="/login" label="Merchant Login"
-                            textClass="btn btn-primary font-weight-bold text-uppercase bg-primary" />
-                    </ul>
-                </div>
-            </div>
-        </nav>
+      <!-- Footer menu for mobile screens -->
+      <footer class="mobile-footer d-flex d-md-none fixed-bottom bg-light">
+        <button class="btn btn-light" aria-label="Search">
+          <span class="fa fa-search text-primary"></span>
+        </button>
+        <button class="btn btn-light" @click="navigateToLogin" aria-label="Login">
+          <span class="fa fa-user text-primary"></span>
+        </button>
+        <button class="btn btn-light" @click="toggleModal" aria-label="Menu">
+          <span :class="showModal ? 'fa fa-times text-primary' : 'fa fa-bars text-primary'"></span>
+        </button>
+      </footer>
 
-        <!-- Modal (Mobile Menu Style) -->
-        <div v-if="showModal" class="modal-overlay">
+    <!-- Modal (Mobile Menu Style) -->
+    <div v-if="showModal" class="modal-overlay">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" @click="closeModal" aria-label="Close">
-                            <span aria-hidden="true" style="font-size:30px">&times;</span>
-                        </button>
-                    </div>
                     <div class="modal-body">
                         <ul class="menu-list">
                             <!-- List items as menu options -->
@@ -55,7 +57,7 @@
 
                             <!-- Conditional button for login or dashboard -->
                             <li class="menu-item" @click="closeModal">
-                                <router-link :to="isLoggedIn ? '/login' : '/login'" class="btn btn-primary text-uppercase">
+                                <router-link  :to="isLoggedIn ? '/login' : '/login'" class="btn btn-primary text-uppercase text-white">
                                     {{ isLoggedIn ? 'Dashboard' : 'Merchant Login' }}
                                 </router-link>
                             </li>
@@ -65,64 +67,70 @@
             </div>
         </div>
     </div>
-</template>
+  </template>
 
-<script setup>
-import { defineComponent, ref } from 'vue';
-import { useAuthStore } from '@/stores/auth';
+  <script setup>
+  import { defineComponent, ref } from 'vue';
+  import { useAuthStore } from '@/stores/auth';
 
-const NavItem = defineComponent({
+  // Component for navigation items
+  const NavItem = defineComponent({
     props: {
-        to: String,
-        label: String,
-        textClass: {
-            type: String,
-            default: 'text-dark text-uppercase',
-        },
+      to: String,
+      label: String,
+      textClass: {
+        type: String,
+        default: 'text-dark text-uppercase',
+      },
     },
     template: `
-        <li class="nav-item">
-            <router-link :class="['nav-link', textClass]" :to="to">{{ label }}</router-link>
-        </li>
+      <li class="nav-item">
+        <router-link :class="['nav-link', textClass]" :to="to">{{ label }}</router-link>
+      </li>
     `,
-});
+  });
 
-// Reactive variable to manage modal visibility
-const showModal = ref(false);
+  // Reactive variable to manage modal visibility
+  const showModal = ref(false);
 
-// Function to toggle the modal and icon state
-const toggleModal = () => {
-    showModal.value = !showModal.value;
-};
+  // Functions for modal and navigation
+  const toggleModal = () => (showModal.value = !showModal.value);
+  const closeModal = () => (showModal.value = false);
+  const navigateToLogin = () => (window.location.href = '/login');
 
-// Function to close the modal
-const closeModal = () => {
-    showModal.value = false;
-};
+  // Authentication check
+  const authStore = useAuthStore();
+  const isLoggedIn = ref(authStore.isAuthenticated);
+  </script>
 
-// Authentication check
-const authStore = useAuthStore();
-const isLoggedIn = ref(authStore.isAuthenticated);
-</script>
-
-<style scoped>
-.navbar {
+  <style scoped>
+  .navbar {
     z-index: 9999;
-}
+  }
 
-.modal-overlay {
+  .mobile-footer {
+    border-top-left-radius: 25%;
+    border-top-right-radius: 25%;
+    justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  border-top: 2px solid #ddd; /* Adjust thickness and color */
+  }
+
+  .modal-overlay {
     position: fixed;
-    top: 40px; /* Just below the navbar */
     left: 0;
     width: 100%;
     height: 100%;
-    height: calc(100% - 40px); /* Adjust to full height minus navbar height */
+    height: calc(100% - 0px); /* Adjust to full height minus navbar height */
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     z-index: 9998;
     transition: opacity 0.3s ease;
+    z-index: 1;
+
 }
 
 .modal-dialog {
@@ -131,7 +139,6 @@ const isLoggedIn = ref(authStore.isAuthenticated);
     margin: 0;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    text-align:center;
 }
 
 .modal-overlay .modal-dialog {
@@ -159,34 +166,33 @@ const isLoggedIn = ref(authStore.isAuthenticated);
     background: none;
     border: none;
 }
-
-.menu-list {
+  .menu-list {
     list-style: none;
     margin: 0;
     padding: 20px;
-}
+  }
 
-.menu-item {
+  .menu-item {
     padding: 15px;
     font-size: 20px;
     border-bottom: 1px solid #ddd;
-}
+  }
 
-.menu-item a {
+  .menu-item a {
     color: #333;
     text-decoration: none;
     display: block;
     padding: 10px;
     font-weight: bold;
-}
+  }
 
-.menu-item:hover {
+  .menu-item:hover {
     background-color: #f1f1f1;
-}
+  }
 
-@media (max-width: 768px) {
-    .modal-dialog {
-        width: 100%;
+  @media (max-width: 768px) {
+    .navbar {
+      display: none;
     }
-}
-</style>
+  }
+  </style>

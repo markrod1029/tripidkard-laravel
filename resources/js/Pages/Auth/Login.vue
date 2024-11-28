@@ -1,14 +1,24 @@
 <template>
     <se class="login">
         <div class="container login">
+            <!-- Logo for mobile and tablet -->
+            <!-- <img v-if="isMobileOrTablet" src="/storage/img/logo.jpg" alt="Logo" width="100" height="100"  class="logo" /> -->
+
             <div class="login form">
                 <header>Login</header>
                 <form @submit.prevent="handleSubmit">
                     <!-- Email Address -->
                     <div>
                         <label for="email">Email</label>
-                        <input id="email" type="email" v-model="form.email" placeholder="Enter your email"
-                            class="form-control" required autofocus />
+                        <input
+                            id="email"
+                            type="email"
+                            v-model="form.email"
+                            placeholder="Enter your email"
+                            class="form-control"
+                            required
+                            autofocus
+                        />
                         <span v-if="errors.email" class="text-danger">
                             {{ errors.email }}
                         </span>
@@ -16,8 +26,14 @@
                     <!-- Password -->
                     <div class="mt-1">
                         <label for="password">Password</label>
-                        <input id="password" type="password" v-model="form.password" placeholder="Enter your password"
-                            class="form-control" required />
+                        <input
+                            id="password"
+                            type="password"
+                            v-model="form.password"
+                            placeholder="Enter your password"
+                            class="form-control"
+                            required
+                        />
                         <span v-if="errors.password" class="text-danger">
                             {{ errors.password }}
                         </span>
@@ -27,8 +43,12 @@
 
                     <!-- Submit Button -->
                     <div class="mt-4">
-                        <input type="submit" class="btn btn-success btn-block" :disabled="loading"
-                            :value="loading ? 'Loading...' : 'Sign In'" />
+                        <input
+                            type="submit"
+                            class="btn btn-success btn-block"
+                            :disabled="loading"
+                            :value="loading ? 'Loading...' : 'Sign In'"
+                        />
                     </div>
 
                     <span v-if="errors.general" class="text-danger">
@@ -60,8 +80,7 @@ const errors = reactive({
 });
 
 const loading = ref(false);
-
-
+const isMobileOrTablet = ref(false);
 
 const handleSubmit = async () => {
     loading.value = true;
@@ -97,9 +116,14 @@ const handleSubmit = async () => {
     }
 };
 
-
-onMounted(async () => {
-    await authStore.getUser();
+onMounted(() => {
+    authStore.getUser();
+    // Check for mobile or tablet screen
+    const checkDevice = () => {
+        isMobileOrTablet.value = window.innerWidth <= 768;
+    };
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
 });
 </script>
 
@@ -214,5 +238,24 @@ body {
 
 .text-danger {
     color: red;
+}
+
+/* Logo styling */
+.logo {
+    width: 120px;
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+/* Remove border for mobile and tablet */
+@media screen and (max-width: 768px) {
+    .container {
+        border: none;
+        box-shadow: none;
+    }
+
+    .container {
+    margin-top: 310px;
+}
 }
 </style>
