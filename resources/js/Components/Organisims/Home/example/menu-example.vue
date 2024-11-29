@@ -1,5 +1,7 @@
 <template>
     <div>
+      <MobileSearch />
+
       <!-- Navigation bar for larger screens -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top d-none d-md-flex">
         <div class="container">
@@ -34,6 +36,7 @@
   <script setup>
   import { ref } from 'vue';
   import MobileFooter from '@/components/MobileFooter.vue';
+  import MobileSearch from '@/components/MobileSearch.vue';
   import { useAuthStore } from '@/stores/auth';
 
   const authStore = useAuthStore();
