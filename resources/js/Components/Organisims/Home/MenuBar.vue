@@ -1,15 +1,22 @@
 <template>
     <div>
       <!-- Mobile search component -->
-      <MobileSearch />
 
       <!-- Navigation bar for larger screens -->
       <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top d-none d-md-flex">
         <div class="container">
           <!-- Logo aligned to the left -->
+
           <router-link class="navbar-brand" to="/">
             <img class="img-fluid" src="/storage/img/logo.jpg" alt="Tripidkard" width="100" />
           </router-link>
+
+             <!-- Toggle button aligned to the right -->
+             <button class="navbar-toggler text-dark" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- Bootstrap classes for hiding text on smaller screens -->
+            <!-- Font Awesome icon for the toggle button -->
+            <span class="fa fa-bars" style="color: black;"></span>
+          </button>
 
           <!-- Navigation links aligned to the right -->
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -71,3 +78,8 @@
   });
   </script>
 
+<style scoped>
+@media (min-width: 768px) and (max-width: 991px) {
+    /* Your styles for tablet devices here */
+}
+</style>

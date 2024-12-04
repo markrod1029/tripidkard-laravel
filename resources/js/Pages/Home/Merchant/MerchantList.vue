@@ -4,7 +4,7 @@
     <div>
         <MenuBar />
         <Banner />
-        <Search />
+        <Search  class="mobile-search"/>
         <Merchant />
         <Footer />
 
@@ -49,5 +49,15 @@ export default {
 </script>
 
 <style scoped>
-/* Add your component-specific styles here */
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .mobile-search {
+       display:none;
+
+    }
+
+}
+
+
+
 </style>

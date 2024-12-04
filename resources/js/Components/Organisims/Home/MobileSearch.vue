@@ -15,7 +15,18 @@
       </div>
     </header>
 
-
+    <!-- Footer menu for mobile screens -->
+    <footer class="mobile-footer d-flex d-md-none fixed-bottom bg-light">
+      <button class="btn btn-light" aria-label="Search">
+        <span class="fa fa-search text-primary"></span>
+      </button>
+      <button class="btn btn-light" @click="navigateToLogin" aria-label="Login">
+        <span class="fa fa-user text-primary"></span>
+      </button>
+      <button class="btn btn-light" @click="toggleModal" aria-label="Menu">
+        <span :class="showModal ? 'fa fa-times text-primary' : 'fa fa-bars text-primary'"></span>
+      </button>
+    </footer>
 
   </template>
 

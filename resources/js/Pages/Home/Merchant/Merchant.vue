@@ -7,20 +7,32 @@
         <div id="merchantCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="border rounded p-3 mb-3">
-                        <div class="d-flex justify-content-between">
-                            <div class="mb-2 d-flex text-gray">
+                    <div class="border rounded p-3 mb-3 search-merchant">
+                        <div class="d-flex justify-content-between ">
+                            <div class="mb-2 d-flex text-gray title-affiliate">
                                 <h5>{{ merchants.length }} {{ route.query.province }} Affiliate Merchants</h5>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 ">
                                 <input type="text" v-model="searchQuery" class="form-control" placeholder="Search Merchant..." id="">
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <!-- Check if there are filtered merchants or show default image -->
+                        <div v-if="filteredMerchants.length === 0" class="col-12 mx-auto text-center">
+                            <div class="card shadow-sm" style="max-width: 400px; margin: 0 auto;">
+                                <!-- Make image responsive and adjust height -->
+                                <img src="/storage/img/not-found.png" class="card-img-top" alt="No Results" style="max-height: 300px; width: auto; margin: 0 auto;">
+                                <div class="card-body">
+                                    <!-- Updated "No merchants found" message -->
+                                    <h5 class="card-title">Hmmm, we didn’t find any merchants in your search.</h5>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Merchants cards here -->
-                        <div class="col-md-4 mb-4 d-flex align-items-stretch" style="overflow: hidden;" v-for="merchant in filteredMerchants" :key="merchant.id">
-                            <div class="card float-left">
+                        <div class="col-md-4 mb-4 d-flex align-items-stretch" v-for="merchant in filteredMerchants" :key="merchant.id">
+                            <div class="card float-left shadow-sm" style="width: 100%;">
                                 <!-- Directly set src to use either avatar or default -->
                                 <img :src="merchant.avatar ? `/storage/${merchant.avatar}` : '/storage/img/logo.jpg'" height="310" class="card-img-top" alt="Merchant Avatar">
 
@@ -105,4 +117,34 @@ const filteredMerchants = computed(() => {
 .text-gray {
     color: gray;
 }
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-img-top {
+    object-fit: cover; /* Ensure the images fit nicely */
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: auto; /* Ensure image adjusts properly */
+    }
+
+    .carousel-item {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .search-merchant{
+        display:none;
+    }
+
+
+}
+
+
 </style>

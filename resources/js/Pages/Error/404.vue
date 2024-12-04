@@ -5,10 +5,9 @@
         <div class="mx-auto mt-5 relative">
             <img src="https://img.freepik.com/free-vector/404-error-with-cute-animal-concept-illustration_114360-5528.jpg?w=740&t=st=1712558738~exp=1712559338~hmac=b8207fcb7b3da83ec1a53dd42fafdc3534a0771d6c80ab07b5d4d4b32168741f"
                 class="object-fill tranzinc-x-4 d-flex" width="" height="600" alt="launch application">
-            <router-link to="/admin/dashboard" class="floating-button">Click Me</router-link>
         </div>
     </section>
-    <Search />
+    <Search  class="mobile-search"/>
 
     <Footer />
 
@@ -16,7 +15,6 @@
 
 <script setup>
 import MenuBar from '@/Components/Organisims/Home/MenuBar.vue';
-import Banner from '@//Pages/Home/Dashboard/Banner.vue';
 import Search from '@/Components/Molecules/Search/ProvinceSearch.vue';
 import Footer from '@/Components/Organisims/Home/Footer.vue';
 
@@ -53,4 +51,13 @@ import Footer from '@/Components/Organisims/Home/Footer.vue';
     border-radius: 5px;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .mobile-search {
+       display:none;
+
+    }
+
+}
+
 </style>
