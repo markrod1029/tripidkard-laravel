@@ -35,6 +35,10 @@
     left: 0;
     width: 100%;
     height: 100%;
+    display: flex; /* Nagdagdag ng Flexbox */
+    justify-content: center; /* Pagsentro horizontally */
+    align-items: center;     /* Pagsentro vertically */
+    text-align: center; /* Upang ang text ay nasa gitna */
 }
 
 .banner-image img {
@@ -58,6 +62,8 @@
     font-size: 45px;
     text-align: center;
     margin-top: 11%;
+    z-index: 1; /* Inilagay upang nasa ibabaw ang text */
+
 
 }
 
@@ -84,6 +90,35 @@
     to {
         transform: scale(1.2);
     }
+}
+
+
+/* Mobile and Tablet View */
+@media (max-width: 1024px) {
+    .title {
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .tagline {
+        position: absolute;
+        top: 13%;
+        width: 100%;
+
+    }
+
+}
+
+/* Mobile View (For smaller screens) */
+@media (max-width: 768px) {
+    .title {
+        font-size: 35px;
+
+        /* Adjust for smaller mobile screens */
+
+    }
+
+
 }
 </style>
 
@@ -116,36 +151,3 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Mobile and Tablet View */
-@media (max-width: 1024px) {
-    .title {
-        text-align: center;
-    }
-
-    .tagline {
-        position: absolute;
-        top: 13%;
-        width: 90%;
-        left: 35px;
-
-    }
-
-}
-
-/* Mobile View (For smaller screens) */
-@media (max-width: 768px) {
-    .title {
-        font-size: 30px;
-        /* Adjust for smaller mobile screens */
-
-    }
-
-    .tagline {
-        position: absolute;
-        top: 30%;
-        width: 90%;
-        left: 15px;
-    }
-}
-</style>

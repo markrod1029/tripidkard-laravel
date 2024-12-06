@@ -77,19 +77,17 @@
     }
   }
 
-
-
 /* Mobile and Tablet View */
 @media (max-width: 1024px) {
     .title {
+        font-size: 40px;
         text-align: center;
     }
 
     .tagline {
         position: absolute;
         top: 13%;
-        width: 90%;
-        left: 35px;
+        width: 100%;
 
     }
 
@@ -98,19 +96,12 @@
 /* Mobile View (For smaller screens) */
 @media (max-width: 768px) {
     .title {
-        font-size: 30px;
+        font-size: 35px;
         /* Adjust for smaller mobile screens */
 
     }
 
-    .tagline {
-        position: absolute;
-        top: 40%;
-        width: 90%;
-        left: 15px;
-    }
 }
-
   </style>
 
   <script>
