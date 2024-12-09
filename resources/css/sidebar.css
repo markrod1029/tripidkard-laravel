@@ -3,7 +3,9 @@
     background-color: #367fa9;
     height: 100vh !important;
     margin-bottom: 100px;
-
+    width: 290px;
+    position: fixed !important;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
 .main-sidebar,
@@ -59,16 +61,19 @@
 .sidebar {
     height: calc(100% - (3.5rem + 1px));
     overflow-y: auto;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.5rem;
+    /* padding-left: 0.5rem;
+    padding-right: 0.5rem; */
     padding-top: 0;
     background-color: #367fa9;
-    height: 100vh;
-    margin-bottom: 100px;
+    /* height: 100vh;
+    margin-bottom: 100px; */
     font-size: large;
 }
-
+/*
 @media (min-width: 768px) {
+
+
 
     body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
     body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
@@ -76,6 +81,19 @@
         transition: margin-left 0.3s ease-in-out;
         margin-left: 290px;
     }
+} */
+
+
+@media (max-width: 776px) {
+    .main-sidebar {
+        margin-left: -290px !important;
+    }
+
+    .sidebar-mini.sidebar-open .main-sidebar {
+        margin-left: 0 !important;
+    }
+
+
 }
 
 
@@ -168,8 +186,16 @@
     content: '>\00a0';
 }
 
-@media (max-width: 776px) {
-    .content-header {
+@media (max-width: 991px) {
+
+     .main-sidebar {
+        margin-left: -290px !important;
+    }
+
+    .sidebar-mini.sidebar-open .main-sidebar {
+        margin-left: 0 !important;
+    }
+        .content-header {
         position: relative;
         padding-top: 110px;
         padding-left: 0;
@@ -190,10 +216,11 @@
     .content-header>.breadcrumb li:before {
         color: #97a0b3;
     }
-
-    .sidebar-collapse .main-sidebar, .sidebar-collapse .main-sidebar::before {
-        margin-left: -290px !important;
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer, body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 0 !important;
     }
+
 }
 
 

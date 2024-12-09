@@ -5,7 +5,7 @@
     <div class="content-wrapper">
         <Breadcrumb />
 
-        <section class="container">
+        <section class="container-fluid">
             <div class="row">
 
                 <div class="col-sm-4">

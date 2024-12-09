@@ -30,19 +30,10 @@ const menuItems = ref([
                     { title: "Order Star Points", icon: "far fa-circle", route: "/merchant/order/points" },
                 ],
             },
-
-
-
             {
                 title: "Voucher",
                 icon: "fas fa-ticket-alt",
-                // children: [
-                //     { title: "Create Voucher", icon: "far fa-circle", route: "/merchant/create/voucher" },
-                //     { title: "Voucher List", icon: "far fa-circle", route: "/merchant/list/voucher" },
-                // ],
             },
-
-
             {
                 title: "TripidKard Code",
                 icon: "fas fa-credit-card",
@@ -79,7 +70,7 @@ const route = useRoute();
 
 const isRouteActive = (item) => {
     return item.route === route.path || item.children?.some(child => child.route === route.path);
-}
+};
 </script>
 
 <template>
@@ -133,5 +124,3 @@ const isRouteActive = (item) => {
         </div>
     </aside>
 </template>
-
-
