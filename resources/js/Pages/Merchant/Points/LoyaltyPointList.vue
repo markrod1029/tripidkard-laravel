@@ -3,45 +3,32 @@
     <Sidebar />
 
     <div class="content-wrapper">
-
         <Breadcrumb />
-
 
         <section class="content">
             <div class="container-fluid">
                 <div class="card">
-
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
-                        <div class="d-flex justify-content-between">
-
-                            <div class=" mb-2 d-flex">
-
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <button class="dropdown-item" @click="exportToExcel"
-                                            type="button">Excel</button>
-                                        <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
-                                        <button class="dropdown-item" @click="printTable" type="button">Print</button>
-                                    </div>
+                        <div class="mb-1 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class="mb-2 btn-group col-12 col-md-2 mb-md-0">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Export
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
+                                    <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
+                                    <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                 </div>
                             </div>
 
-
-                            <div class="col-3">
-                                <input type="text" name="" v-model="searchQuery" class="form-control"
-                                    placeholder="Search..." id="">
-
+                            <div class="col-12 col-md-3">
+                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
                             </div>
                         </div>
-                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
-
                                 <div class="col-sm-12">
-                                    <table id='starslist' class='display dataTable table-bordered' style="width:100%;">
+                                    <table id='starslist' class='display dataTable table-bordered table-hover d-none d-lg-table'>
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -53,8 +40,7 @@
                                             </tr>
                                         </thead>
                                         <tbody v-if="paginatedPoints.length > 0">
-
-                                            <tr v-for="(point, index) in paginatedPoints " :key="point.id">
+                                            <tr v-for="(point, index) in paginatedPoints" :key="point.id">
                                                 <td>{{ index + 1 }}</td>
                                                 <td>{{ point.card_number }}</td>
                                                 <td>{{ point.fname }} {{ point.mname }} {{ point.lname }}</td>
@@ -62,26 +48,70 @@
                                                 <td>{{ point.points }}</td>
                                                 <td>
                                                     <div style="display: flex; justify-content: center;">
-                                                        <router-link
-                                                            :to="`/merchant/loyalty-stars/${point.point_id}/edit`"
-                                                            class="btn btn-primary btn-sm  "
-                                                            style="margin-right: 5px;"><i class="fa fa-edit"></i>
+                                                        <router-link :to="`/merchant/loyalty-stars/${point.point_id}/edit`" class="btn btn-primary btn-sm" style="margin-right: 5px;">
+                                                            <i class="fa fa-edit"></i>
                                                         </router-link>
-
-
                                                     </div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                         <tbody v-else>
-
                                             <tr>
-                                                <td colspan="7" class="text-center"> No Loyalty Stars Found</td>
+                                                <td colspan="7" class="text-center">No Loyalty Stars Found</td>
                                             </tr>
-
                                         </tbody>
-
                                     </table>
+
+                                    <!-- Card Layout for Smaller Screens -->
+                                    <div class="responsive-table mt-4 d-block d-lg-none">
+                                        <div v-if="paginatedPoints.length > 0">
+                                            <div v-for="point in paginatedPoints" :key="point.id" class="data-card mb-3 p-3 border">
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <strong>#{{ point.card_number }}</strong>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Customer Name:</span>
+                                                            <span class="value">{{ point.fname }} {{ point.mname }} {{ point.lname }}</span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Product Price:</span>
+                                                            <span class="value">{{ point.product_price }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Loyalty Stars:</span>
+                                                            <span class="value">{{ point.points }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 d-flex justify-content-center">
+                                                            <router-link :to="`/merchant/loyalty-stars/${point.point_id}/edit`" class="btn btn-primary btn-sm" style="margin-right: 5px;">
+                                                                <i class="fa fa-edit"></i>
+                                                            </router-link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="text-center mt-4">
+                                            No Loyalty Stars Found
+                                        </div>
+                                    </div>
 
                                     <!-- Pagination Controls -->
                                     <nav aria-label="Page navigation">
@@ -91,8 +121,7 @@
                                             </li>
 
                                             <!-- Show only up to 10 page numbers -->
-                                            <li v-for="page in visiblePages" :key="page" class="page-item"
-                                                :class="{ active: currentPage === page }">
+                                            <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: currentPage === page }">
                                                 <a class="page-link" @click="changePage(page)">{{ page }}</a>
                                             </li>
 
@@ -108,13 +137,8 @@
                 </div>
             </div>
         </section>
-
-
-
-
     </div>
     <Footer />
-
 </template>
 
 <script setup>
@@ -128,7 +152,6 @@ import axios from 'axios';
 import { ref, onMounted, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import * as XLSX from 'xlsx';
-
 
 const toastr = useToastr();
 const points = ref([]);
@@ -146,7 +169,7 @@ const getPoints = async () => {
         });
         points.value = response.data;
     } catch (error) {
-        console.error('Error fetching services:', error);
+        console.error('Error fetching points:', error);
     }
 }
 
@@ -180,23 +203,22 @@ const formatRows = (rows) => {
         `${point.fname} ${point.mname} ${point.lname}`,
         point.product_price,
         point.points
-    ])
+    ]);
 }
-
 
 const exportToExcel = () => {
     try {
         if (points.value.length === 0) {
             toastr.info('No data to export.');
+            return;
         }
 
-        const title = ['Loyalty Stars List'] // Excel Row Title
+        const title = ['Loyalty Stars List'];
         const headers = ['#', 'Card Number', 'Customer Name', 'Price', 'Loyalty Stars'];
         const formattedRows = formatRows(points.value);
 
         // merge Title and all columns
         const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
-
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Points');
         XLSX.writeFile(workbook, 'LoyaltyStars.xlsx');
@@ -206,36 +228,30 @@ const exportToExcel = () => {
     }
 }
 
-const exportToCSV = (rows) => {
+const exportToCSV = () => {
     try {
         if (points.value.length === 0) {
             toastr.info('No data to export.');
+            return;
         }
 
-        const title = ['Loyalty Stars List'] // Excel Row Title
         const headers = ['#', 'Card Number', 'Customer Name', 'Price', 'Loyalty Stars'];
         const formattedRows = formatRows(points.value);
 
+        const csvContent = [
+            headers.join(','),
+            ...formattedRows.map(row => row.join(','))
+        ].join('\n');
 
-        // merge Title and all columns
-        const worksheet = XLSX.utils.aoa_to_sheet([[], title, headers, ...formattedRows]);
-        //   worksheet['!merges'] = [{ s: { r: 1, c: 0 }, e: { r: 1, c: headers.length - 1 } }]; // Merge title row cells
-
-        const csvOutput = XLSX.utils.sheet_to_csv(worksheet);
-        const blob = new Blob([csvOutput], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.setAttribute('href', url);
-        a.setAttribute('download', 'LoyaltyStars.csv');
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'LoyaltyStars.csv';
+        link.click();
     } catch (error) {
         console.error('Error exporting to CSV:', error);
         toastr.error('Failed to export to CSV.');
     }
-
-
 }
 
 const printTable = () => {
@@ -298,16 +314,31 @@ const printTable = () => {
 }
 
 
-watch(searchQuery, debounce(() => {
-    getPoints();
-}, 100));
-
-
-
 onMounted(() => {
     getPoints();
-
-
 });
 
+watch(searchQuery, debounce(() => {
+    getPoints();
+}, 500));
 </script>
+
+<style scoped>
+.responsive-table .data-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.responsive-table .label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.pagination {
+    margin-top: 15px;
+    justify-content: flex-start;
+    /* Align to the left */
+
+}
+</style>

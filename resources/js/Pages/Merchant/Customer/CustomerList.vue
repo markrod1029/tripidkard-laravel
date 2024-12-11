@@ -69,12 +69,20 @@
                                                 </td>
                                             </tr>
                                         </tbody>
+                                         <tbody v-else>
+
+                                            <tr>
+                                                <td colspan="7" class="text-center"> No Customers Found</td>
+                                            </tr>
+
+                                        </tbody>
+
                                     </table>
 
                                     <!-- Card Layout for Smaller Screens -->
                                     <div class="responsive-table mt-4 d-block d-lg-none">
                                         <div v-if="paginatedCustomers.length > 0">
-                                            <div v-for="(customer, index) in paginatedCustomers" :key="customer.id"
+                                            <div v-for="customer in paginatedCustomers" :key="customer.id"
                                                 class="data-card mb-3 p-3 border">
                                                 <div class="row">
                                                     <div class="col-12 mb-2">
@@ -323,8 +331,18 @@ const exportToCSV = () => {
 
 // Print the table
 const printTable = () => {
-    const printContents = document.getElementById('customerlist').outerHTML;
-    const newWin = window.open('');
+    const tableClone = document.getElementById('customerlist').cloneNode(true);
+
+// Remove the "Action" column from the cloned table
+tableClone.querySelectorAll('th:nth-child(8), td:nth-child(8)').forEach(el => el.remove());
+
+const printContents = tableClone.outerHTML;
+if (!printContents) {
+    toastr.info('No data to print.');
+    return;
+}
+
+const newWin = window.open('', '', 'width=800,height=600');
     newWin.document.write(`
       <html>
         <head>
