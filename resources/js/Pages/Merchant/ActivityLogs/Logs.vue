@@ -322,7 +322,6 @@ const printTable = () => {
 
     .pagination {
         display: flex;
-        justify-content: center;
         width: 100%;
     }
 }

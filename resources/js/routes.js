@@ -52,6 +52,7 @@ import InfluencerCustomer from './Pages/Influencer/Customer/CustomerList.vue';
 import InfluencerCustomerForm from './Pages/Influencer/Customer/CustomerRegister.vue';
 import InfluencerProfile from './Pages/Influencer/Profile/ProfileList.vue';
 import InfluencerOrderCard from './Pages/Influencer/Orders/orderCards.vue';
+import InfluencerLogs from './Pages/Influencer/ActivityLogs/Logs.vue';
 
 import MerchantLogs from './Pages/Merchant/ActivityLogs/Logs.vue';
 
@@ -149,6 +150,7 @@ const routesInfluencer = [
     { path: '/influencer/customer/:id/edit', name: 'influencer.customer.edit', component: InfluencerCustomerForm, meta: { title: 'Customer Update', requiresInfluencerAuth: true } },
     { path: '/influencer/customer/:card_number/scan', name: 'influencer.customer.scan', component: InfluencerCustomerForm, meta: { title: 'Customer Register', requiresInfluencerAuth: true } },
     { path: '/influencer/profile/', name: 'influencer.profile', component: InfluencerProfile, meta: { title: 'Profile Information', requiresInfluencerAuth: true } },
+    { path: '/influencer/activity-log/', name: 'influencer.activity-log', component: InfluencerLogs, meta: { title: 'Activity Logs List', requiresInfluencerAuth:true } },
 
 ]
 

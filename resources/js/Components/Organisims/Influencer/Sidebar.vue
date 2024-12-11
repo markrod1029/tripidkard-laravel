@@ -47,7 +47,7 @@ const menuItems = ref([
             {
                 title: "Activity Logs",
                 icon: "fa fa-coins",
-                route: "/influencer/activity-log",
+                route: "/influencer/activity-log/",
             },
         ],
     },
