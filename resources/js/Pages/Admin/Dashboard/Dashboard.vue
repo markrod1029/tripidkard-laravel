@@ -3,11 +3,11 @@
     <Sidebar />
 
     <div class="content-wrapper">
-
         <Breadcrumb />
 
         <section class="container">
 
+            <!-- Existing Info Boxes -->
             <div class="row">
                 <div class="col-sm-3">
                     <div class="info-box">
@@ -39,7 +39,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-sm-3">
                     <div class="info-box">
                         <span class="info-box-icon bg-info"><i class="fa fa-credit-card"></i></span>
@@ -49,9 +48,15 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
+            <!-- Analytics Chart -->
+            <div class="container my-5">
+                <h3>Monthly Analytics</h3>
+                <canvas ref="chartCanvas" height="150"></canvas>
+            </div>
+
+            <!-- Map Container -->
             <div class="container">
                 <div class="mapouter">
                     <div class="gmap_canvas">
@@ -66,6 +71,7 @@
         </section>
 
     </div>
+
     <Footer />
 </template>
 
@@ -77,6 +83,9 @@ import Breadcrumb from '@/Components/Organisims/Breadcrum.vue';
 import { useAuthStore } from '@/Stores/auth';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 export default {
     components: {
@@ -91,18 +100,15 @@ export default {
         const userAddress = ref('');
         const merchantCount = ref(0);
         const customerCount = ref(0);
+        const influencerCount = ref(0);
         const cardCount = ref(0);
-        const influencerCount= ref(0);
+        const chartCanvas = ref(null); // Chart reference
 
-
-        // Function to fetch counts for merchants, customers, and cards
+        // Fetch data and populate counts
         const fetchCounts = async () => {
             try {
-                // const merchantResponse = await axios.get('/api/merchants/count');
-                // merchantCount.value = merchantResponse.data.count;
-
-                const merrchantResponse = await axios.get('/api/merchants/count');
-                merchantCount.value = merrchantResponse.data.count;
+                const merchantResponse = await axios.get('/api/merchants/count');
+                merchantCount.value = merchantResponse.data.count;
 
                 const customerResponse = await axios.get('/api/customers/count');
                 customerCount.value = customerResponse.data.count;
@@ -117,18 +123,53 @@ export default {
             }
         };
 
-        // Fetch user details and address
+        const initChart = () => {
+            new Chart(chartCanvas.value, {
+                type: 'bar',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Dummy months
+                    datasets: [
+                        {
+                            label: 'Merchants',
+                            data: [10, 12, 15, 20, 25, 30], // Dummy data
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        },
+                        {
+                            label: 'Customers',
+                            data: [5, 8, 12, 15, 22, 28],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        },
+                        {
+                            label: 'Influencers',
+                            data: [3, 5, 7, 10, 12, 15],
+                            backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Monthly Data Analytics' },
+                    },
+                },
+            });
+        };
+
         onMounted(async () => {
             await authStore.getUser();
             userAddress.value = authStore.user?.zip + ' ' + authStore.user?.street + ' ' + authStore.user?.city + ' ' + authStore.user?.province || 'Dagupan City Pangasinan';
             fetchCounts();
+            initChart();
         });
+
         return {
             userAddress,
             merchantCount,
             customerCount,
             influencerCount,
             cardCount,
+            chartCanvas, // Chart reference
         };
     },
 };
