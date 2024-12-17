@@ -11,35 +11,30 @@
                 <div class="card">
 
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
-                        <div class="d-flex justify-content-between">
-
-                            <div class="mb-2 d-flex">
-
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <button class="dropdown-item" @click="exportToExcel"
-                                            type="button">Excel</button>
-                                        <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
-                                        <button class="dropdown-item" @click="printTable" type="button">Print</button>
-                                    </div>
+                        <div
+                            class="mb-1 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class="mb-2 btn-group col-12 col-md-2 mb-md-0">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Export
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
+                                    <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
+                                    <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                 </div>
                             </div>
 
-                            <div class="col-3">
-                                <input type="text" v-model="searchQuery" class="form-control"
-                                    placeholder="Search..." />
+                            <div class="col-12 col-md-3">
+                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
                             </div>
                         </div>
                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
 
                                 <div class="col-sm-12">
-                                    <table id='merchantlist' class='display dataTable table-bordered'
-                                        style="width:100%;">
+                                    <table id='merchantlist'
+                                        class='display dataTable table-bordered table-hover d-none d-lg-table'>
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -66,7 +61,7 @@
                                                 <td>{{ merchant.contact }}</td>
                                                 <td>{{ merchant.email }}</td>
                                                 <td>{{ merchant.zip }} {{ merchant.street }} {{ merchant.city }} {{
-                                            merchant.province }}</td>
+                                                    merchant.province }}</td>
 
                                                 <td>
                                                     <div style="display: flex; justify-content: center;">
@@ -81,11 +76,8 @@
                                                             style="margin-right: 5px;"><i class="fa fa-edit"></i>
                                                         </router-link>
 
-                                                        <router-link
-                                                            to="#"
-                                                            @click.prevent="confirmArchive(merchant.id)"
-                                                            class="btn btn-danger btn-sm"
-                                                        >
+                                                        <router-link to="#" @click.prevent="confirmArchive(merchant.id)"
+                                                            class="btn btn-danger btn-sm">
                                                             <i class="fa fa-redo"></i>
                                                         </router-link>
                                                     </div>
@@ -100,17 +92,138 @@
 
                                         </tbody>
                                     </table>
-                                      <!-- Pagination Controls -->
-                                      <nav>
+
+
+                                    <!-- Card Layout for Smaller Screens -->
+                                    <div class="responsive-table mt-4 d-block d-lg-none">
+                                        <div v-if="paginatedMerchants.length > 0">
+                                            <div v-for="merchant in paginatedMerchants" :key="merchant.id"
+                                                class="data-card mb-3 p-3 border">
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <strong>{{ merchant.card_code }}</strong>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Merchant Name:</span>
+                                                            <span class="value">{{ merchant.fname }} {{
+                                                                merchant.mname
+                                                                }} {{ merchant.lname }}</span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Business Code:</span>
+                                                            <span class="value">{{ merchant.business_code }}</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Business Name:</span>
+                                                            <span class="value">{{ merchant.business_name }} </span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Business Category:</span>
+                                                            <span class="value"> {{ merchant.business_category }}</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Email:</span>
+                                                            <span class="value">{{ merchant.email }} </span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Contact:</span>
+                                                            <span class="value"> {{ merchant.contact }} </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Address:</span>
+                                                            <span class="value"> {{ merchant.zip }} {{ merchant.street
+                                                                }} {{ merchant.city }} {{
+                                                                    merchant.province }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 d-flex justify-content-center">
+                                                            <div style="display: flex; justify-content: center;">
+                                                                <router-link
+                                                                    to="enterprise-merchant?enterprise_id=<?php echo $row['id']?>"
+                                                                    class="btn btn-success btn-sm  "
+                                                                    style="margin-right: 5px;"><i class="fa fa-eye"></i>
+                                                                </router-link>
+
+                                                                <router-link :to="`/admin/merchant/${merchant.id}/edit`"
+                                                                    class="btn btn-primary btn-sm  "
+                                                                    style="margin-right: 5px;"><i
+                                                                        class="fa fa-edit"></i>
+                                                                </router-link>
+
+                                                                <router-link to="#"
+                                                                    @click.prevent="confirmArchive(merchant.id)"
+                                                                    class="btn btn-danger btn-sm">
+                                                                    <i class="fa fa-redo"></i>
+                                                                </router-link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="text-center mt-4">
+                                            No Merchants Found
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Pagination Controls -->
+                                    <nav>
                                         <ul class="pagination justify-content-left">
                                             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                                                <button class="page-link" @click="goToPage(currentPage - 1)">Previous</button>
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage - 1)">Previous</button>
                                             </li>
-                                            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: currentPage === page }">
+                                            <li class="page-item" v-for="page in totalPages" :key="page"
+                                                :class="{ active: currentPage === page }">
                                                 <button class="page-link" @click="goToPage(page)">{{ page }}</button>
                                             </li>
                                             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                                                <button class="page-link" @click="goToPage(currentPage + 1)">Next</button>
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage + 1)">Next</button>
                                             </li>
                                         </ul>
                                     </nav>
@@ -341,6 +454,37 @@ const archiveMerchant = async (merchantId, status) => {
 };
 </script>
 
+
 <style scoped>
-/* Add any specific styles here */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+    .responsive-table {
+        display: block;
+    }
+
+    .data-card {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .value {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .pagination {
+        display: flex;
+        width: 100%;
+    }
+}
 </style>

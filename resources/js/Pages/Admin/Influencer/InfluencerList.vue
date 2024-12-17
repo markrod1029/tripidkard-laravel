@@ -9,30 +9,28 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
-                        <div class="d-flex justify-content-between">
-                            <div class="mb-2 d-flex">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
-                                        <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
-                                        <button class="dropdown-item" @click="printTable" type="button">Print</button>
-                                    </div>
+                        <div
+                            class="mb-1 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class="mb-2 btn-group col-12 col-md-2 mb-md-0">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Export
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
+                                    <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
+                                    <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                 </div>
                             </div>
 
-                            <div class="col-3">
-                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search...">
+                            <div class="col-12 col-md-3">
+                                <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
                             </div>
                         </div>
-
                         <div class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id='influencerlist' class='display dataTable table-bordered' style="width:100%;">
+                                    <table id='influencerlist' class='display dataTable table-bordered table-hover d-none d-lg-table'>
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -77,6 +75,103 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+
+
+
+                                    <!-- Card Layout for Smaller Screens -->
+                                    <div class="responsive-table mt-4 d-block d-lg-none">
+                                        <div v-if="paginatedInfluencers.length > 0">
+                                            <div v-for="influencer in paginatedInfluencers" :key="influencer.id"
+                                                class="data-card mb-3 p-3 border">
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <strong>{{ influencer.card_code }}</strong>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Influencer Name:</span>
+                                                            <span class="value">{{ influencer.fname }} {{ influencer.mname
+                                                                }} {{ influencer.lname }}</span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Blog Name:</span>
+                                                            <span class="value">{{ influencer.blog_name }}</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Blog Category:</span>
+                                                            <span class="value">{{ influencer.blog_category }} </span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Contact:</span>
+                                                            <span class="value"> {{  influencer.contact }}</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Email:</span>
+                                                            <span class="value">{{ influencer.email }} </span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div
+                                                            class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Address:</span>
+                                                            <span class="value"> {{ customer.zip }} {{ customer.street
+                                                                }} {{ customer.city }} {{
+                                                                    customer.province }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 d-flex justify-content-center">
+                                                            <router-link :to="`/admin/influencer/${influencer.influencer_id}/edit`"
+                                                            class="btn btn-primary btn-sm" style="margin-right: 5px;">
+                                                            <i class="fa fa-edit"></i>
+                                                        </router-link>
+                                                        <button @click="showArchiveModal(influencer.user_id)" class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-redo"></i>
+                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="text-center mt-4">
+                                            No Influencers Found
+                                        </div>
+                                    </div>
+
+
 
                                     <!-- Pagination Controls -->
                                     <nav>
@@ -282,3 +377,37 @@ const printTable = () => {
 
 
 </script>
+
+<style scoped>
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+    .responsive-table {
+        display: block;
+    }
+
+    .data-card {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .value {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .pagination {
+        display: flex;
+        width: 100%;
+    }
+}
+</style>

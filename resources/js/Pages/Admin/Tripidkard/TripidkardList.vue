@@ -9,30 +9,32 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
-                        <div class="d-flex justify-content-between">
-                            <div class="mb-2 d-flex">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Export
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
-                                        <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
-                                        <button class="dropdown-item" @click="printTable" type="button">Print</button>
-                                    </div>
+                        <div
+                            class=" mb-1   d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class=" mb-2     btn-group col-12 col-md-2 mb-md-0">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Export
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" @click="exportToExcel" type="button">Excel</button>
+                                    <button class="dropdown-item" @click="exportToCSV" type="button">CSV</button>
+                                    <button class="dropdown-item" @click="printTable" type="button">Print</button>
                                 </div>
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
                             </div>
                         </div>
 
+
+
                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="tripidkardlist" class="display dataTable table-bordered" style="width:100%;">
+                                    <table id="tripidkardlist"
+                                        class="display dataTable table-bordered table-hover d-none d-lg-table">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -42,7 +44,8 @@
                                             </tr>
                                         </thead>
                                         <tbody v-if="paginatedTripidkards.length > 0">
-                                            <tr v-for="(tripidkard, index) in paginatedTripidkards" :key="tripidkard.id">
+                                            <tr v-for="(tripidkard, index) in paginatedTripidkards"
+                                                :key="tripidkard.id">
                                                 <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
                                                 <td>{{ tripidkard.business_or_blog_name }}</td>
                                                 <td>{{ tripidkard.card_types }}</td>
@@ -56,6 +59,52 @@
                                         </tbody>
                                     </table>
 
+
+                                    <!-- Card Layout for Smaller Screens -->
+                                    <div class="responsive-table mt-4 d-block d-lg-none">
+                                        <div v-if="paginatedTripidkards.length > 0">
+                                            <div v-for="(tripidkard, index) in paginatedTripidkards"
+                                                :key="tripidkard.id" class="data-card mb-3 p-3 border">
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <strong>#{{ (currentPage - 1) * itemsPerPage + index + 1
+                                                            }}</strong>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div
+                                                        class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                        <span class="label">Card Types:</span>
+                                                        <span class="value">{{ tripidkard.card_types }}</span>
+                                                    </div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+                                                    <div
+                                                        class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                        <span class="label">Business Name/Blog Name:</span>
+                                                        <span class="value">{{ tripidkard.business_or_blog_name }}</span>
+                                                    </div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+                                                    <div
+                                                        class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                        <span class="label">Card Code:</span>
+                                                        <span class="value">{{ tripidkard.card_number }}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="mt-3 d-md-none border-top pt-2"></div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div v-else class="text-center mt-4">
+                                            No Tripidkards Found
+                                        </div>
+                                    </div>
+
                                     <!-- Pagination Controls -->
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination justify-content-start">
@@ -64,7 +113,8 @@
                                             </li>
 
                                             <!-- Show only up to 10 page numbers -->
-                                            <li v-for="page in visiblePages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+                                            <li v-for="page in visiblePages" :key="page" class="page-item"
+                                                :class="{ active: currentPage === page }">
                                                 <a class="page-link" @click="changePage(page)">{{ page }}</a>
                                             </li>
 
@@ -265,6 +315,23 @@ const printTable = () => {
 };
 </script>
 
+
 <style scoped>
-/* You can style the table and pagination here if needed */
+.responsive-table .data-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.responsive-table .label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.pagination {
+    margin-top: 15px;
+    justify-content: flex-start;
+    /* Align to the left */
+
+}
 </style>

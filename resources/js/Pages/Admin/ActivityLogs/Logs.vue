@@ -9,8 +9,9 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body mt-3 mb-3 ml-2 mr-2">
-                        <div class="d-flex justify-content-between mb-2">
-                            <div class="btn-group">
+                        <div
+                            class="mb-1 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div class="mb-2 btn-group col-12 col-md-2 mb-md-0">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     Export
@@ -22,14 +23,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-12 col-md-3">
                                 <input type="text" v-model="searchQuery" class="form-control" placeholder="Search..." />
                             </div>
                         </div>
                         <div id="activity_log_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <table id="loglist" class="display dataTable table-bordered" style="width:100%;">
+                                    <table id="loglist" class="display dataTable table-bordered table-hover d-none d-lg-table" >
                                         <thead>
                                             <tr>
                                                 <th>Date</th>
@@ -43,7 +44,8 @@
                                             <tr v-for="log in paginatedLogs" :key="log.id">
                                                 <td>{{ formatDate(log.created_at) }}</td>
                                                 <td>{{ formatTime(log.created_at) }}</td>
-                                                <td>{{ log.causer ? `${log.causer.fname} ${log.causer.mname} ${log.causer.lname}` : 'System'
+                                                <td>{{ log.causer ? `${log.causer.fname} ${log.causer.mname}
+                                                    ${log.causer.lname}` : 'System'
                                                     }}</td>
                                                 <td>{{ log.properties.role }}</td>
                                                 <td>{{ log.description }}</td>
@@ -55,6 +57,55 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+
+                                    <!-- Card Layout for Smaller Screens -->
+                                    <div class="responsive-table mt-4 d-block d-lg-none">
+                                        <div v-if="paginatedLogs.length > 0">
+                                            <div v-for="log in paginatedLogs" :key="log.id" class="data-card mb-3 p-3 border">
+                                                <div class="row">
+                                                    <div class="col-12 mb-2">
+                                                        <strong>{{ formatDate(log.created_at) }}</strong>
+                                                    </div>
+                                                    <div class="col-12 mb-2">
+                                                        <strong>{{ formatTime(log.created_at) }}</strong>
+                                                    </div>
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">User:</span>
+                                                            <span class="value">{{ log.causer ? `${log.causer.fname} ${log.causer.lname}` : 'System' }}</span>
+                                                        </div>
+
+                                                        <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                        <div class="col-12 col-md-6 d-flex justify-content-between d-md-block">
+                                                            <span class="label">Role:</span>
+                                                            <span class="value">{{ log.properties.role }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+                                                    <div class="row mb-2">
+                                                        <div class="col-12">
+                                                            <span class="label">Activity:</span>
+                                                            <span class="value">{{ log.description }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-3 d-md-none border-top pt-2"></div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="text-center mt-4">
+                                            No Activity Log Found
+                                        </div>
+                                    </div>
+
 
                                     <!-- Pagination Controls -->
                                     <nav aria-label="Page navigation">
@@ -243,6 +294,37 @@ const printTable = () => {
 
 </script>
 
+
 <style scoped>
-/* Add your styles here */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+    .responsive-table {
+        display: block;
+    }
+
+    .data-card {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .value {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .pagination {
+        display: flex;
+        width: 100%;
+    }
+}
 </style>
