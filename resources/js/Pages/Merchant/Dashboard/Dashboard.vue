@@ -7,7 +7,6 @@
 
         <section class="container-fluid">
             <div class="row">
-
                 <!-- Customer List -->
                 <div class="col-sm-4">
                     <div class="info-box">
@@ -42,12 +41,10 @@
                 </div>
             </div>
 
-            <!-- Bar Graph -->
-            <div class="row mt-5">
-                <div class="col-sm-12">
-                    <h5>Monthly Analytics</h5>
-                    <canvas id="analyticsChart"></canvas>
-                </div>
+            <!-- Analytics Chart -->
+            <div class="container my-5">
+                <h3>Monthly Analytics</h3>
+                <canvas ref="chartCanvas" height="150"></canvas>
             </div>
 
             <!-- Google Map -->
@@ -61,8 +58,8 @@
                         frameborder="0"
                         scrolling="no"
                         marginheight="0"
-                        marginwidth="0">
-                    </iframe>
+                        marginwidth="0"
+                    ></iframe>
                 </div>
             </div>
         </section>
@@ -93,12 +90,15 @@ export default {
         const customerCount = ref(0);
         const cardCount = ref(0);
         const loyaltyPoints = ref(0);
+        const chartCanvas = ref(null);  // Reference for chart canvas
 
         const fetchCounts = async () => {
             try {
+                // Fetch customer count
                 const customerResponse = await axios.get('/api/customers/count');
                 customerCount.value = customerResponse.data.count;
 
+                // Fetch Tripidkard count
                 const cardResponse = await axios.get('/api/tripidkards/count');
                 cardCount.value = cardResponse.data.count;
             } catch (error) {
@@ -106,46 +106,39 @@ export default {
             }
         };
 
-        const renderChart = () => {
-            const ctx = document.getElementById('analyticsChart');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                    datasets: [
-                        {
-                            label: 'Customers',
-                            data: [120, 150, 180, 210, customerCount.value, 250],
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        },
-                        {
-                            label: 'Tripidkards',
-                            data: [90, 110, 140, 170, cardCount.value, 200],
-                            backgroundColor: 'rgba(255, 206, 86, 0.6)',
-                        },
-                        {
-                            label: 'Loyalty Points',
-                            data: [1500, 1800, 2000, 2500, loyaltyPoints.value, 3000],
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                        title: {
-                            display: true,
-                            text: 'Monthly Analytics Overview',
+        const initChart = () => {
+            if (chartCanvas.value) {
+                new Chart(chartCanvas.value, {
+                    type: 'bar',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May', 'June'], // Dummy months
+                        datasets: [
+                            {
+                                label: 'Merchants',
+                                data: [10, 12, 15, 20, 25, 30], // Replace with real data if needed
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            },
+                            {
+                                label: 'Customers',
+                                data: [customerCount.value, customerCount.value, customerCount.value, customerCount.value, customerCount.value, customerCount.value],
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            },
+                            {
+                                label: 'Tripidkards',
+                                data: [cardCount.value, cardCount.value, cardCount.value, cardCount.value, cardCount.value, cardCount.value],
+                                backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Monthly Data Analytics' },
                         },
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                        },
-                    },
-                },
-            });
+                });
+            }
         };
 
         onMounted(async () => {
@@ -157,10 +150,11 @@ export default {
                     ' ' +
                     authStore.user?.city +
                     ' ' +
-                    authStore.user?.province || 'Dagupan City Pangasinan';
+                    authStore.user?.province || 'Unknown Address';
+
             loyaltyPoints.value = authStore.user?.stars_points || 0;
             await fetchCounts();
-            renderChart();
+            initChart();
         });
 
         return {
@@ -168,25 +162,16 @@ export default {
             customerCount,
             cardCount,
             loyaltyPoints,
+            chartCanvas,  // Include the reference to the canvas element
         };
     },
 };
 </script>
 
 <style scoped>
-.mapouter {
-    position: relative;
-    text-align: center;
-}
-
-.info-box {
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 10px 0;
-}
-
+/* Optional styling to adjust the canvas size */
 canvas {
-    max-height: 400px;
-    margin: auto;
+    max-width: 100%;
+    height: auto;
 }
 </style>

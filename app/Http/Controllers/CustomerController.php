@@ -251,4 +251,25 @@ class CustomerController extends Controller
         return response()->json(['count' => $customerCount]);
     }
 
+    public function barGraph()
+    {
+        $user = auth()->user(); // Get the authenticated user
+        $query = Customer::query()->where('status', 1);
+
+        if ($user->role === 'Merchant' || $user->role === 'Influencer') {
+            $query->join('card_codes', 'customers.customer_card_num', '=', 'card_codes.card_number')
+                ->where('card_codes.user_id', $user->id); // Filter by the user's ID
+        }
+
+        $monthlyCounts = $query
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        return response()->json($monthlyCounts);
+    }
+
+
+
 }
