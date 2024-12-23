@@ -16,7 +16,6 @@ class StartPointsController extends Controller
             "merchant" => "required",
             "otherStarsPoints" => "required" // Require otherStarsPoints only if starsPoints is Other
         ]);
-        dd($validated);
 
         // Find the Merchant model using the ID provided in the request
         $merchant = Merchant::findOrFail($validated['merchant']);

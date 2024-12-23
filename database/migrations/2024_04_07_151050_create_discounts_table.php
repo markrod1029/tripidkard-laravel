@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('card_number');
+            $table->string('product_code')->nullable();
+            $table->string('or_photo')->nullable();
+            $table->string('product_price');
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ use App\Http\Controllers\QrcodeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CardCodeController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\InfluencerController;
@@ -44,6 +45,8 @@ Route::get('/api/loyalty-stars/{merchant}/edit', [StartPointsController::class, 
 Route::put('/api/loyalty-stars/edit', [StartPointsController::class, 'update']);
 
 // Merchant Route
+Route::get('/api/merchant/discounts', [DiscountController::class,'merchantIndex']);
+
 Route::get('/api/merchant/points', [PointController::class,'merchantIndex']);
 Route::get('/api/merchant/points/{point}/edit', [PointController::class, 'edit']);
 Route::post('/api/merchant/points/{point}/edit', [PointController::class, 'update']);

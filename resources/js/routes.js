@@ -36,12 +36,14 @@ import MerchantCustomer from './Pages/Merchant/Customer/CustomerList.vue';
 import MerchantCustomerForm from './Pages/Merchant/Customer/CustomerRegister.vue';
 import MerchantCustomerPoints from './Pages/Merchant/Customer/CustomerPoints.vue';
 import MerchantLoyaltyPoint from './Pages/Merchant/Points/LoyaltyPointList.vue';
+import MerchantLoyaltyDiscount from './Pages/Merchant/Points/DiscountPointList.vue';
 import MerchantStarsPointForm from './Pages/Merchant/Points/LoyaltyPointRegister.vue';
 import OrderCard from './Pages/Merchant/Orders/orderCards.vue';
 import createVoucher from './Pages/Merchant/Voucher/createVoucher.vue';
 import VoucherList from './Pages/Merchant/Voucher/voucherlist.vue';
 import CartList from './Pages/Merchant/Voucher/cartlist.vue';
-import OrderPoint from './Pages/Merchant/Orders/orderpoints.vue';
+import OrderPoints from './Pages/Merchant/Orders/orderPoints.vue';
+
 import OrdeLists from './Pages/Merchant/Orders/list.vue';
 
 // Import influencer
@@ -126,13 +128,15 @@ const routesMerchant = [
 
     { path: '/merchant/customer/:card_number/scan', name: 'merchant.customer.scan', component: MerchantCustomerForm, meta: { title: 'Customer Register', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars', name: 'merchant.loyalty-stars', component: MerchantLoyaltyPoint, meta: { title: 'Loyalty Stars List', requiresMerchantAuth: true } },
+    { path: '/merchant/discounts', name: 'merchant.discounts', component: MerchantLoyaltyDiscount, meta: { title: 'Discount List', requiresMerchantAuth: true } },
+
     { path: '/merchant/loyalty-stars/register', name: 'merchant.loyalty-stars.register', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Register', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars/:card_number/register', name: 'merchant.loyalty-stars.scan', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Register', requiresMerchantAuth: true } },
     { path: '/merchant/loyalty-stars/:id/edit', name: 'merchant.loyalty-stars.edit', component: MerchantStarsPointForm, meta: { title: 'Loyalty Stars Update', requiresMerchantAuth: true } },
     { path: '/merchant/activity-log/', name: 'merchant.activity-log', component: MerchantLogs, meta: { title: 'Activity Logs List', requiresMerchantAuth: true } },
     { path: '/merchant/profile/', name: 'merchant.profile', component: MerchantProfile, meta: { title: 'Profile Information', requiresMerchantAuth: true } },
     { path: '/merchant/order/cards', name: 'merchant.order.cards', component: OrderCard, meta: { title: 'Order Card', requiresMerchantAuth: true } },
-    { path: '/merchant/order/points', name: 'merchant.order.poimts', component: OrderPoint, meta: { title: 'Order Star Points', requiresMerchantAuth: true } },
+    { path: '/merchant/order/points', name: 'merchant.order.poimts', component: OrderPoints, meta: { title: 'Order Star Points', requiresMerchantAuth: true } },
     // { path: '/merchant/example/voucher', name: 'merchant.example.voucher', component: Voucher, meta: { title: 'Example Voucher', requiresMerchantAuth: true } },
     { path: '/merchant/create/voucher', name: 'merchant.create.voucher', component: createVoucher, meta: { title: 'Create Voucher', requiresMerchantAuth: true } },
     { path: '/merchant/list/voucher', name: 'merchant.list.voucher', component: VoucherList, meta: { title: 'List Voucher', requiresMerchantAuth: true } },

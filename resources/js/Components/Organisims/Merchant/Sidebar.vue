@@ -53,6 +53,7 @@ const menuItems = ref([
                 title: "Loyalty Stars",
                 icon: "fas fa-coins",
                 children: [
+                    { title: "Discount List", icon: "far fa-circle", route: "/merchant/discounts" },
                     { title: "Loyalty Stars List", icon: "far fa-circle", route: "/merchant/loyalty-stars" },
                     { title: "Register Loyalty Stars", icon: "far fa-circle", route: "/merchant/loyalty-stars/register" },
                 ],
@@ -82,14 +83,13 @@ const isRouteActive = (item) => {
         <div class="sidebar">
             <div class="user-panel d-flex">
                 <div class="image" style="position:relative; right:10px;">
-                    <img :src="authUser.users.avatar || '/storage/img/logo.jpg'"
-                        class="img-circle elevation-2" alt="User Image"
-                        style="height:55px; width:55px; margin-top:10px">
+                    <img :src="authUser.users.avatar || '/storage/img/logo.jpg'" class="img-circle elevation-2"
+                        alt="User Image" style="height:55px; width:55px; margin-top:10px">
                 </div>
                 <div class="info">
                     <a href="#" class="d-block mt-1 mb-0 text-white text-center">{{ authUser.users.fname }} {{
                         authUser.users.mname
-                    }} {{ authUser.users.lname }}</a>
+                        }} {{ authUser.users.lname }}</a>
                     <a href="#" class="d-block text-white ml-2 text-center mb-2">{{ authUser.users.role }}</a>
                 </div>
             </div>
@@ -100,8 +100,7 @@ const isRouteActive = (item) => {
                     <li class="header text-center brand-text text-white">{{ section.header }}</li>
                     <li v-for="(item, idx) in section.items" :key="idx"
                         :class="['nav-item', item.children ? 'has-treeview' : '', isRouteActive(item) ? 'menu-is-opening menu-open' : '']">
-                        <router-link :to="item.route || '#'" class="nav-link"
-                          :class="{ active: isRouteActive(item) }">
+                        <router-link :to="item.route || '#'" class="nav-link" :class="{ active: isRouteActive(item) }">
                             <i :class="['nav-icon', item.icon]"></i>
                             <p class="ms-2">
                                 {{ item.title }}
